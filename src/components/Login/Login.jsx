@@ -90,7 +90,7 @@ export default function Login() {
       });
     } else {
       console.log("Con questi dati famo login");
-      axios.get("/utenti/login", { params: formData }).then((res) => {
+      axios.post("/utenti/login", formData).then((res) => {
         console.log(res);
         if (res.status == 200 && res.data.data.length > 0) {
           localStorage.setItem("id", res.data.data[0].ID);
