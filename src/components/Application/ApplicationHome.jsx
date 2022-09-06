@@ -49,7 +49,6 @@ export default function ApplicationHome() {
       .post("/richieste/addRequest", {
         oggetto: formData.oggetto,
         descrizione: formData.descrizione,
-        //id_fiera: params.id,
         id_utente_fiera: user.id_utente_fiera,
         select: formData.select,
         id_fiera: params.id,
@@ -63,7 +62,34 @@ export default function ApplicationHome() {
   }
 
   useEffect(() => {
-    console.log(user);
+
+    //Controllo sul token
+  axios.get("/utenti/fiera").then((res) => {
+    //console.log(res);
+    if(res.status === 200){
+      //Tutto a posto
+      //console.log(res.data);
+      //handleUser(res.data.data);
+      handleUser(prev => {
+        return {
+          ...prev,
+          id: res.data.data.id_utente,
+          email: res.data.data.Utente.email,
+          nome: res.data.data.Utente.nome,
+          nome_utente: res.data.data.Utente.nome_utente,
+          password: res.data.data.Utente.password,
+          espositore: res.data.data.espositore,
+          id_utente_fiera: res.data.data.id_utente_fiera,
+          id_fiera: res.data.data.id_fiera,
+        }
+      })
+    } else {
+      navigate("/");
+    }
+  })
+
+
+    //console.log(user);
     axios.get("/fiere/" + params.id).then((res) => {
       setFieraData(res.data);
     });
@@ -71,12 +97,7 @@ export default function ApplicationHome() {
     if (user.espositore) setView("espositore");
     else setView("visitatore");
 
-    if (
-      localStorage.getItem("id") === "" ||
-      localStorage.getItem("id") === null
-    ) {
-      navigate("/");
-    }
+    
   }, []);
 
   useEffect(() => {

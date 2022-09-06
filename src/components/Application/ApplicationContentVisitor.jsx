@@ -48,70 +48,45 @@ export default function ApplicationContentVisitor(props) {
   const [stripeSecret, setStripeSecret] = useState("");
 
   useEffect(() => {
-    axios
-      .get("/utenti/getUserFiera", {
-        params: { id: localStorage.getItem("id"), id_fiera: params.id },
-      })
-      .then((res) => {
-        //console.log(res.data);
-        if (res.data.status == 200 && res.data.data.length > 0) {
-          let { id_utente_fiera, espositore } = res.data.data[0];
-
-          handleUser((prev) => {
-            return {
-              ...prev,
-              espositore: espositore,
-              id_utente_fiera: id_utente_fiera,
-            };
-          });
-        } else {
-          //Se non mi dà niente vuol dire che non sono in una fiera
-          console.log("HHEYLA");
-          navigate("/fiere");
-        }
-      });
 
     axios
-      .get("/richieste/myRequests", {
-        params: { id_utente_fiera: user.id_utente_fiera },
-      })
+      .get("/richieste/myRequests/" + user.id_utente_fiera)
       .then((res) => {
-        //console.log(res);
-        if (res.status == 200) setRequests(res.data);
+        //console.log(res.data.data[0].Richiesta);
+        console.log(res);
+        if (res.status == 200) setRequests(res.data.data);
       });
 
-    if (user.espositore === 1) {
+    if (user.espositore == true) {
       axios
         .get(
           "/richieste/receivedRequests/" +
-            user.id_fiera +
+            params.id +
             "/" +
             user.id_utente_fiera
         )
         .then((res) => {
-          //console.log(res);
-          setReceivedRequests(res.data.data);
+          console.log(res);
+          setReceivedRequests(res.data);
         });
 
       axios
         .get("/categorie/myCategories/" + user.id_utente_fiera)
         .then((res) => {
-          console.log(res.data.data);
-          setMyCategories(res.data.data);
+          console.log(res.data);
+          setMyCategories(res.data);
         });
     }
     axios.get("/categorie/" + params.id).then((res) => {
-      //console.log(res);
-      for (let i = 0; i < res.data.data.length; i++) {
-        if (!(res.data.data[i].MACROCATEGORIA_NOME in categories))
-          categories[res.data.data[i].MACROCATEGORIA_NOME] = [];
+      console.log(res);
+      for(let i = 0; i < res.data.length; i++){
+        if(!(res.data[i].Macrocategoria.nome in categories)){
+          categories[res.data[i].Macrocategoria.nome] = [];
+        }
 
-        categories[res.data.data[i].MACROCATEGORIA_NOME].push(
-          res.data.data[i].CATEGORIA_NOME
-        );
+        categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
       }
       setCategories(categories);
-      //console.log(categories);
     });
 
     axios.get("/getStripeSecret").then((res) => {
@@ -121,26 +96,36 @@ export default function ApplicationContentVisitor(props) {
   }, []);
 
   useEffect(() => {
-    if (user.espositore === 1) {
+    if (user.espositore == 1) {
       axios
         .get(
           "/richieste/receivedRequests/" +
-            user.id_fiera +
+            params.id +
             "/" +
             user.id_utente_fiera
         )
         .then((res) => {
           //console.log(res);
-          setReceivedRequests(res.data.data);
+          setReceivedRequests(res.data);
         });
+
+        
 
       axios
         .get("/categorie/myCategories/" + user.id_utente_fiera)
         .then((res) => {
-          console.log(res.data.data);
-          setMyCategories(res.data.data);
+          //console.log(res.data.data);
+          setMyCategories(res.data);
         });
     }
+
+    axios
+      .get("/richieste/myRequests/" + user.id_utente_fiera)
+      .then((res) => {
+        //console.log(res.data.data[0].Richiesta);
+        console.log(res);
+        if (res.status == 200) setRequests(res.data.data);
+      });
   }, [props.page]);
 
   function onLogout() {
@@ -154,7 +139,7 @@ export default function ApplicationContentVisitor(props) {
       id_fiera: "",
       espositore: 0,
     });
-    localStorage.setItem("id", "");
+    localStorage.removeItem("token");
     navigate("/");
   }
 
@@ -201,18 +186,18 @@ export default function ApplicationContentVisitor(props) {
             <Typography>Nome: {user.nome}</Typography>
             <Typography>Email: {user.email}</Typography>
           </Container>
-          {user.espositore === 1 && (
+          {user.espositore == 1 && (
             <>
               <List sx={{ textAlign: "left" }}>
                 <ListSubheader>Categorie che esponi:</ListSubheader>
                 {myCategories.map((category) => {
-                  return <ListItem>{category.NOME}</ListItem>;
+                  return <ListItem>{category.nome}</ListItem>;
                 })}
               </List>
             </>
           )}
           <Container>
-            Stai partecipando alla fiera con ID: {user.id_fiera}
+            Stai partecipando alla fiera con ID: {params.id}
           </Container>
         </Box>
       )}

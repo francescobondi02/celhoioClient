@@ -48,13 +48,22 @@ export default function FieraDetails() {
 
   useEffect(() => {
     axios.get("/fiere/" + params.id).then((res) => {
-      //console.log(res.data);
-      setData(res.data);
+      console.log(res.data);
+      setData(res.data.data);
     });
 
     axios.get("/categorie/" + params.id).then((res) => {
       console.log(res);
-      for (let i = 0; i < res.data.data.length; i++) {
+      for(let i = 0; i < res.data.length; i++){
+        if(!(res.data[i].Macrocategoria.nome in categories)){
+          categories[res.data[i].Macrocategoria.nome] = [];
+        }
+
+        categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
+      }
+      setCategories(categories);
+    });
+      /*for (let i = 0; i < res.data.data.length; i++) {
         if (!(res.data.data[i].MACROCATEGORIA_NOME in categories))
           categories[res.data.data[i].MACROCATEGORIA_NOME] = [];
 
@@ -85,11 +94,7 @@ export default function FieraDetails() {
         } else {
           //Se non mi dà niente vuol dire che non sono in una fiera
         }
-      });
-
-    /*if (user.id_fiera !== "" && user.id_utente_fiera !== "") {
-      navigate("/fiere/" + user.id_fiera + "/applicazione");
-    }*/
+      });*/
   }, []);
 
   function handleForm(e) {
@@ -101,17 +106,16 @@ export default function FieraDetails() {
       };
     });
   }
-
+  console.log(multipleSelect);
   function setEspositore() {
     //Impostiamo espositore
     //Stampiamo le categorie inserite
-    console.log(multipleSelect); //E' giusto
+    //console.log(multipleSelect); //E' giusto
     toggleForm();
     //Mandiamo al backend
     axios
       .post("/espositori/addEspositore", {
         id_fiera: params.id,
-        id_utente: user.id,
         espositore: 1,
         categories: multipleSelect,
       })
@@ -203,7 +207,7 @@ export default function FieraDetails() {
                     gutterBottom
                     textAlign="left"
                   >
-                    {data.NOME}
+                    {data.nome}
                   </Typography>
                   <Typography
                     paragraph
@@ -211,7 +215,7 @@ export default function FieraDetails() {
                     component="h3"
                     textAlign="left"
                   >
-                    {data.DESCRIZIONE}
+                    {data.descrizione}
                   </Typography>
 
                   <Button
@@ -233,13 +237,13 @@ export default function FieraDetails() {
                       alignItems="center"
                     >
                       <PinDropIcon />
-                      <span>{data.LUOGO}</span>
+                      <span>{data.luogo}</span>
                     </Typography>
                     <Typography>
-                      Inizio: {new Date(data.DATA_INIZIO).toLocaleDateString()}
+                      Inizio: {new Date(data.data_inizio).toLocaleDateString()}
                     </Typography>
                     <Typography>
-                      Fine: {new Date(data.DATA_FINE).toLocaleDateString()}
+                      Fine: {new Date(data.data_fine).toLocaleDateString()}
                     </Typography>
                   </Stack>
                 </Grid>

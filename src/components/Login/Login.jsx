@@ -19,7 +19,7 @@ export default function Login() {
   var { user, handleUser } = useContext(UserContext);
   const [formData, setFormData] = useState({
     nome: "",
-    email_telefono: "",
+    email: "",
     nome_utente: "",
     password: "",
   });
@@ -29,13 +29,13 @@ export default function Login() {
   const handleCallbackResponse = (response) => {
     var userObj = jwt_decode(response.credential);
     //console.log(userObj);
-    handleUser({
+    /*handleUser({
       nome: userObj.given_name + " " + userObj.family_name,
       email: userObj.email,
       nome_utente: userObj.given_name,
-    });
+    });*/
     axios
-      .post("/utenti/addUser", {
+      .post("/utenti/aggiungiUtente", {
         email: userObj.email,
         given_name: userObj.given_name,
         family_name: userObj.family_name,
@@ -49,13 +49,14 @@ export default function Login() {
         if (res.status == 200) {
           //localStorage.setItem("token", res.data.token);
           //IMpostiamo l'id
-          localStorage.setItem("id", res.data.id);
-          handleUser((prev) => {
+          //localStorage.setItem("id", res.data.id);
+          /*handleUser((prev) => {
             return {
               ...prev,
               id: res.data.id,
             };
-          });
+          });*/
+          localStorage.setItem("token", res.data.token);
           navigate("/fiere"); //Back to the homepage
         }
       });
@@ -72,19 +73,19 @@ export default function Login() {
   }
 
   function submitForm() {
-    console.log(formData);
+    //console.log(formData);
     if (view === "register") {
-      axios.post("/utenti/addNormalUser", formData).then((res) => {
-        console.log(res);
+      axios.post("/utenti/aggiungiUtente", formData).then((res) => {
+        //console.log(res);
         if (res.status == 200) {
-          localStorage.setItem("id", res.data.id);
-          handleUser({
+          localStorage.setItem("token", res.data.token);
+          /*handleUser({
             id: res.data.id,
             nome: formData.nome,
             email: res.data.saved == "email" ? res.data.savedValue : "",
             telefono: res.data.saved == "telefono" ? res.data.savedValue : "",
             nome_utente: formData.nome_utente,
-          });
+          });*/
           navigate("/fiere"); //Andiamo alle fiere
         }
       });
@@ -92,14 +93,14 @@ export default function Login() {
       console.log("Con questi dati famo login");
       axios.post("/utenti/login", formData).then((res) => {
         console.log(res);
-        if (res.status == 200 && res.data.data.length > 0) {
-          localStorage.setItem("id", res.data.data[0].ID);
-          handleUser({
+        if (res.status == 200) {
+          localStorage.setItem("token", res.data.token);
+          /*handleUser({
             id: res.data.data[0].ID,
             nome: formData.nome,
             email: res.data.data[0].EMAIL,
             nome_utente: formData.nome_utente,
-          });
+          });*/
           navigate("/fiere"); //Andiamo alle fiere
         }
       });
@@ -107,10 +108,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (
-      localStorage.getItem("id") === null ||
-      localStorage.getItem("id") === ""
-    ) {
+    
       /* global google */
 
       google.accounts.id.initialize({
@@ -120,7 +118,7 @@ export default function Login() {
         auto_select: true,
       });
 
-      if (user.id === "") {
+      //if (user.id === "") {
         google.accounts.id.renderButton(document.getElementById("signInDiv"), {
           theme: "outline",
           size: "large",
@@ -129,8 +127,8 @@ export default function Login() {
         });
 
         google.accounts.id.prompt();
-      }
-    }
+      //}
+    
   }, []);
 
   function changeView() {
@@ -140,7 +138,6 @@ export default function Login() {
 
   return (
     <>
-      <Conditions />
       <Container
         maxWidth="lg"
         sx={{
@@ -163,6 +160,11 @@ export default function Login() {
             justifyContent="center"
             alignItems="center"
           >
+            <Box>
+              <img src="/logo.png" alt="logo" width="100px" />
+              <Typography variant="h3">Il sito per far incontrare espositori e visitatori!</Typography>
+              <Typography variant="h5">E' più facile trovare quello che cerchi con CELHOIO.IT</Typography>
+            </Box>
             <Typography variant="h5" align="center" gutterBottom>
               Accedi utilizzando Google!
             </Typography>
@@ -187,7 +189,7 @@ export default function Login() {
                 margin="normal"
                 required
                 onChange={changeFormData}
-                name="email_telefono"
+                name="email"
               />
               {view === "register" && (
                 <TextField

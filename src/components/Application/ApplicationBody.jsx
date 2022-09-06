@@ -46,37 +46,27 @@ export default function ApplicationBody(props) {
           //Se il results è > 0 allora ci sono dei messaggi, allora faccio apparire la persona che ha risposto
           //Bisogna analizzare bene i results
           setResponsesList([]);
-          for (let i = 0; i < res.data.data.length; i++) {
-            //console.log(responsesList);
-            //console.log(isInList(res.data.data[i]));
-            /*axios
-            .get("/utenti/getUserFiera/" + res.data.data[i].ID_)
-            .then((result) => {
-              //console.log(res);
-              //console.log(result.data.data[0].nome);
-              res.data.data[i].NOME_UTENTE = result.data.data[0].nome;
-              setResponsesList((prev) => [...prev, res.data.data[i]]);
-              //console.log(res.data.data[i].NOME_UTENTE);
-            });*/
+          for (let i = 0; i < res.data.length; i++) {
 
             //Tramite la STANZA troviamo chi ha risposto
             //Se c'è un messaggio, vuol dire che l'utente ha risposto => ci sono due id nella chat ora => mostro il nome
-            let stanza = res.data.data[i].STANZA;
-            axios.get("/richieste/getTwoIdsChat/" + stanza).then((result) => {
-              console.log(result);
-              for (let j = 0; j < result.data.data.length; j++) {
-                if (
-                  result.data.data[j].ID_UTENTE_FIERA !== user.id_utente_fiera
-                ) {
-                  setResponsesList((prev) => [...prev, result.data.data[j]]);
-                }
-              }
-            });
+            let stanza = res.data[i].stanza;
+            console.log("Stanza: " + stanza);
+            
+            axios.get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente).then((result) => {
+              res.data[i].nome_utente = result.data.nome_utente;
+              res.data[i].nome = result.data.nome;
+              res.data[i].email = result.data.email;
+
+              setResponsesList(prev => [...prev, res.data[i]]);
+            })
+            
           }
+          //setResponsesList(res.data);
         });
     }
 
-    console.log(props.requests);
+    console.log(currentRequest);
     //Non possiamo impostare le stanze in questo momento perchè stiamo prendendo solo le chat che hanno unread messages
     for (let i = 0; i < props.requests.length; i++) {
       axios
@@ -84,15 +74,15 @@ export default function ApplicationBody(props) {
           "/chat/getUnreadMsg/" +
             user.id_utente_fiera +
             "/" +
-            props.requests[i].ID
+            props.requests[i].id
         )
         .then((res) => {
           //console.log(res);
           //console.log(res.data.data);
-          if (res.data.data.length !== 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.length !== 0) {
+            for (let i = 0; i < res.data.length; i++) {
               //Per ogni messaggio non letto
-              let stanza_msg = res.data.data[i].STANZA;
+              let stanza_msg = res.data[i].stanza;
               /*if (
                 !colors.hasOwnProperty(stanza_msg) ||
                 !colors.hasOwnProperty(props.requests[i].ID)
@@ -101,7 +91,7 @@ export default function ApplicationBody(props) {
               setColors((prev) => {
                 return {
                   ...prev,
-                  [res.data.data[0].ID_RICHIESTA]: "lightblue",
+                  [res.data[0].id_richiesta]: "lightblue",
                   [stanza_msg]: "lightblue",
                 };
               });
@@ -119,17 +109,17 @@ export default function ApplicationBody(props) {
         axios
           .get(
             "/chat/getStanze/" +
-              props.requests[i].ID +
+              props.requests[i].id +
               "/" +
               user.id_utente_fiera
           )
           .then((res) => {
             console.log(res);
-            if (res.data.data.length !== 0) {
+            if (res.data) {
               setRooms((prev) => {
                 return {
                   ...prev,
-                  [props.requests[i].ID]: res.data.data[0].STANZA,
+                  [props.requests[i].id]: res.data.stanza,
                 };
               });
             }
@@ -145,30 +135,26 @@ export default function ApplicationBody(props) {
           "/chat/getUnreadMsg/" +
             user.id_utente_fiera +
             "/" +
-            props.requests[i].ID
+            props.requests[i].id
         )
         .then((res) => {
-          //console.log(res);
+          console.log(res);
           //console.log(res.data.data);
-          if (res.data.data.length !== 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.length !== 0) {
+            for (let i = 0; i < res.data.length; i++) {
               //Per ogni messaggio non letto
-              let stanza_msg = res.data.data[i].STANZA;
-              /*if (
-                !colors.hasOwnProperty(stanza_msg) ||
-                !colors.hasOwnProperty(props.requests[i].ID)
-              ) {*/
-              //console.log(res.data.data[0].ID_RICHIESTA);
+              let stanza_msg = res.data[i].stanza;
+              
               setColors((prev) => {
                 return {
                   ...prev,
-                  [res.data.data[0].ID_RICHIESTA]: "lightblue",
+                  [res.data[0].id_richiesta]: "lightblue",
                   [stanza_msg]: "lightblue",
                 };
               });
               //}
             }
-            console.log(colors);
+            //console.log(colors);
           }
         });
     }
@@ -225,79 +211,51 @@ export default function ApplicationBody(props) {
 
             return (
               <ListItemButton
-                key={request.ID}
+                key={request.id}
                 divider
                 onClick={
                   props.view === "Sent"
                     ? switchMode
                     : () => {
-                        goToChat(rooms[request.ID]);
+                        goToChat(rooms[request.id]);
                       }
                 }
-                value={request.OGGETTO}
-                sx={{ backgroundColor: colors[request.ID] }}
+                value={request.oggetto}
+                sx={{ backgroundColor: colors[request.id] }}
               >
                 <ListItemText
-                  primary={request.OGGETTO}
-                  value={request.OGGETTO}
-                  secondary={request.DESCRIZIONE}
+                  primary={request.oggetto}
+                  value={request.oggetto}
+                  secondary={request.descrizione}
                 />
-                <ArrowForwardIos value={request.OGGETTO} />
+                <ArrowForwardIos value={request.oggetto} />
               </ListItemButton>
             );
           })}
 
         {mode == "utenti" &&
           responsesList.map((risposta) => {
-            console.log("daje");
+            console.log("Risposta");
             console.log(risposta);
 
-            /*axios
-              .get(
-                "/chat/getUnreadMsg/" +
-                  user.id_utente_fiera +
-                  "/" +
-                  risposta.ID_RICHIESTA +
-                  "/" +
-                  risposta.STANZA
-              )
-              .then((res) => {
-                //console.log(res.data.data);
-                console.log(res);
-                if (res.data.data.length !== 0) {
-                  if (!colors.hasOwnProperty(risposta.CODICE))
-                    setColors((prev) => {
-                      return {
-                        ...prev,
-                        [risposta.CODICE]: "lightblue",
-                      };
-                    });
-                } else {
-                  if (!colors.hasOwnProperty(risposta.CODICE))
-                    setColors((prev) => {
-                      return {
-                        ...prev,
-                        [risposta.CODICE]: "",
-                      };
-                    });
-                }
-              });*/
+            /*axios.get("/utenti/getInfo/" + risposta.id_utente_fiera_mittente).then((result) => {
+              risposta.nome_utente = result.data.nome_utente;
+              risposta.nome = result.data.nome;
+              risposta.email = result.data.email;
+            })*/
 
-            //if(!colors.hasOwnProperty(risposta.CODICE))
 
-            return risposta.OGGETTO == currentRequest ? (
+            return (
               <ListItemButton
                 //key={risposta.CODICE}
                 divider
-                onClick={() => goToChat(risposta.STANZA)}
-                sx={{ backgroundColor: colors[risposta.STANZA] }}
+                onClick={() => goToChat(risposta.stanza)}
+                sx={{ backgroundColor: colors[risposta.stanza] }}
               >
-                <ListItemText primary={risposta.NOME_UTENTE} />
+                <ListItemText primary={risposta.nome} secondary="Prova"/>
                 <ArrowForwardIos />
               </ListItemButton>
-            ) : (
-              ""
-            );
+            ) 
           })}
       </List>
     </>

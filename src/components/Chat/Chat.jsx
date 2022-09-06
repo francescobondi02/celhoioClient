@@ -21,8 +21,8 @@ import ChatMessage from "./ChatMessage";
 import { UserContext } from "../../user-context";
 
 //Da cambiare
-//const socket = io.connect("http://localhost:3001");
-const socket = io.connect("https://celhoio.herokuapp.com");
+const socket = io.connect("http://localhost:3001");
+//const socket = io.connect("https://celhoio.herokuapp.com");
 
 export default function Chat() {
   const { user, handleUser } = useContext(UserContext);
@@ -35,46 +35,14 @@ export default function Chat() {
   const [oggettoChat, setOggettoChat] = useState("");
   const [clientsConnected, setClientsConnected] = useState([]);
   const [otherId, setOtherId] = useState("");
+  const [idRichiesta, setIdRichiesta] = useState("");
+
+
+  const [altraPersona, setAltraPersona] = useState({});
   //console.log(chatData);
   useEffect(() => {
     socket.emit("joinRoom", params.idRoom); //faccio unire la chat all'utente
     socket.emit("allClients", params.idRoom); //chiedo ai server di inviarmi tutti i clienti della chat
-
-    /*axios
-      .get("/richieste/getRequest", { params: { codice: params.idRoom } })
-      .then((res) => {
-        console.log(res);
-
-        //Devo mettere il nome dell'altra persona nella chat
-        axios.get("/richieste/getTwoIdsChat/" + params.idRoom).then((res) => {
-          if (res.data.data[0].ID_1 === user.id_utente_fiera) {
-            axios
-              .get("/utenti/getUserFiera/" + res.data.data[0].ID_2)
-              .then((res) => {
-                setNameChat(res.data.data[0].nome);
-              });
-          } else {
-            axios
-              .get("/utenti/getUserFiera/" + res.data.data[0].ID_1)
-              .then((res) => {
-                setNameChat(res.data.data[0].nome);
-              });
-          }
-        });
-
-        setChatData(res.data.data[0]);
-        axios.get("/chat/getAllMsg/" + res.data.data[0].CODICE).then((res) => {
-          console.log(res.data.data);
-          //Bisogna convertire i messaggi per essere conformi alle proprietà
-          for (let i = 0; i < res.data.data.length; i++) {
-            res.data.data[i].room = res.data.data[i].CODICE;
-            res.data.data[i].author = res.data.data[i].ID_UTENTE_FIERA;
-            res.data.data[i].message = res.data.data[i].TESTO;
-            res.data.data[i].time = res.data.data[i].DATA;
-          }
-          setMessageList((prev) => [...prev, ...res.data.data]);
-        });
-      });*/
 
     //Prendiamo tutti i messaggi già salvati
     axios
@@ -82,7 +50,15 @@ export default function Chat() {
       .then((res) => {
         console.log(res);
 
-        for (let i = 0; i < res.data.data.length; i++) {
+        //for(let i = 0; i < res.data.length; i++){
+          
+          axios.get("/utenti/getInfo/" + (res.data[0].id_utente_fiera_mittente !== user.id_utente_fiera ? res.data[0].id_utente_fiera_mittente : res.data[0].id_utente_fiera_destinatario)).then((result) => {
+            //console.log(result.data);
+            setAltraPersona(result.data);
+          });
+        //}
+
+        /*for (let i = 0; i < res.data.data.length; i++) {
           res.data.data[i].room = res.data.data[i].STANZA;
           res.data.data[i].destinatario = res.data.data[i].ID_DESTINATARIO;
           res.data.data[i].message = res.data.data[i].TESTO;
@@ -99,16 +75,16 @@ export default function Chat() {
                 setNameChat(res.data.data[0].NOME);
               });
           }
-        }
+        }*/
 
         /*if (otherId === "") {
           setOtherId(res.data.data[0].ID_CREATORE);
           //setNameChat(res.data.data[i].NOME);
         }*/
         //Imposto il nome della chat
-        setOggettoChat(res.data.data[0].OGGETTO);
-        setMessageList((prev) => [...prev, ...res.data.data]);
-        setChatData(res.data.data[0].ID_RICHIESTA);
+        setOggettoChat(res.data[0].Richiesta.oggetto);
+        setMessageList((prev) => [...prev, ...res.data]);
+        setIdRichiesta(res.data[0].id_richiesta);
       });
 
     setTimeout(() => {
@@ -121,7 +97,7 @@ export default function Chat() {
 
   useEffect(() => {
     socket.on("receiveMessage", (data) => {
-      //console.log(data);
+      console.log(data);
 
       setMessageList((prev) => [...prev, data]);
       setTimeout(() => {
@@ -154,11 +130,11 @@ export default function Chat() {
 
   function sendMessage() {
     let msg = {
-      room: params.idRoom,
-      author: user.id_utente_fiera,
-      destinatario: otherId,
-      message: message,
-      time: new Date().toUTCString(),
+      stanza: params.idRoom,
+      mittente: user.id_utente_fiera,
+      destinatario: altraPersona.UtenteFieras[0].id_utente_fiera,
+      testo: message,
+      data: new Date().toUTCString(),
     };
     setMessage("");
     socket.emit("sendMessage", msg);
@@ -166,11 +142,11 @@ export default function Chat() {
     //Oltre a mandarlo col socket, devo mandarlo sul db
     axios
       .post("/chat/sendMessage", {
-        chatData: chatData,
+        idRichiesta: idRichiesta,
         stanza: params.idRoom,
         msg: msg,
         numClients: clientsConnected.length,
-        time: new Date().toUTCString(),
+        data: new Date().toUTCString(),
       })
       .then((res) => {
         //console.log(res);
@@ -208,7 +184,7 @@ export default function Chat() {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h5" color="white">
-              {oggettoChat + " - " + nameChat}
+              {oggettoChat + " - " + altraPersona.nome}
             </Typography>
           </Grid>
           <Grid item xs={4}></Grid>

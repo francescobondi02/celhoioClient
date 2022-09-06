@@ -8,9 +8,10 @@ export default function ChatMessage(props) {
   const [date, setDate] = useState("");
 
   useEffect(() => {
+    console.log(props.data);
     //console.log(props.data.ID_UTENTE_FIERA);
     //console.log(user.id_utente_fiera);
-    if (
+    /*if (
       //props.userSocketId === props.data.author ||
       props.data.destinatario === user.id_utente_fiera
     ) {
@@ -18,14 +19,16 @@ export default function ChatMessage(props) {
       setReceived(true);
     } else {
       setReceived(false);
-    }
+    }*/
+
+    setReceived((props.data.id_utente_fiera_destinatario === user.id_utente_fiera || props.data.destinatario === user.id_utente_fiera));
 
     //Trasformiamo la data
     setDate(
-      new Date(props.data.time).getHours() +
+      new Date(props.data.data).getHours() +
         ":" +
-        (new Date(props.data.time).getMinutes() < 10 ? "0" : "") +
-        new Date(props.data.time).getMinutes()
+        (new Date(props.data.data).getMinutes() < 10 ? "0" : "") +
+        new Date(props.data.data).getMinutes()
     );
   }, []);
 
@@ -44,7 +47,7 @@ export default function ChatMessage(props) {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography variant="h6" component="div">
-            {props.data.message}
+            {props.data.testo}
           </Typography>
         </Grid>
         <Grid item xs={12}>

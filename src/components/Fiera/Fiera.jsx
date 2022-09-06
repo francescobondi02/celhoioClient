@@ -44,7 +44,7 @@ export default function Fiera(props) {
           },
         }}
       >
-        <CardActionArea onClick={() => redirect(props.data.ID)}>
+        <CardActionArea onClick={() => redirect(props.data.id)}>
           <CardMedia
             image={"/images/fiera1.jpg"}
             title="image title"
@@ -53,10 +53,10 @@ export default function Fiera(props) {
           />
           <CardContent>
             <Typography variant="h3" component="div" gutterBottom>
-              {props.data.NOME}
+              {props.data.nome}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              {props.data.DESCRIZIONE}
+              {props.data.descrizione}
             </Typography>
           </CardContent>
         </CardActionArea>
