@@ -17,12 +17,16 @@ import {
   Container,
   ListItem,
   List,
+  Avatar,
+  Stack,
+  ListItemText,
 } from "@mui/material";
 import {
   Add,
   SendSharp,
   LogoutSharp,
   ContentPasteOffSharp,
+  Storefront
 } from "@mui/icons-material";
 import axios from "axios";
 import { UserContext } from "../../user-context";
@@ -46,6 +50,8 @@ export default function ApplicationContentVisitor(props) {
   const [categories, setCategories] = useState({});
   const [myCategories, setMyCategories] = useState([]);
   const [stripeSecret, setStripeSecret] = useState("");
+
+  const [fieraData, setFieraData] = useState({});
 
   useEffect(() => {
 
@@ -93,6 +99,10 @@ export default function ApplicationContentVisitor(props) {
       console.log(res);
       setStripeSecret(res.data.client_secret);
     });
+
+    axios.get("/fiere/" + params.id).then(res => {
+      setFieraData(res.data.data);
+    })
   }, []);
 
   useEffect(() => {
@@ -126,7 +136,7 @@ export default function ApplicationContentVisitor(props) {
         console.log(res);
         if (res.status == 200) setRequests(res.data.data);
       });
-  }, [props.page]);
+  }, [props.page, user]);
 
   function onLogout() {
     handleUser({
@@ -182,23 +192,38 @@ export default function ApplicationContentVisitor(props) {
           >
             Logout
           </Button>
-          <Container>
+          {/*<Container>
             <Typography>Nome: {user.nome}</Typography>
             <Typography>Email: {user.email}</Typography>
-          </Container>
+      </Container>*/}
+        <Container maxWidth="xs">
+            <Stack>
+              <Box sx={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <Avatar>{user.nome[0]}</Avatar>
+            
+                <Typography variant="h4" sx={{ margin: "10px" }}>{user.nome}</Typography>
+              </Box>
+              <Typography variant="subtitle2" color="grey.600">{user.email}</Typography>
+
+              <br></br>
+              <Typography variant="subtitle1" sx={{display:"flex", alignItems:"center", justifyContent:"center"}}><Storefront /> {fieraData.nome}</Typography>
+            </Stack>
+              
+           
+            
+        </Container>
           {user.espositore == 1 && (
             <>
-              <List sx={{ textAlign: "left" }}>
-                <ListSubheader>Categorie che esponi:</ListSubheader>
+
+              <List sx={{ textAlign: "center", width:"100%", marginTop:"50px" }} subheader={<ListSubheader>Categorie che esponi:</ListSubheader>}>
+                
                 {myCategories.map((category) => {
-                  return <ListItem>{category.nome}</ListItem>;
+                  return <ListItem><ListItemText primary={category.nome} sx={{textAlign:"center"}}/></ListItem>;
                 })}
               </List>
             </>
           )}
-          <Container>
-            Stai partecipando alla fiera con ID: {params.id}
-          </Container>
+          
         </Box>
       )}
 

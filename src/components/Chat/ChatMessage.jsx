@@ -36,7 +36,7 @@ export default function ChatMessage(props) {
     <Box
       component="div"
       sx={{
-        backgroundColor: !received ? "success.main" : "primary.main",
+        backgroundColor: !received ? "success.light" : "primary.light",
         padding: "4px",
         margin: "10px",
         maxWidth: "300px",

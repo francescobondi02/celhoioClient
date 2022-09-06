@@ -79,13 +79,6 @@ export default function Login() {
         //console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
-          /*handleUser({
-            id: res.data.id,
-            nome: formData.nome,
-            email: res.data.saved == "email" ? res.data.savedValue : "",
-            telefono: res.data.saved == "telefono" ? res.data.savedValue : "",
-            nome_utente: formData.nome_utente,
-          });*/
           navigate("/fiere"); //Andiamo alle fiere
         }
       });
@@ -95,12 +88,7 @@ export default function Login() {
         console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
-          /*handleUser({
-            id: res.data.data[0].ID,
-            nome: formData.nome,
-            email: res.data.data[0].EMAIL,
-            nome_utente: formData.nome_utente,
-          });*/
+          
           navigate("/fiere"); //Andiamo alle fiere
         }
       });
@@ -118,7 +106,6 @@ export default function Login() {
         auto_select: true,
       });
 
-      //if (user.id === "") {
         google.accounts.id.renderButton(document.getElementById("signInDiv"), {
           theme: "outline",
           size: "large",
@@ -127,7 +114,6 @@ export default function Login() {
         });
 
         google.accounts.id.prompt();
-      //}
     
   }, []);
 
