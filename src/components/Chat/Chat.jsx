@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
   Grid,
+  Toolbar,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import axios from "axios";
@@ -58,29 +59,7 @@ export default function Chat() {
           });
         //}
 
-        /*for (let i = 0; i < res.data.data.length; i++) {
-          res.data.data[i].room = res.data.data[i].STANZA;
-          res.data.data[i].destinatario = res.data.data[i].ID_DESTINATARIO;
-          res.data.data[i].message = res.data.data[i].TESTO;
-          res.data.data[i].time = res.data.data[i].DATA;
-          if (res.data.data[i].ID_DESTINATARIO !== user.id_utente_fiera) {
-            setOtherId(res.data.data[i].ID_DESTINATARIO);
-            setNameChat(res.data.data[i].NOME);
-          } else if (nameChat === "" && otherId === "") {
-            axios
-              .get("/utenti/getInfo/" + res.data.data[i].ID_CREATORE)
-              .then((res) => {
-                console.log(res.data.data);
-                setOtherId(res.data.data[0].ID_UTENTE_FIERA);
-                setNameChat(res.data.data[0].NOME);
-              });
-          }
-        }*/
-
-        /*if (otherId === "") {
-          setOtherId(res.data.data[0].ID_CREATORE);
-          //setNameChat(res.data.data[i].NOME);
-        }*/
+       
         //Imposto il nome della chat
         setOggettoChat(res.data[0].Richiesta.oggetto);
         setMessageList((prev) => [...prev, ...res.data]);
@@ -114,19 +93,7 @@ export default function Chat() {
     });
   }, [socket]);
 
-  /*function createMsg() {
-    let msg = {
-      room: params.idRoom,
-      author: socket.id,
-      message: "Ciao",
-      time:
-        new Date(Date.now()).getHours() +
-        ":" +
-        new Date(Date.now()).getMinutes(),
-    };
-
-    socket.emit("sendMessage", msg);
-  }*/
+  
 
   function sendMessage() {
     let msg = {
@@ -162,14 +129,16 @@ export default function Chat() {
       <Button onClick={createMsg}>Premi per inviare un messaggio</Button>*/}
       <AppBar
         position="fixed"
-        sx={{ height: "50px", display: "flex", alignItems: "center" }}
+        /*sx={{ height: "50px", display: "flex", alignItems: "center" }}*/
       >
-        <Grid container spacing={1} height="50px" flex alignItems="center">
-          <Grid item xs={4}>
+        <Toolbar>
+        {/*<Grid container spacing={1} height="50px" flex alignItems="center">
+          <Grid item xs={4}>*/}
             <Button
               variant="outlined"
               startIcon={<ChevronLeftOutlined />}
               onClick={() => {
+                socket.emit("leaveRoom", params.idRoom);
                 navigate(-1);
               }}
               sx={{
@@ -181,14 +150,15 @@ export default function Chat() {
             >
               Back
             </Button>
-          </Grid>
-          <Grid item xs={5}>
-            <Typography variant="h5" color="white">
+          {/*</Grid>
+          <Grid item xs={5}>*/}
+            <Typography variant="h6" component="div" color="white" sx={{flexGrow: 1}}>
               {oggettoChat + " - " + altraPersona.nome}
             </Typography>
-          </Grid>
+          {/*</Grid>
           <Grid item xs={4}></Grid>
-        </Grid>
+        </Grid>*/}
+        </Toolbar>
       </AppBar>
       <Container
         maxWidth="xl"

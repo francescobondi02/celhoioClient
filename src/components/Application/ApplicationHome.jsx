@@ -21,7 +21,7 @@ export default function ApplicationHome() {
     user.espositore ? "espositore" : "visitatore"
   );
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [formData, setFormData] = useState({
     oggetto: "",
     descrizione: "",
