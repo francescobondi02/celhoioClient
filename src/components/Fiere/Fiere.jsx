@@ -22,24 +22,26 @@ export default function Fiere() {
     if(res.status === 200){
       //Tutto a posto
       console.log(res.data);
+
+      axios.get("/utenti/isInFiera").then((res) => {
+        if(res.status === 200){
+            //Allora è in una fiera
+            console.log("Andiamo all'applicazione")
+            navigate("/fiere/" + res.data.id + "/applicazione");
+        }
+      })
+    
+        axios.get("/fiere").then((res) => {
+          //console.log(res.data);
+          setFiere(res.data.data);
+        });
       handleUser(res.data.data);
     } else {
       navigate("/");
     }
   })
 
-  axios.get("/utenti/isInFiera").then((res) => {
-    if(res.status === 200){
-        //Allora è in una fiera
-        console.log("Andiamo all'applicazione")
-        navigate("/fiere/" + res.data.id + "/applicazione");
-    }
-  })
-
-    axios.get("/fiere").then((res) => {
-      //console.log(res.data);
-      setFiere(res.data.data);
-    });
+  
     
   }, []);
 

@@ -47,54 +47,51 @@ export default function FieraDetails() {
   const [multipleSelect, setMultipleSelect] = useState([]);
 
   useEffect(() => {
-    axios.get("/fiere/" + params.id).then((res) => {
+
+
+     //Controllo sul token
+  axios.get("/utenti").then((res) => {
+    console.log(res);
+    if(res.status === 200){
+      //Tutto a posto
       console.log(res.data);
-      setData(res.data.data);
-    });
 
-    axios.get("/categorie/" + params.id).then((res) => {
-      console.log(res);
-      for(let i = 0; i < res.data.length; i++){
-        if(!(res.data[i].Macrocategoria.nome in categories)){
-          categories[res.data[i].Macrocategoria.nome] = [];
+      axios.get("/utenti/isInFiera").then((res) => {
+        if(res.status === 200){
+            //Allora è in una fiera
+            console.log("Andiamo all'applicazione")
+            navigate("/fiere/" + res.data.id + "/applicazione");
         }
-
-        categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
-      }
-      setCategories(categories);
-    });
-      /*for (let i = 0; i < res.data.data.length; i++) {
-        if (!(res.data.data[i].MACROCATEGORIA_NOME in categories))
-          categories[res.data.data[i].MACROCATEGORIA_NOME] = [];
-
-        categories[res.data.data[i].MACROCATEGORIA_NOME].push(
-          res.data.data[i].CATEGORIA_NOME
-        );
-      }
-      setCategories(categories);
-      //console.log(categories);
-    });
-
-    axios
-      .get("/utenti/getUserFiera", {
-        params: { id: localStorage.getItem("id"), id_fiera: params.id },
       })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.status == 200 && res.data.length > 0) {
-          let { id_utente_fiera, espositore } = res.data.data[0];
+    
+        axios.get("/fiere").then((res) => {
+          //console.log(res.data);
+          setFiere(res.data.data);
+        });
 
-          handleUser((prev) => {
-            return {
-              ...prev,
-              espositore: espositore,
-              id_utente_fiera: id_utente_fiera,
-            };
-          });
-        } else {
-          //Se non mi dà niente vuol dire che non sono in una fiera
-        }
-      });*/
+        axios.get("/fiere/" + params.id).then((res) => {
+          console.log(res.data);
+          setData(res.data.data);
+        });
+    
+        axios.get("/categorie/" + params.id).then((res) => {
+          console.log(res);
+          for(let i = 0; i < res.data.length; i++){
+            if(!(res.data[i].Macrocategoria.nome in categories)){
+              categories[res.data[i].Macrocategoria.nome] = [];
+            }
+    
+            categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
+          }
+          setCategories(categories);
+        });
+      handleUser(res.data.data);
+    } else {
+      navigate("/");
+    }
+  })
+
+    
   }, []);
 
   function handleForm(e) {

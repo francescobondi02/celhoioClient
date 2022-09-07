@@ -70,6 +70,9 @@ export default function ApplicationHome() {
       //Tutto a posto
       //console.log(res.data);
       //handleUser(res.data.data);
+
+      
+
       handleUser(prev => {
         return {
           ...prev,
@@ -83,6 +86,13 @@ export default function ApplicationHome() {
           id_fiera: res.data.data.id_fiera,
         }
       })
+
+      axios.get("/fiere/" + params.id).then((res) => {
+        setFieraData(res.data);
+      });
+  
+      if (user.espositore) setView("espositore");
+      else setView("visitatore");
     } else {
       navigate("/");
     }
@@ -90,12 +100,7 @@ export default function ApplicationHome() {
 
 
     //console.log(user);
-    axios.get("/fiere/" + params.id).then((res) => {
-      setFieraData(res.data);
-    });
-
-    if (user.espositore) setView("espositore");
-    else setView("visitatore");
+    
 
     
   }, []);
