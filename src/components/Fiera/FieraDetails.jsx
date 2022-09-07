@@ -64,10 +64,10 @@ export default function FieraDetails() {
         }
       })
     
-        axios.get("/fiere").then((res) => {
+        /*axios.get("/fiere").then((res) => {
           //console.log(res.data);
           setFiere(res.data.data);
-        });
+        });*/
 
         axios.get("/fiere/" + params.id).then((res) => {
           console.log(res.data);
