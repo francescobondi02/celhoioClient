@@ -136,7 +136,7 @@ export default function ApplicationContentVisitor(props) {
         console.log(res);
         if (res.status == 200) setRequests(res.data.data);
       });
-  }, [props.page, user]);
+  }, [props.page, user, props.openNewRequest]);
 
   function onLogout() {
     handleUser({
