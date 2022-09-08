@@ -40,6 +40,9 @@ function App() {
     setUser(newUser);
   };
 
+  axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("token");
+
   useEffect(() => {}, []);
 
   return (

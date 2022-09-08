@@ -8,7 +8,6 @@ import axios from "axios";
 
 //axios.defaults.baseURL = "http://localhost:3001";
 axios.defaults.baseURL = "https://celhoio.herokuapp.com";
-axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
