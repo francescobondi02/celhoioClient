@@ -18,7 +18,7 @@ import { UserContext } from "../../user-context";
 import { useNavigate } from "react-router-dom";
 import Conditions from "../../conditions";
 
-const google = window.google;
+//const google = window.google;
 
 export default function Login() {
   var { user, handleUser } = useContext(UserContext);
@@ -104,7 +104,7 @@ export default function Login() {
     
       
 
-      google.accounts.id.initialize({
+      /*google.accounts.id.initialize({
         client_id:
           "24123826951-4gi9iop4bfmtofa4452vp8rfg2bnmito.apps.googleusercontent.com",
         callback: handleCallbackResponse,
@@ -118,7 +118,7 @@ export default function Login() {
           shape: "pill",
         });
 
-        google.accounts.id.prompt();
+        google.accounts.id.prompt();*/
 
 
 
@@ -168,12 +168,12 @@ export default function Login() {
               <Typography variant="h3">Il sito per far incontrare espositori e visitatori!</Typography>
               <Typography variant="h5">E' più facile trovare quello che cerchi con CELHOIO.IT</Typography>
             </Box>
-            <Typography variant="h5" align="center" gutterBottom>
+            {/*<Typography variant="h5" align="center" gutterBottom>
               Accedi utilizzando Google!
             </Typography>
-            <div id="signInDiv"></div>
+      <div id="signInDiv"></div>*/}
             <Typography variant="h5" align="center" gutterBottom>
-              Oppure compila il form
+              Compila il form
             </Typography>
             <Box>
               {view === "register" && (
