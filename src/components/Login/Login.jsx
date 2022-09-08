@@ -114,6 +114,18 @@ export default function Login() {
         });
 
         google.accounts.id.prompt();
+
+
+
+      //Facciamo un check se c'è un token
+      if(localStorage.getItem("token") !== null){
+        axios.get("/utenti", async (req, res) => {
+          if(res.status === 200){
+            //Allora è valido e vado alle fiere
+            navigate("/fiere");
+          }
+        })
+      }
     
   }, []);
 
