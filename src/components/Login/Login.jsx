@@ -1,5 +1,5 @@
 /* global google */
-const google = window.google;
+
 
 import {
   Stack,
@@ -17,6 +17,8 @@ import axios from "axios";
 import { UserContext } from "../../user-context";
 import { useNavigate } from "react-router-dom";
 import Conditions from "../../conditions";
+
+const google = window.google;
 
 export default function Login() {
   var { user, handleUser } = useContext(UserContext);
