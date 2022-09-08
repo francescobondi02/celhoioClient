@@ -20,6 +20,7 @@ export default function Fiere() {
   console.log(localStorage.getItem("token"));
   axios.get("/utenti", {headers:{Authorization: localStorage.getItem("token")}}).then((res) => {
     console.log(res);
+    axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
     if(res.status === 200){
       //Tutto a posto
       console.log(res.data);
