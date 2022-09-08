@@ -1,3 +1,5 @@
+/* global google */
+
 import {
   Stack,
   Paper,
@@ -97,7 +99,7 @@ export default function Login() {
 
   useEffect(() => {
     
-      /* global google */
+      
 
       google.accounts.id.initialize({
         client_id:
