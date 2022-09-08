@@ -1,4 +1,5 @@
 /* global google */
+const google = window.google;
 
 import {
   Stack,
