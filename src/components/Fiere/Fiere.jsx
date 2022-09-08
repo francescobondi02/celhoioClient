@@ -17,6 +17,7 @@ export default function Fiere() {
   useEffect(() => {
 
   //Controllo sul token
+  console.log(localStorage.getItem("token"));
   axios.get("/utenti").then((res) => {
     console.log(res);
     if(res.status === 200){
