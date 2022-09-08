@@ -18,7 +18,7 @@ export default function Fiere() {
 
   //Controllo sul token
   console.log(localStorage.getItem("token"));
-  axios.get("/utenti", {headers:{Authorization: 'Bearer ' + localStorage.getItem("token")}}).then((res) => {
+  axios.get("/utenti", {headers:{Authorization: localStorage.getItem("token")}}).then((res) => {
     console.log(res);
     if(res.status === 200){
       //Tutto a posto

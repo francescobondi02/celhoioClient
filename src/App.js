@@ -40,10 +40,10 @@ function App() {
     setUser(newUser);
   };
 
-  axios.defaults.headers.common["Authorization"] =
-    "Bearer " + localStorage.getItem("token");
+  /*axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("token");*/
 
-  console.log(localStorage.getItem("token"));
+  console.log("Token:" + localStorage.getItem("token"));
   useEffect(() => {}, []);
 
   return (
