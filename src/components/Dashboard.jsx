@@ -56,7 +56,8 @@ export default function Dashboard() {
           anchor="left"
         >
           <Typography variant="h3" component="h1" gutterBottom>
-            Cel'hoio{" "}
+            <img src="/logo.png" alt="logo" width="100px" />
+            Dashboard
           </Typography>
           <Divider />
           <List>

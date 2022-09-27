@@ -1,6 +1,5 @@
 /* global google */
 
-
 import {
   Stack,
   Paper,
@@ -93,7 +92,7 @@ export default function Login() {
         console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
-          
+
           navigate("/fiere"); //Andiamo alle fiere
         }
       });
@@ -101,10 +100,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    
-      
-
-      /*google.accounts.id.initialize({
+    /*google.accounts.id.initialize({
         client_id:
           "24123826951-4gi9iop4bfmtofa4452vp8rfg2bnmito.apps.googleusercontent.com",
         callback: handleCallbackResponse,
@@ -120,18 +116,15 @@ export default function Login() {
 
         google.accounts.id.prompt();*/
 
-
-
-      //Facciamo un check se c'è un token
-      if(localStorage.getItem("token") !== null){
-        axios.get("/utenti", async (req, res) => {
-          if(res.status === 200){
-            //Allora è valido e vado alle fiere
-            navigate("/fiere");
-          }
-        })
-      }
-    
+    //Facciamo un check se c'è un token
+    if (localStorage.getItem("token") !== null) {
+      axios.get("/utenti", async (req, res) => {
+        if (res.status === 200) {
+          //Allora è valido e vado alle fiere
+          navigate("/fiere");
+        }
+      });
+    }
   }, []);
 
   function changeView() {
@@ -145,7 +138,10 @@ export default function Login() {
         maxWidth="lg"
         sx={{
           width: "100%",
-          height: "100%",
+          /*height: "100%",*/
+          /*height: "100vh",*/
+          margin: "auto",
+          padding: "30px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -165,15 +161,19 @@ export default function Login() {
           >
             <Box>
               <img src="/logo.png" alt="logo" width="100px" />
-              <Typography variant="h3">Il sito per far incontrare espositori e visitatori!</Typography>
-              <Typography variant="h5">E' più facile trovare quello che cerchi con CELHOIO.IT</Typography>
+              <Typography variant="h4">
+                Il sito per far incontrare espositori e visitatori!
+              </Typography>
+              <Typography variant="p">
+                E' più facile trovare quello che cerchi con CELHOIO.IT
+              </Typography>
             </Box>
             {/*<Typography variant="h5" align="center" gutterBottom>
               Accedi utilizzando Google!
             </Typography>
       <div id="signInDiv"></div>*/}
-            <Typography variant="h5" align="center" gutterBottom>
-              Compila il form
+            <Typography variant="p" align="center" gutterBottom>
+              Compila il form sottostante per accedere
             </Typography>
             <Box>
               {view === "register" && (
@@ -194,16 +194,7 @@ export default function Login() {
                 onChange={changeFormData}
                 name="email"
               />
-              {view === "register" && (
-                <TextField
-                  label="Nome Utente"
-                  fullWidth
-                  margin="normal"
-                  required
-                  onChange={changeFormData}
-                  name="nome_utente"
-                />
-              )}
+
               <TextField
                 label="Password"
                 fullWidth

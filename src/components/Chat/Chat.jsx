@@ -22,8 +22,8 @@ import ChatMessage from "./ChatMessage";
 import { UserContext } from "../../user-context";
 
 //Da cambiare
-//const socket = io.connect("http://localhost:3001");
-const socket = io.connect("https://celhoio.herokuapp.com");
+const socket = io.connect("http://localhost:3001");
+//const socket = io.connect("https://celhoio.herokuapp.com");
 
 export default function Chat() {
   const { user, handleUser } = useContext(UserContext);
@@ -31,13 +31,11 @@ export default function Chat() {
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const [chatData, setChatData] = useState({});
-  const [nameChat, setNameChat] = useState("");
+
   const [oggettoChat, setOggettoChat] = useState("");
   const [clientsConnected, setClientsConnected] = useState([]);
-  const [otherId, setOtherId] = useState("");
-  const [idRichiesta, setIdRichiesta] = useState("");
 
+  const [idRichiesta, setIdRichiesta] = useState("");
 
   const [altraPersona, setAltraPersona] = useState({});
   //console.log(chatData);
@@ -52,14 +50,20 @@ export default function Chat() {
         console.log(res);
 
         //for(let i = 0; i < res.data.length; i++){
-          
-          axios.get("/utenti/getInfo/" + (res.data[0].id_utente_fiera_mittente !== user.id_utente_fiera ? res.data[0].id_utente_fiera_mittente : res.data[0].id_utente_fiera_destinatario)).then((result) => {
+
+        axios
+          .get(
+            "/utenti/getInfo/" +
+              (res.data[0].id_utente_fiera_mittente !== user.id_utente_fiera
+                ? res.data[0].id_utente_fiera_mittente
+                : res.data[0].id_utente_fiera_destinatario)
+          )
+          .then((result) => {
             //console.log(result.data);
             setAltraPersona(result.data);
           });
         //}
 
-       
         //Imposto il nome della chat
         setOggettoChat(res.data[0].Richiesta.oggetto);
         setMessageList((prev) => [...prev, ...res.data]);
@@ -92,8 +96,6 @@ export default function Chat() {
       setClientsConnected(clients);
     });
   }, [socket]);
-
-  
 
   function sendMessage() {
     let msg = {
@@ -132,29 +134,34 @@ export default function Chat() {
         /*sx={{ height: "50px", display: "flex", alignItems: "center" }}*/
       >
         <Toolbar>
-        {/*<Grid container spacing={1} height="50px" flex alignItems="center">
+          {/*<Grid container spacing={1} height="50px" flex alignItems="center">
           <Grid item xs={4}>*/}
-            <Button
-              variant="outlined"
-              startIcon={<ChevronLeftOutlined />}
-              onClick={() => {
-                socket.emit("leaveRoom", params.idRoom);
-                navigate(-1);
-              }}
-              sx={{
+          <Button
+            variant="outlined"
+            startIcon={<ChevronLeftOutlined />}
+            onClick={() => {
+              socket.emit("leaveRoom", params.idRoom);
+              navigate(-1);
+            }}
+            sx={{
+              backgroundColor: "white",
+              ":hover": {
                 backgroundColor: "white",
-                ":hover": {
-                  backgroundColor: "white",
-                },
-              }}
-            >
-              Back
-            </Button>
+              },
+            }}
+          >
+            Back
+          </Button>
           {/*</Grid>
           <Grid item xs={5}>*/}
-            <Typography variant="h6" component="div" color="white" sx={{flexGrow: 1}}>
-              {oggettoChat + " - " + altraPersona.nome}
-            </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            color="white"
+            sx={{ flexGrow: 1 }}
+          >
+            {oggettoChat + " - " + altraPersona.nome}
+          </Typography>
           {/*</Grid>
           <Grid item xs={4}></Grid>
         </Grid>*/}

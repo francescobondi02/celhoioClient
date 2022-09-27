@@ -6,8 +6,8 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
 
-//axios.defaults.baseURL = "http://localhost:3001";
-axios.defaults.baseURL = "https://celhoio.herokuapp.com";
+axios.defaults.baseURL = "http://localhost:3001";
+//axios.defaults.baseURL = "https://celhoio.herokuapp.com";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
