@@ -31,13 +31,24 @@ export default function ApplicationBody(props) {
   const [colors, setColors] = useState({});
   const [rooms, setRooms] = useState({});
 
+  const [myData, setMyData] = useState({});
+
   useEffect(() => {
+    //Prendo il mio utente
+    axios
+      .get("/utenti/fiera", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        setMyData(res.data.data);
+      });
+
     //Axios call to get the responses to my requests
     if (currentRequest !== "") {
       axios
         .get(
           "/richieste/myResponses/" +
-            user.id_utente_fiera +
+            (user.id_utente_fiera || myData.id_utente_fiera) +
             "/" +
             currentRequest
         )
@@ -47,20 +58,20 @@ export default function ApplicationBody(props) {
           //Bisogna analizzare bene i results
           setResponsesList([]);
           for (let i = 0; i < res.data.length; i++) {
-
             //Tramite la STANZA troviamo chi ha risposto
             //Se c'è un messaggio, vuol dire che l'utente ha risposto => ci sono due id nella chat ora => mostro il nome
             let stanza = res.data[i].stanza;
             console.log("Stanza: " + stanza);
-            
-            axios.get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente).then((result) => {
-              res.data[i].nome_utente = result.data.nome_utente;
-              res.data[i].nome = result.data.nome;
-              res.data[i].email = result.data.email;
 
-              setResponsesList(prev => [...prev, res.data[i]]);
-            })
-            
+            axios
+              .get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente)
+              .then((result) => {
+                res.data[i].nome_utente = result.data.nome_utente;
+                res.data[i].nome = result.data.nome;
+                res.data[i].email = result.data.email;
+
+                setResponsesList((prev) => [...prev, res.data[i]]);
+              });
           }
           //setResponsesList(res.data);
         });
@@ -126,9 +137,9 @@ export default function ApplicationBody(props) {
           });
       }
     }
-  }, [currentRequest]);
+  }, [currentRequest, props.requests]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     for (let i = 0; i < props.requests.length; i++) {
       axios
         .get(
@@ -144,7 +155,7 @@ export default function ApplicationBody(props) {
             for (let i = 0; i < res.data.length; i++) {
               //Per ogni messaggio non letto
               let stanza_msg = res.data[i].stanza;
-              
+
               setColors((prev) => {
                 return {
                   ...prev,
@@ -158,7 +169,7 @@ export default function ApplicationBody(props) {
           }
         });
     }
-  }, []);
+  }, [props.requests]);*/
 
   function switchMode(e) {
     //console.log(e.target.getAttribute("value"));
@@ -224,9 +235,9 @@ export default function ApplicationBody(props) {
                 sx={{ backgroundColor: colors[request.id] }}
               >
                 <ListItemText
-                  primary={request.oggetto}
+                  //primary={request.oggetto}
                   value={request.oggetto}
-                  secondary={request.descrizione}
+                  primary={request.descrizione.substring(0, 50) + "..."}
                 />
                 <ArrowForwardIos value={request.oggetto} />
               </ListItemButton>
@@ -244,7 +255,6 @@ export default function ApplicationBody(props) {
               risposta.email = result.data.email;
             })*/
 
-
             return (
               <ListItemButton
                 //key={risposta.CODICE}
@@ -252,10 +262,10 @@ export default function ApplicationBody(props) {
                 onClick={() => goToChat(risposta.stanza)}
                 sx={{ backgroundColor: colors[risposta.stanza] }}
               >
-                <ListItemText primary={risposta.nome} secondary="Prova"/>
+                <ListItemText primary={risposta.nome} secondary="Prova" />
                 <ArrowForwardIos />
               </ListItemButton>
-            ) 
+            );
           })}
       </List>
     </>

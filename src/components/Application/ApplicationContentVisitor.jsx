@@ -26,7 +26,7 @@ import {
   SendSharp,
   LogoutSharp,
   ContentPasteOffSharp,
-  Storefront
+  Storefront,
 } from "@mui/icons-material";
 import axios from "axios";
 import { UserContext } from "../../user-context";
@@ -54,14 +54,11 @@ export default function ApplicationContentVisitor(props) {
   const [fieraData, setFieraData] = useState({});
 
   useEffect(() => {
-
-    axios
-      .get("/richieste/myRequests/" + user.id_utente_fiera)
-      .then((res) => {
-        //console.log(res.data.data[0].Richiesta);
-        console.log(res);
-        if (res.status == 200) setRequests(res.data.data);
-      });
+    axios.get("/richieste/myRequests/" + user.id_utente_fiera).then((res) => {
+      //console.log(res.data.data[0].Richiesta);
+      console.log(res);
+      if (res.status == 200) setRequests(res.data.data);
+    });
 
     if (user.espositore == true) {
       axios
@@ -85,8 +82,8 @@ export default function ApplicationContentVisitor(props) {
     }
     axios.get("/categorie/" + params.id).then((res) => {
       console.log(res);
-      for(let i = 0; i < res.data.length; i++){
-        if(!(res.data[i].Macrocategoria.nome in categories)){
+      for (let i = 0; i < res.data.length; i++) {
+        if (!(res.data[i].Macrocategoria.nome in categories)) {
           categories[res.data[i].Macrocategoria.nome] = [];
         }
 
@@ -100,9 +97,9 @@ export default function ApplicationContentVisitor(props) {
       setStripeSecret(res.data.client_secret);
     });
 
-    axios.get("/fiere/" + params.id).then(res => {
+    axios.get("/fiere/" + params.id).then((res) => {
       setFieraData(res.data.data);
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -119,8 +116,6 @@ export default function ApplicationContentVisitor(props) {
           setReceivedRequests(res.data);
         });
 
-        
-
       axios
         .get("/categorie/myCategories/" + user.id_utente_fiera)
         .then((res) => {
@@ -129,13 +124,11 @@ export default function ApplicationContentVisitor(props) {
         });
     }
 
-    axios
-      .get("/richieste/myRequests/" + user.id_utente_fiera)
-      .then((res) => {
-        //console.log(res.data.data[0].Richiesta);
-        console.log(res);
-        if (res.status == 200) setRequests(res.data.data);
-      });
+    axios.get("/richieste/myRequests/" + user.id_utente_fiera).then((res) => {
+      //console.log(res.data.data[0].Richiesta);
+      console.log(res);
+      if (res.status == 200) setRequests(res.data.data);
+    });
   }, [props.page, user, props.openNewRequest]);
 
   function onLogout() {
@@ -196,34 +189,57 @@ export default function ApplicationContentVisitor(props) {
             <Typography>Nome: {user.nome}</Typography>
             <Typography>Email: {user.email}</Typography>
       </Container>*/}
-        <Container maxWidth="xs">
+          <Container maxWidth="xs">
             <Stack>
-              <Box sx={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Avatar>{user.nome[0]}</Avatar>
-            
-                <Typography variant="h4" sx={{ margin: "10px" }}>{user.nome}</Typography>
+
+                <Typography variant="h4" sx={{ margin: "10px" }}>
+                  {user.nome}
+                </Typography>
               </Box>
-              <Typography variant="subtitle2" color="grey.600">{user.email}</Typography>
+              <Typography variant="subtitle2" color="grey.600">
+                {user.email}
+              </Typography>
 
               <br></br>
-              <Typography variant="subtitle1" sx={{display:"flex", alignItems:"center", justifyContent:"center"}}><Storefront /> {fieraData.nome}</Typography>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Storefront /> {fieraData.nome}
+              </Typography>
             </Stack>
-              
-           
-            
-        </Container>
+          </Container>
           {user.espositore == 1 && (
             <>
-
-              <List sx={{ textAlign: "center", width:"100%", marginTop:"50px" }} subheader={<ListSubheader>Categorie che esponi:</ListSubheader>}>
-                
+              <List
+                sx={{ textAlign: "center", width: "100%", marginTop: "50px" }}
+                subheader={<ListSubheader>Categorie che esponi:</ListSubheader>}
+              >
                 {myCategories.map((category) => {
-                  return <ListItem><ListItemText primary={category.nome} sx={{textAlign:"center"}}/></ListItem>;
+                  return (
+                    <ListItem>
+                      <ListItemText
+                        primary={category.nome}
+                        sx={{ textAlign: "center" }}
+                      />
+                    </ListItem>
+                  );
                 })}
               </List>
             </>
           )}
-          
         </Box>
       )}
 
@@ -240,7 +256,7 @@ export default function ApplicationContentVisitor(props) {
             costerà solo €1
           </DialogContentText>
           <Grid container spacing={3}>
-            <Grid item sm={6}>
+            {/*<Grid item sm={6}>
               <TextField
                 autoFocus
                 label="Oggetto"
@@ -249,8 +265,8 @@ export default function ApplicationContentVisitor(props) {
                 onChange={props.handleForm}
                 fullWidth
               />
-            </Grid>
-            <Grid item sm={6}>
+              </Grid>*/}
+            <Grid item xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="select-category">Categoria</InputLabel>
                 <Select
@@ -261,6 +277,7 @@ export default function ApplicationContentVisitor(props) {
                   value={props.formData.select}
                   onChange={props.handleForm}
                   name="select"
+                  autoWidth
                 >
                   <MenuItem value="">
                     <em>None</em>
@@ -311,7 +328,6 @@ export default function ApplicationContentVisitor(props) {
                   ]);
                 }}
                 disabled={
-                  props.formData.oggetto == "" ||
                   props.formData.descrizione == "" ||
                   props.formData.select == ""
                 }

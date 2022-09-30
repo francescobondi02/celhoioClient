@@ -65,7 +65,9 @@ export default function Chat() {
         //}
 
         //Imposto il nome della chat
-        setOggettoChat(res.data[0].Richiesta.oggetto);
+        setOggettoChat(
+          res.data[0].Richiesta.descrizione.substring(0, 50) + "..."
+        );
         setMessageList((prev) => [...prev, ...res.data]);
         setIdRichiesta(res.data[0].id_richiesta);
       });
