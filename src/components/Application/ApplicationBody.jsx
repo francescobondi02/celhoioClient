@@ -216,7 +216,7 @@ export default function ApplicationBody(props) {
       >
         {mode == "richieste" &&
           props.requests.map((request) => {
-            //console.log(request);
+            console.log(request);
             //Axios request per vedere se ci sono messaggi non letti
             //console.log(request);
 
