@@ -238,7 +238,7 @@ export default function ApplicationBody(props) {
                   //primary={request.oggetto}
                   value={request.oggetto}
                   primary={request.descrizione.substring(0, 50) + "..."}
-                  secondary={request.Categoria.nome}
+                  secondary={request.Categorium.nome}
                 />
                 <ArrowForwardIos value={request.oggetto} />
               </ListItemButton>
