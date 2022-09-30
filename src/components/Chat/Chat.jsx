@@ -22,8 +22,8 @@ import ChatMessage from "./ChatMessage";
 import { UserContext } from "../../user-context";
 
 //Da cambiare
-const socket = io.connect("http://localhost:3001");
-//const socket = io.connect("https://celhoio.herokuapp.com");
+//const socket = io.connect("http://localhost:3001");
+const socket = io.connect("https://celhoio.herokuapp.com");
 
 export default function Chat() {
   const { user, handleUser } = useContext(UserContext);
