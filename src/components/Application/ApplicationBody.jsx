@@ -263,7 +263,7 @@ export default function ApplicationBody(props) {
                 onClick={() => goToChat(risposta.stanza)}
                 sx={{ backgroundColor: colors[risposta.stanza] }}
               >
-                <ListItemText primary={risposta.nome} secondary="Prova" />
+                <ListItemText primary={risposta.nome} /*secondary="Prova"*/ />
                 <ArrowForwardIos />
               </ListItemButton>
             );
