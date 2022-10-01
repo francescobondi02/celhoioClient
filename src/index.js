@@ -36,11 +36,12 @@ async function subscribe() {
   //ORDINE DELLE COSE IDEALMENTE:
   //UTENTE ENTRA, CONFERMA LE NOTIFICHE E POI SI LOGGA.
 
-  console.log(push);
+  //console.log(push);
+  let jsonPush = JSON.stringify(push);
   //DA FARE ANCHE IL CASO CONTRARIO, QUINDI QUI VERIFICARE SE NON SIA GIA' LOGGATO
-  sessionStorage.setItem("endpoint", push.endpoint);
-  sessionStorage.setItem("p256dh", push.keys.p256dh);
-  sessionStorage.setItem("auth", push.keys.auth);
+  sessionStorage.setItem("endpoint", jsonPush.endpoint);
+  sessionStorage.setItem("p256dh", jsonPush.keys.p256dh);
+  sessionStorage.setItem("auth", jsonPush.keys.auth);
 }
 
 subscribe();
