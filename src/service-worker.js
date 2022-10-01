@@ -76,7 +76,7 @@ self.addEventListener("push", (e) => {
   let data = JSON.parse(e.data.text());
   var options = {
     body: data.body,
-    icon: "https://www.physicsnova.it/img/logo_single.webp",
+    icon: "https://www.celhoio.it/logo.png",
     data: {
       dateOfArrival: Date.now(),
       primaryKey: 2,
