@@ -40,11 +40,12 @@ export default function ApplicationBody(props) {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((res) => {
-        setMyData(res.data.data);
+        console.log(res.data.data);
+        //setMyData(res.data.data);
       });
 
     //Axios call to get the responses to my requests
-    if (currentRequest !== "") {
+    if (currentRequest !== "" && currentRequest != null) {
       axios
         .get(
           "/richieste/myResponses/" +
