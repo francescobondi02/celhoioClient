@@ -37,7 +37,8 @@ async function subscribe() {
   //UTENTE ENTRA, CONFERMA LE NOTIFICHE E POI SI LOGGA.
 
   //console.log(push);
-  let jsonPush = JSON.stringify(push);
+  let jsonPush = JSON.parse(push);
+  console.log(jsonPush);
   //DA FARE ANCHE IL CASO CONTRARIO, QUINDI QUI VERIFICARE SE NON SIA GIA' LOGGATO
   sessionStorage.setItem("endpoint", jsonPush.endpoint);
   sessionStorage.setItem("p256dh", jsonPush.keys.p256dh);
