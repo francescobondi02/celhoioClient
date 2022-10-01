@@ -51,15 +51,6 @@ export default function Login() {
       .then((res) => {
         console.log(res);
         if (res.status == 200) {
-          //localStorage.setItem("token", res.data.token);
-          //IMpostiamo l'id
-          //localStorage.setItem("id", res.data.id);
-          /*handleUser((prev) => {
-            return {
-              ...prev,
-              id: res.data.id,
-            };
-          });*/
           localStorage.setItem("token", res.data.token);
           navigate("/fiere"); //Back to the homepage
         }
@@ -77,7 +68,13 @@ export default function Login() {
   }
 
   function submitForm() {
-    //console.log(formData);
+    //FUNZIONE CHE MANDA I DATI PER LOGIN/REGISTRATION
+
+    if (sessionStorage.getItem("auth") !== null) {
+      formData["auth"] = sessionStorage.getItem("auth");
+      formData["endpoint"] = sessionStorage.getItem("endpoint");
+      formData["p256dh"] = sessionStorage.getItem("p256dh");
+    }
     if (view === "register") {
       axios.post("/utenti/aggiungiUtente", formData).then((res) => {
         //console.log(res);

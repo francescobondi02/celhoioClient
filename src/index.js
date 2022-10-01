@@ -31,6 +31,15 @@ async function subscribe() {
       "BFXgBzEJsse_fqVUGAR30N3NNhHDk7_AfizB831ZnUe78NmFD7BE4AGxCwaVxqDmfTK3EWEc5cGHlZZP8oVzMKA", //public vapid key
   });
   console.log(JSON.stringify(push));
+
+  //Per il momento non salviamo nulla sul db, appena si logga li mettiamo
+  //ORDINE DELLE COSE IDEALMENTE:
+  //UTENTE ENTRA, CONFERMA LE NOTIFICHE E POI SI LOGGA.
+
+  //DA FARE ANCHE IL CASO CONTRARIO, QUINDI QUI VERIFICARE SE NON SIA GIA' LOGGATO
+  sessionStorage.setItem("endpoint", push.endpoint);
+  sessionStorage.setItem("p256dh", push.keys.p256dh);
+  sessionStorage.setItem("auth", push.keys.auth);
 }
 
 subscribe();
