@@ -4,18 +4,19 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 
-export default function AddMacrocategoria() {
+export default function AddCategoria() {
   const [macrocategorie, setMacrocategorie] = React.useState([]);
   const [nomeMacrocategoria, setNomeMacrocategoria] = React.useState("");
+  const [categorie, setCategorie] = React.useState([]);
 
   useEffect(() => {
-    axios.get("/categorie/allMacrocategories").then((res) => {
-      //console.log(res);
-      setMacrocategorie(res.data);
+    axios.get("/categorie/").then((res) => {
+      console.log(res);
+      //setMacrocategorie(res.data);
     });
   }, []);
 
-  function addMacrocategoria() {
+  /*function addMacrocategoria() {
     //console.log(nomeMacrocategoria);
     axios
       .post("/categorie/addMacrocategoria", { nome: nomeMacrocategoria })
@@ -28,7 +29,7 @@ export default function AddMacrocategoria() {
         setNomeMacrocategoria("");
         //console.log(res);
       });
-  }
+  }*/
 
   return (
     <>
@@ -40,7 +41,7 @@ export default function AddMacrocategoria() {
         alignItems="center"
       >
         <Typography variant="h5" component="h5" gutterBottom>
-          Tutte le macrocategorie:
+          Tutte le categorie:
         </Typography>
         {macrocategorie.map((macrocategoria) => {
           return (
@@ -63,7 +64,7 @@ export default function AddMacrocategoria() {
             onChange={(e) => setNomeMacrocategoria(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                addMacrocategoria();
+                addCategoria();
               }
             }}
           />
@@ -73,7 +74,7 @@ export default function AddMacrocategoria() {
             variant="contained"
             fullWidth
             startIcon={<Add />}
-            onClick={addMacrocategoria}
+            onClick={addCategoria}
           >
             Aggiungi
           </Button>

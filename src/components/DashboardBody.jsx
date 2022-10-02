@@ -31,6 +31,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import AddMacrocategoria from "./Dashboard/AddMacrocategoria";
 import SeeUsers from "./Dashboard/SeeUsers";
 import AddFiera from "./Dashboard/AddFiera";
+import AddCategoria from "./Dashboard/AddCategoria";
 
 export default function DashboardBody(props) {
   const [categories, setCategories] = useState([]);
@@ -100,6 +101,8 @@ export default function DashboardBody(props) {
       {props.view === "see-users" && <SeeUsers />}
 
       {props.view === "add-macrocategory" && <AddMacrocategoria />}
+
+      {props.view === "add-category" && <AddCategoria />}
     </>
   );
 }
