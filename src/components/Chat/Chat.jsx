@@ -70,14 +70,14 @@ export default function Chat() {
         );
         setMessageList((prev) => [...prev, ...res.data]);
         setIdRichiesta(res.data[0].id_richiesta);
+
+        setTimeout(() => {
+          var elem = document.getElementById("chat");
+          /*elem.scrollTop = elem.scrollHeight;*/
+
+          elem.scrollTo(0, elem.scrollHeight);
+        }, 100);
       });
-
-    setTimeout(() => {
-      var elem = document.getElementById("chat");
-      /*elem.scrollTop = elem.scrollHeight;*/
-
-      elem.scrollTo(0, elem.scrollHeight);
-    }, 100);
   }, []);
 
   useEffect(() => {
