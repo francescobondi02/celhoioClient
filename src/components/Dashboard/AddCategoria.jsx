@@ -112,9 +112,7 @@ export default function AddCategoria() {
                   </div>
                 </Stack>
               </Grid>
-              <br>
-                <br></br>
-              </br>
+
               <Divider variant="middle" />
             </>
           );
