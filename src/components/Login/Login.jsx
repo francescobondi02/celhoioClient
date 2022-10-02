@@ -125,7 +125,7 @@ export default function Login() {
   }
 
   const recuperaPassword = () => {
-    axios.post("/recuperaPassword").then((res) => {
+    axios.post("/recuperaPassword", { mail: "Ciao" }).then((res) => {
       console.log(res);
       /*if (res.status == 200) {
         setErrorMessage("Email inviata!");
