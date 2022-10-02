@@ -151,9 +151,7 @@ export default function Chat() {
                 backgroundColor: "white",
               },
             }}
-          >
-            Back
-          </Button>
+          ></Button>
           {/*</Grid>
           <Grid item xs={5}>*/}
           <Typography
@@ -202,7 +200,7 @@ export default function Chat() {
       >
         <TextField
           sx={{ width: "60%", color: "white" }}
-          label="Message..."
+          label="Messaggio..."
           margin="normal"
           onChange={(e) => setMessage(e.target.value)}
           value={message}
