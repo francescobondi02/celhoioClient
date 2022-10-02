@@ -232,12 +232,12 @@ export default function ApplicationBody(props) {
                         goToChat(rooms[request.id]);
                       }
                 }
-                value={request.oggetto}
+                value={request.descrizione.substring(0, 50) + "..."}
                 sx={{ backgroundColor: colors[request.id] }}
               >
                 <ListItemText
                   //primary={request.oggetto}
-                  value={request.oggetto}
+                  value={request.descrizione.substring(0, 50) + "..."}
                   primary={request.descrizione.substring(0, 50) + "..."}
                   secondary={request.Categorium.nome}
                 />
