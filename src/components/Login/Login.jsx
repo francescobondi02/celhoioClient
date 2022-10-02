@@ -29,6 +29,7 @@ export default function Login() {
   });
   const navigate = useNavigate();
   const [view, setView] = useState("register");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleCallbackResponse = (response) => {
     var userObj = jwt_decode(response.credential);
@@ -81,6 +82,8 @@ export default function Login() {
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/fiere"); //Andiamo alle fiere
+        } else {
+          setErrorMessage("Qualcosa è andato storto...");
         }
       });
     } else {
@@ -91,29 +94,17 @@ export default function Login() {
           localStorage.setItem("token", res.data.token);
 
           navigate("/fiere"); //Andiamo alle fiere
+        } else {
+          setErrorMessage(
+            "Qualcosa è andato storto... Prova a ricontrollare i tuoi dati!"
+          );
         }
       });
     }
   }
 
   useEffect(() => {
-    /*google.accounts.id.initialize({
-        client_id:
-          "24123826951-4gi9iop4bfmtofa4452vp8rfg2bnmito.apps.googleusercontent.com",
-        callback: handleCallbackResponse,
-        auto_select: true,
-      });
-
-        google.accounts.id.renderButton(document.getElementById("signInDiv"), {
-          theme: "outline",
-          size: "large",
-          width: "100%",
-          shape: "pill",
-        });
-
-        google.accounts.id.prompt();*/
-
-    //Facciamo un check se c'è un token
+    //Facciamo un check se c'è un token (qui si deve controllare perchè è da qui che poi si può evitare di fare login ogni volta)
     if (localStorage.getItem("token") !== null) {
       axios.get(
         "/utenti",
@@ -175,6 +166,14 @@ export default function Login() {
       <div id="signInDiv"></div>*/}
             <Typography variant="p" align="center" gutterBottom>
               Compila il form sottostante per accedere
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              gutterBottom
+              color="error"
+            >
+              {errorMessage}
             </Typography>
             <Box>
               {view === "register" && (
