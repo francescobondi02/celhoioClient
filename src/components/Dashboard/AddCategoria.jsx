@@ -57,7 +57,9 @@ export default function AddCategoria() {
             <>
               <Grid item xs={6}>
                 <Typography variant="subtitle1" component="h1" gutterBottom>
-                  {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
+                  <b>
+                    {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
+                  </b>
                 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -66,7 +68,7 @@ export default function AddCategoria() {
                     return (
                       <Typography
                         variant="subtitle2"
-                        component="h3"
+                        component="h1"
                         gutterBottom
                       >
                         {categoria.nome}
@@ -76,7 +78,7 @@ export default function AddCategoria() {
                   <div
                     style={{
                       display: "flex",
-                      justifyContent: "around",
+                      justifyContent: "space-around",
                       alignItems: "center",
                       flexDirection: "row",
                     }}
@@ -85,7 +87,6 @@ export default function AddCategoria() {
                       id="nomeCategoria"
                       label="Nome Categoria"
                       variant="standard"
-                      sx={{ width: "70%" }}
                       value=""
                       onChange={(e) => setNomeMacrocategoria(e.target.value)}
                       onKeyDown={(e) => {
@@ -96,7 +97,6 @@ export default function AddCategoria() {
                     />
                     <Button
                       variant="contained"
-                      fullWidth
                       startIcon={<Add />}
                       //onClick={addCategoria}
                     >
@@ -108,7 +108,7 @@ export default function AddCategoria() {
             </>
           );
         })}
-        <Grid item xs={9}>
+        {/*<Grid item xs={9}>
           <TextField
             id="nomeMacrocategoria"
             label="Nome Macrocategoria"
@@ -132,7 +132,7 @@ export default function AddCategoria() {
           >
             Aggiungi
           </Button>
-        </Grid>
+          </Grid>*/}
       </Grid>
     </>
   );
