@@ -52,6 +52,7 @@ export default function AddCategoria() {
         justifyContent="center"
         alignContent="center"
         alignItems="center"
+        spacing={2}
       >
         <Grid item xs={12}>
           <Typography variant="h5" component="h5" gutterBottom>
@@ -62,14 +63,14 @@ export default function AddCategoria() {
         {array.map((macrocategoria) => {
           return (
             <>
-              <Grid item xs={6}>
+              <Grid item xs={6} p={2}>
                 <Typography variant="subtitle1" component="h1" gutterBottom>
                   <b>
                     {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
                   </b>
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={6} p={2}>
                 <Stack>
                   {macrocategoria.Categoria.map((categoria) => {
                     return (
