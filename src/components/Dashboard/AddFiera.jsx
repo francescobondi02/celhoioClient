@@ -30,7 +30,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 export default function AddFiera() {
-  const [addFieraData, setAddFieraData] = useState({});
+  const [addFieraData, setAddFieraData] = useState({
+    nome: "",
+    luogo: "",
+    descrizione: "",
+  });
   const [openAlert, setOpenAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -99,6 +103,17 @@ export default function AddFiera() {
         console.log(res);
         if (res.status === 201) {
           setErrorMessage(res.data.message);
+
+          //Pulisco gli input
+          setAddFieraData({
+            nome: "",
+            luogo: "",
+            descrizione: "",
+          });
+
+          //Pulisco l'array
+          setMacrocategorieArray([]);
+
           setOpenAlert(true);
         }
       });
@@ -106,7 +121,7 @@ export default function AddFiera() {
 
   return (
     <>
-      <Grid container spacing={3} maxWidth="lg">
+      <Grid spacing={3} maxWidth="lg">
         <Grid item xs={12}>
           <Typography
             variant="h4"
@@ -117,6 +132,13 @@ export default function AddFiera() {
             Aggiungi Fiera
           </Typography>
         </Grid>
+
+        {openAlert && (
+          <Grid item xs={12}>
+            Fiera salvata correttamente!
+          </Grid>
+        )}
+
         <Grid item xs={3}>
           <FormControl margin="normal">
             <InputLabel htmlFor="my-input">Nome Fiera</InputLabel>
@@ -126,6 +148,7 @@ export default function AddFiera() {
               fullWidth
               name="nome"
               onChange={onAddFiera}
+              value={addFieraData.nome}
             />
             <FormHelperText id="my-helper-text"></FormHelperText>
           </FormControl>
@@ -140,6 +163,7 @@ export default function AddFiera() {
               fullWidth
               onChange={onAddFiera}
               name="descrizione"
+              value={addFieraData.descrizione}
             />
             <FormHelperText id="my-helper-text">
               Massimo 200 caratteri
@@ -156,6 +180,7 @@ export default function AddFiera() {
               fullWidth
               onChange={onAddFiera}
               name="luogo"
+              value={addFieraData.luogo}
             />
             <FormHelperText id="my-helper-text">
               Luogo dove si terrà la fiera
