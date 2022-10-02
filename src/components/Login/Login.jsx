@@ -124,7 +124,16 @@ export default function Login() {
     else setView("register");
   }
 
-  const recuperaPassword = () => {};
+  const recuperaPassword = () => {
+    axios.post("/recuperaPassword").then((res) => {
+      console.log(res);
+      /*if (res.status == 200) {
+        setErrorMessage("Email inviata!");
+      } else {
+        setErrorMessage("Qualcosa è andato storto...");
+      }*/
+    });
+  };
 
   return (
     <>
