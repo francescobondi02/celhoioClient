@@ -1,5 +1,12 @@
 import { Add } from "@mui/icons-material";
-import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -105,6 +112,7 @@ export default function AddCategoria() {
                   </div>
                 </Stack>
               </Grid>
+              <Divider />
             </>
           );
         })}
