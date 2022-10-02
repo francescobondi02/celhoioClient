@@ -1,5 +1,5 @@
 import { Add } from "@mui/icons-material";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
@@ -8,12 +8,18 @@ export default function AddCategoria() {
   const [macrocategorie, setMacrocategorie] = React.useState([]);
   const [nomeMacrocategoria, setNomeMacrocategoria] = React.useState("");
   const [categorie, setCategorie] = React.useState([]);
+  const [array, setArray] = React.useState([]);
 
   useEffect(() => {
-    axios.get("/categorie/").then((res) => {
-      console.log(res);
-      //setMacrocategorie(res.data);
-    });
+    axios
+      .get("/categorie/", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res);
+        setArray(res.data);
+        //setMacrocategorie(res.data);
+      });
   }, []);
 
   /*function addMacrocategoria() {
@@ -43,13 +49,28 @@ export default function AddCategoria() {
         <Typography variant="h5" component="h5" gutterBottom>
           Tutte le categorie:
         </Typography>
-        {macrocategorie.map((macrocategoria) => {
+        {array.map((macrocategoria) => {
           return (
             <>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <Typography variant="subtitle1" component="h1" gutterBottom>
                   {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
                 </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Stack>
+                  {macrocategoria.Categoria.map((categoria) => {
+                    return (
+                      <Typography
+                        variant="subtitle2"
+                        component="h3"
+                        gutterBottom
+                      >
+                        {categoria.nome}
+                      </Typography>
+                    );
+                  })}
+                </Stack>
               </Grid>
             </>
           );
