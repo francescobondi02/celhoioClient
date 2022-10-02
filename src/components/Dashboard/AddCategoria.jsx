@@ -64,7 +64,7 @@ export default function AddCategoria() {
             onChange={(e) => setNomeMacrocategoria(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                addCategoria();
+                //addCategoria();
               }
             }}
           />
@@ -74,7 +74,7 @@ export default function AddCategoria() {
             variant="contained"
             fullWidth
             startIcon={<Add />}
-            onClick={addCategoria}
+            //onClick={addCategoria}
           >
             Aggiungi
           </Button>
