@@ -16,6 +16,7 @@ export default function AddCategoria() {
   const [nomeMacrocategoria, setNomeMacrocategoria] = React.useState("");
   const [categorie, setCategorie] = React.useState([]);
   const [array, setArray] = React.useState([]);
+  const [reload, setReload] = React.useState(false);
 
   useEffect(() => {
     axios
@@ -27,7 +28,7 @@ export default function AddCategoria() {
         setArray(res.data);
         //setMacrocategorie(res.data);
       });
-  }, []);
+  }, [reload]);
 
   /*function addMacrocategoria() {
     //console.log(nomeMacrocategoria);
@@ -43,6 +44,11 @@ export default function AddCategoria() {
         //console.log(res);
       });
   }*/
+
+  function addCategoria() {
+    setReload((prev) => !prev);
+    console.log(categorie);
+  }
 
   return (
     <>
@@ -63,14 +69,14 @@ export default function AddCategoria() {
         {array.map((macrocategoria) => {
           return (
             <>
-              <Grid item xs={6} p={2}>
+              <Grid item xs={6} p={5}>
                 <Typography variant="subtitle1" component="h1" gutterBottom>
                   <b>
                     {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
                   </b>
                 </Typography>
               </Grid>
-              <Grid item xs={6} p={2}>
+              <Grid item xs={6} p={5}>
                 <Stack>
                   {macrocategoria.Categoria.map((categoria) => {
                     return (
@@ -92,29 +98,34 @@ export default function AddCategoria() {
                     }}
                   >
                     <TextField
-                      id="nomeCategoria"
+                      id={macrocategoria.id}
                       label="Nome Categoria"
                       variant="standard"
-                      value=""
-                      onChange={(e) => setNomeMacrocategoria(e.target.value)}
+                      value={categorie[macrocategoria.id]}
+                      onChange={(e) =>
+                        setCategorie((prev) => {
+                          return {
+                            ...prev,
+                            [macrocategoria.id]: e.target.value,
+                          };
+                        })
+                      }
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          //addCategoria();
+                          addCategoria();
                         }
                       }}
                     />
                     <Button
                       variant="contained"
                       startIcon={<Add />}
-                      //onClick={addCategoria}
+                      onClick={addCategoria}
                     >
                       Aggiungi
                     </Button>
                   </div>
                 </Stack>
               </Grid>
-
-              <Divider variant="middle" />
             </>
           );
         })}
