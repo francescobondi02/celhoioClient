@@ -46,9 +46,12 @@ export default function AddCategoria() {
         alignContent="center"
         alignItems="center"
       >
-        <Typography variant="h5" component="h5" gutterBottom>
-          Tutte le categorie:
-        </Typography>
+        <Grid item xs={12}>
+          <Typography variant="h5" component="h5" gutterBottom>
+            Tutte le categorie:
+          </Typography>
+        </Grid>
+
         {array.map((macrocategoria) => {
           return (
             <>
@@ -70,6 +73,36 @@ export default function AddCategoria() {
                       </Typography>
                     );
                   })}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "around",
+                      alignItems: "center",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TextField
+                      id="nomeCategoria"
+                      label="Nome Categoria"
+                      variant="standard"
+                      sx={{ width: "70%" }}
+                      value=""
+                      onChange={(e) => setNomeMacrocategoria(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          //addCategoria();
+                        }
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      startIcon={<Add />}
+                      //onClick={addCategoria}
+                    >
+                      Aggiungi
+                    </Button>
+                  </div>
                 </Stack>
               </Grid>
             </>
