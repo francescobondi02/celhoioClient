@@ -124,6 +124,8 @@ export default function Login() {
     else setView("register");
   }
 
+  const recuperaPassword = () => {};
+
   return (
     <>
       <Container
@@ -223,6 +225,11 @@ export default function Login() {
               <Button onClick={changeView}>
                 {view === "register" ? "Loggati" : "Registrati"}
               </Button>
+            </Typography>
+
+            <Typography variant="p" align="center" gutterBottom>
+              Hai bisogno di recuperare la password? Inseriscila e poi
+              <Button onClick={recuperaPassword}>clicca qui</Button>
             </Typography>
           </Stack>
         </Paper>
