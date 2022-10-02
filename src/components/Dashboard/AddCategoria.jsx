@@ -45,9 +45,17 @@ export default function AddCategoria() {
       });
   }*/
 
-  function addCategoria() {
-    setReload((prev) => !prev);
-    console.log(categorie);
+  function addCategoria(id) {
+    axios
+      .post("/categorie/addCategoria", {
+        nome: categorie[id],
+        id_macrocategoria: id,
+      })
+      .then((res) => {
+        console.log(res);
+        setReload((prev) => !prev);
+        console.log(id, categorie[id]);
+      });
   }
 
   return (
@@ -112,14 +120,14 @@ export default function AddCategoria() {
                       }
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          addCategoria();
+                          addCategoria(macrocategoria.id);
                         }
                       }}
                     />
                     <Button
                       variant="contained"
                       startIcon={<Add />}
-                      onClick={addCategoria}
+                      onClick={() => addCategoria(macrocategoria.id)}
                     >
                       Aggiungi
                     </Button>
