@@ -28,6 +28,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import FileUpload from "../FileUpload";
 
 export default function AddFiera() {
   const [addFieraData, setAddFieraData] = useState({
@@ -40,6 +41,19 @@ export default function AddFiera() {
 
   const [macrocategorie, setMacrocategorie] = useState([]);
   const [macrocategorieArray, setMacrocategorieArray] = useState([]);
+
+  const [selectedFile, setSelectedFile] = useState();
+  const [isSelected, setIsSelected] = useState(false);
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsSelected(true);
+  };
+
+  const handleSubmission = () => {
+    const formData = new FormData();
+
+    formData.append("File", selectedFile);
+  };
 
   useEffect(() => {
     axios.get("/categorie/allMacrocategories").then((res) => {
@@ -95,7 +109,7 @@ export default function AddFiera() {
   function sendAddFiera() {
     addFieraData.macrocategorie = macrocategorieArray;
     console.log(addFieraData);
-    axios
+    /*axios
       .post("/fiere/", addFieraData, {
         headers: { Authorization: localStorage.getItem("token") },
       })
@@ -116,7 +130,9 @@ export default function AddFiera() {
 
           setOpenAlert(true);
         }
-      });
+      });*/
+
+    console.log(selectedFile);
   }
 
   return (
@@ -248,6 +264,13 @@ export default function AddFiera() {
               />
             </LocalizationProvider>
           </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FileUpload
+            isSelected={isSelected}
+            changeHandler={changeHandler}
+            selectedFile={selectedFile}
+          />
         </Grid>
         <Grid container justifyContent="flex-end">
           <Button
