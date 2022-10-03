@@ -200,7 +200,7 @@ export default function FieraDetails() {
             <CardMedia
               component="img"
               height="200"
-              image={"/images/fiera1.jpg"}
+              image={"/fiere/" + data.immagine}
               alt="main image of div"
             />
             <CardContent>
@@ -227,6 +227,7 @@ export default function FieraDetails() {
                     variant="contained"
                     size="large"
                     onClick={toggleModal}
+                    disabled={!isJoinable}
                   >
                     Partecipa ora!
                   </Button>
