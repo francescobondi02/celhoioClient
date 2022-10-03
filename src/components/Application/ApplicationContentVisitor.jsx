@@ -324,6 +324,9 @@ export default function ApplicationContentVisitor(props) {
                     {
                       //OGGETTO: props.formData.oggetto,
                       descrizione: props.formData.descrizione,
+                      Categorium: {
+                        nome: props.formData.select,
+                      },
                     },
                   ]);
                 }}
