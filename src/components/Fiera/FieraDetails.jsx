@@ -46,52 +46,60 @@ export default function FieraDetails() {
   const [categories, setCategories] = useState({});
   const [multipleSelect, setMultipleSelect] = useState([]);
 
+  const [isJoinable, setIsJoinable] = useState(false);
+
   useEffect(() => {
+    //Controllo sul token
+    axios.get("/utenti").then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        //Tutto a posto
+        console.log(res.data);
 
-
-     //Controllo sul token
-  axios.get("/utenti").then((res) => {
-    console.log(res);
-    if(res.status === 200){
-      //Tutto a posto
-      console.log(res.data);
-
-      axios.get("/utenti/isInFiera").then((res) => {
-        if(res.status === 200){
+        axios.get("/utenti/isInFiera").then((res) => {
+          if (res.status === 200) {
             //Allora è in una fiera
-            console.log("Andiamo all'applicazione")
+            console.log("Andiamo all'applicazione");
             navigate("/fiere/" + res.data.id + "/applicazione");
-        }
-      })
-    
+          }
+        });
+
         /*axios.get("/fiere").then((res) => {
           //console.log(res.data);
           setFiere(res.data.data);
         });*/
 
         axios.get("/fiere/" + params.id).then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
+
+          //Controlliamo se si può joinare
+          let tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          if (
+            new Date(res.data.data.data_inizio) <= tomorrow &&
+            new Date(res.data.data.data_inizio) > new Date()
+          ) {
+            setIsJoinable(true);
+          }
           setData(res.data.data);
         });
-    
+
         axios.get("/categorie/" + params.id).then((res) => {
-          console.log(res);
-          for(let i = 0; i < res.data.length; i++){
-            if(!(res.data[i].Macrocategoria.nome in categories)){
+          //console.log(res);
+          for (let i = 0; i < res.data.length; i++) {
+            if (!(res.data[i].Macrocategoria.nome in categories)) {
               categories[res.data[i].Macrocategoria.nome] = [];
             }
-    
+
             categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
           }
           setCategories(categories);
         });
-      handleUser(res.data.data);
-    } else {
-      navigate("/");
-    }
-  })
-
-    
+        handleUser(res.data.data);
+      } else {
+        navigate("/");
+      }
+    });
   }, []);
 
   function handleForm(e) {
