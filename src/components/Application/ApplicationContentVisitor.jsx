@@ -322,8 +322,8 @@ export default function ApplicationContentVisitor(props) {
                   setRequests((prev) => [
                     ...prev,
                     {
-                      OGGETTO: props.formData.oggetto,
-                      DESCRIZIONE: props.formData.descrizione,
+                      //OGGETTO: props.formData.oggetto,
+                      descrizione: props.formData.descrizione,
                     },
                   ]);
                 }}
