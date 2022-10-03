@@ -215,7 +215,7 @@ export default function ApplicationBody(props) {
           textAlign: "left",
         }}
       >
-        {mode == "richieste" &&
+        {mode == "richieste" /*Visualizzazione richieste*/ &&
           props.requests.map((request) => {
             //console.log(request);
             //Axios request per vedere se ci sono messaggi non letti
@@ -246,7 +246,8 @@ export default function ApplicationBody(props) {
             );
           })}
 
-        {mode == "utenti" &&
+        {mode ==
+          "utenti" /*Visualizzazione utenti che hanno risposto ad una cosa*/ &&
           responsesList.map((risposta) => {
             console.log("Risposta");
             console.log(risposta);
