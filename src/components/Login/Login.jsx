@@ -28,7 +28,7 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
-  const [view, setView] = useState("register");
+  const [view, setView] = useState("login");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleCallbackResponse = (response) => {

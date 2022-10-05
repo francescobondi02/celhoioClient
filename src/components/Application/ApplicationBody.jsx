@@ -40,7 +40,7 @@ export default function ApplicationBody(props) {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data.data);
+        //console.log(res.data.data);
         //setMyData(res.data.data);
       });
 
@@ -54,7 +54,7 @@ export default function ApplicationBody(props) {
             currentRequest
         )
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           //Se il results è > 0 allora ci sono dei messaggi, allora faccio apparire la persona che ha risposto
           //Bisogna analizzare bene i results
           setResponsesList([]);
@@ -62,7 +62,7 @@ export default function ApplicationBody(props) {
             //Tramite la STANZA troviamo chi ha risposto
             //Se c'è un messaggio, vuol dire che l'utente ha risposto => ci sono due id nella chat ora => mostro il nome
             let stanza = res.data[i].stanza;
-            console.log("Stanza: " + stanza);
+            //console.log("Stanza: " + stanza);
 
             axios
               .get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente)
@@ -78,7 +78,7 @@ export default function ApplicationBody(props) {
         });
     }
 
-    console.log(currentRequest);
+    //console.log(currentRequest);
     //Non possiamo impostare le stanze in questo momento perchè stiamo prendendo solo le chat che hanno unread messages
     for (let i = 0; i < props.requests.length; i++) {
       axios
@@ -109,7 +109,7 @@ export default function ApplicationBody(props) {
               });
               //}
             }
-            console.log(colors);
+            //console.log(colors);
           }
         });
     }
@@ -126,7 +126,7 @@ export default function ApplicationBody(props) {
               user.id_utente_fiera
           )
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             if (res.data) {
               setRooms((prev) => {
                 return {
@@ -139,38 +139,6 @@ export default function ApplicationBody(props) {
       }
     }
   }, [currentRequest, props.requests]);
-
-  /*useEffect(() => {
-    for (let i = 0; i < props.requests.length; i++) {
-      axios
-        .get(
-          "/chat/getUnreadMsg/" +
-            user.id_utente_fiera +
-            "/" +
-            props.requests[i].id
-        )
-        .then((res) => {
-          console.log(res);
-          //console.log(res.data.data);
-          if (res.data.length !== 0) {
-            for (let i = 0; i < res.data.length; i++) {
-              //Per ogni messaggio non letto
-              let stanza_msg = res.data[i].stanza;
-
-              setColors((prev) => {
-                return {
-                  ...prev,
-                  [res.data[0].id_richiesta]: "lightblue",
-                  [stanza_msg]: "lightblue",
-                };
-              });
-              //}
-            }
-            //console.log(colors);
-          }
-        });
-    }
-  }, [props.requests]);*/
 
   function switchMode(e) {
     //console.log(e.target.getAttribute("value"));
@@ -249,8 +217,8 @@ export default function ApplicationBody(props) {
         {mode ==
           "utenti" /*Visualizzazione utenti che hanno risposto ad una cosa*/ &&
           responsesList.map((risposta) => {
-            console.log("Risposta");
-            console.log(risposta);
+            //console.log("Risposta");
+            //console.log(risposta);
 
             /*axios.get("/utenti/getInfo/" + risposta.id_utente_fiera_mittente).then((result) => {
               risposta.nome_utente = result.data.nome_utente;

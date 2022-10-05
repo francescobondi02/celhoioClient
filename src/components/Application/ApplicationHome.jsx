@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ApplicationBottom from "./ApplicationBottom";
 import ApplicationTop from "./ApplicationTop";
-import ApplicationContentVisitor from "./ApplicationContentVisitor";
+import ApplicationContent from "./ApplicationContent";
 import ApplicationContentEspositore from "./ApplicationContentEspositore";
 import { Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
@@ -29,6 +29,7 @@ export default function ApplicationHome() {
   });
 
   const [openNewRequest, setOpenNewRequest] = useState(false);
+  const [stripeSecret, setStripeSecret] = useState("");
 
   const toggleRequest = () => {
     setOpenNewRequest(!openNewRequest);
@@ -62,47 +63,44 @@ export default function ApplicationHome() {
   }
 
   useEffect(() => {
-
     //Controllo sul token
-  axios.get("/utenti/fiera").then((res) => {
-    //console.log(res);
-    if(res.status === 200){
-      //Tutto a posto
-      //console.log(res.data);
-      //handleUser(res.data.data);
+    axios.get("/utenti/fiera").then((res) => {
+      //console.log(res);
+      if (res.status === 200) {
+        //Tutto a posto
+        //console.log(res.data);
+        //handleUser(res.data.data);
 
-      
+        handleUser((prev) => {
+          return {
+            ...prev,
+            id: res.data.data.id_utente,
+            email: res.data.data.Utente.email,
+            nome: res.data.data.Utente.nome,
+            nome_utente: res.data.data.Utente.nome_utente,
+            password: res.data.data.Utente.password,
+            espositore: res.data.data.espositore,
+            id_utente_fiera: res.data.data.id_utente_fiera,
+            id_fiera: res.data.data.id_fiera,
+          };
+        });
 
-      handleUser(prev => {
-        return {
-          ...prev,
-          id: res.data.data.id_utente,
-          email: res.data.data.Utente.email,
-          nome: res.data.data.Utente.nome,
-          nome_utente: res.data.data.Utente.nome_utente,
-          password: res.data.data.Utente.password,
-          espositore: res.data.data.espositore,
-          id_utente_fiera: res.data.data.id_utente_fiera,
-          id_fiera: res.data.data.id_fiera,
-        }
-      })
+        axios.get("/fiere/" + params.id).then((res) => {
+          setFieraData(res.data);
+        });
 
-      axios.get("/fiere/" + params.id).then((res) => {
-        setFieraData(res.data);
-      });
-  
-      if (user.espositore) setView("espositore");
-      else setView("visitatore");
-    } else {
-      navigate("/");
-    }
-  })
-
+        if (user.espositore) setView("espositore");
+        else setView("visitatore");
+      } else {
+        navigate("/");
+      }
+    });
 
     //console.log(user);
-    
-
-    
+    /*axios.post("/create-payment-intent").then((res) => {
+      console.log(res);
+      setStripeSecret(res.data.client_secret);
+    });*/
   }, []);
 
   useEffect(() => {
@@ -114,7 +112,7 @@ export default function ApplicationHome() {
     <>
       {
         /*view == "visitatore" ? (*/
-        <ApplicationContentVisitor
+        <ApplicationContent
           page={page}
           formData={formData}
           handleForm={handleForm}
@@ -122,16 +120,6 @@ export default function ApplicationHome() {
           toggleRequest={toggleRequest}
           openNewRequest={openNewRequest}
         />
-        /*) : (
-        <ApplicationContentEspositore
-          page={page}
-          formData={formData}
-          handleForm={handleForm}
-          finishForm={finishForm}
-          toggleRequest={toggleRequest}
-          openNewRequest={openNewRequest}
-        />
-      )*/
       }
       <ApplicationBottom page={page} setPage={setPage} view={view} />
     </>

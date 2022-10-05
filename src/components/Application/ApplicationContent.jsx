@@ -33,14 +33,16 @@ import { UserContext } from "../../user-context";
 import ApplicationBody from "./ApplicationBody";
 import { useNavigate, useParams } from "react-router-dom";
 import Conditions from "../../conditions";
-import { Elements, PaymentElement } from "@stripe/react-stripe-js";
+
+import CreateRequest from "../Utils/CreateRequest";
 import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(
   "pk_test_51LMUA0Ek66qkKfoquLexRL3y5LUO0WdryHwPtwBXIzwbg8rfE7Ki76Ttosc1LWOHFapEeqzGUnEdPl39ZjEAChox00BFclCnBP"
 );
 
-export default function ApplicationContentVisitor(props) {
+export default function ApplicationContent(props) {
   var { user, handleUser } = useContext(UserContext);
   const params = useParams();
   var navigate = useNavigate();
@@ -50,6 +52,7 @@ export default function ApplicationContentVisitor(props) {
   const [categories, setCategories] = useState({});
   const [myCategories, setMyCategories] = useState([]);
   const [stripeSecret, setStripeSecret] = useState("");
+  const [requestVisibility, setRequestVisibility] = useState(false);
 
   const [fieraData, setFieraData] = useState({});
 
@@ -92,11 +95,6 @@ export default function ApplicationContentVisitor(props) {
       setCategories(categories);
     });
 
-    axios.get("/getStripeSecret").then((res) => {
-      console.log(res);
-      setStripeSecret(res.data.client_secret);
-    });
-
     axios.get("/fiere/" + params.id).then((res) => {
       setFieraData(res.data.data);
     });
@@ -129,7 +127,7 @@ export default function ApplicationContentVisitor(props) {
       console.log(res);
       if (res.status == 200) setRequests(res.data.data);
     });
-  }, [props.page, user, props.openNewRequest]);
+  }, [props.page, user, requestVisibility]);
 
   function onLogout() {
     handleUser({
@@ -144,6 +142,10 @@ export default function ApplicationContentVisitor(props) {
     });
     localStorage.removeItem("token");
     navigate("/");
+  }
+
+  function toggleVisibility() {
+    setRequestVisibility((prev) => !prev);
   }
 
   return (
@@ -164,7 +166,7 @@ export default function ApplicationContentVisitor(props) {
                 height: "auto",
                 margin: "20px",
               }}
-              onClick={props.toggleRequest}
+              onClick={toggleVisibility}
             >
               Nuova Richiesta
             </Button>
@@ -243,104 +245,13 @@ export default function ApplicationContentVisitor(props) {
         </Box>
       )}
 
-      <Dialog
-        open={props.openNewRequest}
-        onClose={props.toggleRequest}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Invia una nuova richiesta</DialogTitle>
-        <DialogContent>
-          <DialogContentText gutterBottom>
-            Puoi fare una nuova richiesta per qualcosa che ti serve, e ti
-            costerà solo €1
-          </DialogContentText>
-          <Grid container spacing={3}>
-            {/*<Grid item sm={6}>
-              <TextField
-                autoFocus
-                label="Oggetto"
-                name="oggetto"
-                variant="standard"
-                onChange={props.handleForm}
-                fullWidth
-              />
-              </Grid>*/}
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="select-category">Categoria</InputLabel>
-                <Select
-                  defaultValue=""
-                  id="select-category"
-                  label="Categoria"
-                  variant="outlined"
-                  value={props.formData.select}
-                  onChange={props.handleForm}
-                  name="select"
-                  autoWidth
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {Object.keys(categories).map((key) => {
-                    /*console.log(key);
-                    console.log(categories);
-                    console.log(categories[key]);*/
-                    return categories[key].map((category) => {
-                      //console.log(category);
-                      return <MenuItem value={category}>{category}</MenuItem>;
-                    });
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                autoFocus
-                label="Descrizione"
-                name="descrizione"
-                onChange={props.handleForm}
-                variant="standard"
-                fullWidth
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <Elements
-                stripe={stripePromise}
-                options={{ clientSecret: stripeSecret }}
-              >
-                <PaymentElement />
-                {/*<button>Submit</button>*/}
-              </Elements>
-            </Grid>
-            <Grid item container justifyContent="flex-end">
-              <Button
-                variant="outlined"
-                endIcon={<SendSharp />}
-                onClick={() => {
-                  props.finishForm();
-                  setRequests((prev) => [
-                    ...prev,
-                    {
-                      //OGGETTO: props.formData.oggetto,
-                      descrizione: props.formData.descrizione,
-                      Categorium: {
-                        nome: props.formData.select,
-                      },
-                    },
-                  ]);
-                }}
-                disabled={
-                  props.formData.descrizione == "" ||
-                  props.formData.select == ""
-                }
-              >
-                Invia
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogContent>
-      </Dialog>
+      {requestVisibility && (
+        <CreateRequest
+          isVisible={requestVisibility}
+          toggleVisibility={toggleVisibility}
+          setRequests={setRequests}
+        />
+      )}
     </>
   );
 }
