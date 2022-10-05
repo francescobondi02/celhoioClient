@@ -6,7 +6,7 @@ import {
   DialogContentText,
   Grid,
   FormControl,
-  Select,
+  //Select,
   InputLabel,
   MenuItem,
   TextField,
@@ -24,6 +24,9 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { UserContext } from "../../user-context";
 import PaymentForm from "./PaymentForm";
+import Select from "react-select";
+import Group from "react-select";
+import GroupHeading from "react-select";
 
 const stripePromise = loadStripe(
   "pk_test_51LMUA0Ek66qkKfoquLexRL3y5LUO0WdryHwPtwBXIzwbg8rfE7Ki76Ttosc1LWOHFapEeqzGUnEdPl39ZjEAChox00BFclCnBP"
@@ -52,6 +55,7 @@ export default function CreateRequest(props) {
         categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
       }
       setCategories(categories);
+      convertOptions();
     });
 
     axios.post("/create-payment-intent").then((res) => {
@@ -61,12 +65,56 @@ export default function CreateRequest(props) {
   }, []);
 
   function onChangeRequest(ev) {
+    //console.log(categories);
+    console.log(ev.target);
     setRequestData((prev) => {
       return {
         ...prev,
         [ev.target.name]: ev.target.value,
       };
     });
+  }
+
+  function onChangeSelect(ev) {
+    console.log(ev);
+    setRequestData((prev) => {
+      return {
+        ...prev,
+        select: ev.value,
+      };
+    });
+  }
+
+  /*const options = [
+    {
+      label: "Il SIUM",
+      options: [{ label: "Il SIUM ma cambia", value: "Il SIUM" }],
+    },
+    { label: "Il SIUM", options: [{ label: "Il SIUM", value: "Il SIUM" }] },
+    { value: "2", label: "Categoria 2" },
+    { value: "3", label: "Categoria 3" },
+  ];*/
+
+  const [options, setOptions] = useState([]);
+
+  function convertOptions() {
+    //console.log(categories);
+    Object.keys(categories).map((key) => {
+      options.push({
+        label: key,
+        options: [],
+      });
+      categories[key].map((category) => {
+        //console.log(category);
+        var element = options.find((option) => option.label === key);
+        element.options.push({
+          label: category,
+          value: category,
+        });
+      });
+    });
+    //console.log(options);
+    setOptions((prev) => prev);
   }
 
   return (
@@ -95,7 +143,7 @@ export default function CreateRequest(props) {
               </Grid>*/}
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <InputLabel id="select-category">Categoria</InputLabel>
+              {/*<InputLabel id="select-category">Categoria</InputLabel>
               <Select
                 defaultValue=""
                 id="select-category"
@@ -114,7 +162,17 @@ export default function CreateRequest(props) {
                     return <MenuItem value={category}>{category}</MenuItem>;
                   });
                 })}
-              </Select>
+              </Select>*/}
+
+              <Select
+                isSearchable
+                placeholder="Categoria"
+                id="select-category"
+                name="select"
+                value={{ label: requestData.select, value: requestData.select }}
+                onChange={onChangeSelect}
+                options={options}
+              ></Select>
             </FormControl>
           </Grid>
           <Grid item sm={12}>
