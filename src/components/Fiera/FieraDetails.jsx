@@ -64,20 +64,22 @@ export default function FieraDetails() {
           }
         });
 
-        /*axios.get("/fiere").then((res) => {
-          //console.log(res.data);
-          setFiere(res.data.data);
-        });*/
-
         axios.get("/fiere/" + params.id).then((res) => {
           //console.log(res.data);
 
           //Controlliamo se si può joinare
           let tomorrow = new Date();
+          let previousStart = new Date(res.data.data.data_inizio); //Giorno prima
+          let tomorrowEnd = new Date(res.data.data.data_fine); //Giorno dopo
+
           tomorrow.setDate(tomorrow.getDate() + 1);
+          previousStart.setDate(previousStart.getDate() - 1);
+          tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
           if (
-            new Date(res.data.data.data_inizio) <= tomorrow &&
-            new Date(res.data.data.data_inizio) > new Date()
+            /*(new Date(res.data.data.data_inizio) <= tomorrow &&
+              new Date(res.data.data.data_inizio) > new Date()) ||*/
+            new Date() >= previousStart &&
+            new Date() <= tomorrowEnd
           ) {
             setIsJoinable(true);
           }

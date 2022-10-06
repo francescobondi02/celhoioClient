@@ -125,14 +125,16 @@ export default function Login() {
   }
 
   const recuperaPassword = () => {
-    axios.post("/recuperaPassword", { mail: "Ciao" }).then((res) => {
-      console.log(res);
-      /*if (res.status == 200) {
+    axios
+      .post("/recuperaPassword", { email: "francesco.bondi02@gmail.com" })
+      .then((res) => {
+        console.log(res);
+        /*if (res.status == 200) {
         setErrorMessage("Email inviata!");
       } else {
         setErrorMessage("Qualcosa è andato storto...");
       }*/
-    });
+      });
   };
 
   return (
@@ -164,8 +166,8 @@ export default function Login() {
           >
             <Box>
               <img src="/logo.png" alt="logo" width="100px" />
-              <Typography variant="h4">
-                Il sito per far incontrare espositori e visitatori!
+              <Typography variant="h5">
+                L'app per far incontrare espositori e visitatori!
               </Typography>
               <Typography variant="p">
                 E' più facile trovare quello che cerchi con CELHOIO.IT
@@ -175,7 +177,7 @@ export default function Login() {
               Accedi utilizzando Google!
             </Typography>
       <div id="signInDiv"></div>*/}
-            <Typography variant="p" align="center" gutterBottom>
+            <Typography variant="p" align="center">
               Compila il form sottostante per accedere
             </Typography>
             <Typography
@@ -237,7 +239,7 @@ export default function Login() {
             </Typography>
 
             <Typography variant="p" align="center" gutterBottom>
-              Hai bisogno di recuperare la password? Inseriscila e poi
+              Hai bisogno di recuperare la password? Inserisci la mail e poi
               <Button onClick={recuperaPassword}>clicca qui</Button>
             </Typography>
           </Stack>

@@ -86,6 +86,13 @@ export default function ApplicationHome() {
         });
 
         axios.get("/fiere/" + params.id).then((res) => {
+          //Controlliamo che non sia già finita
+          let finish = new Date(res.data.data.data_fine);
+          finish.setDate(finish.getDate() + 1);
+          if (new Date() >= finish) {
+            navigate("/fiere");
+          }
+
           setFieraData(res.data);
         });
 
