@@ -46,7 +46,7 @@ async function subscribe() {
   sessionStorage.setItem("auth", jsonPush.keys.auth);
 }
 
-navigator.serviceWorker.ready.then((registration) => {
+/*navigator.serviceWorker.ready.then((registration) => {
   if (!registration.pushManager) {
     console.log("PushManager non supportato");
     return;
@@ -66,13 +66,13 @@ navigator.serviceWorker.ready.then((registration) => {
       })
       .then((res) => {
         console.log("push aggiornato");
-      });*/
+      });
     sessionStorage.setItem("endpoint", subscription.endpoint);
     //sessionStorage.setItem("p256dh", jsonPush.keys.p256dh);
     //sessionStorage.setItem("auth", jsonPush.keys.auth);
   });
-});
-//subscribe();
+});*/
+subscribe();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
