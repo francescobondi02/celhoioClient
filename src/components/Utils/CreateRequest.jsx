@@ -137,7 +137,7 @@ export default function CreateRequest(props) {
           <Grid item sm={12}>
             <TextField
               autoFocus
-              label="Descrizione (max 30 caratteri)"
+              label="Descrizione (max 40 caratteri)"
               name="descrizione"
               onChange={onChangeRequest}
               variant="standard"

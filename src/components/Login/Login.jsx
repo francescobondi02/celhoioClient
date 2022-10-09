@@ -9,6 +9,9 @@ import {
   Box,
   Snackbar,
   Alert,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useContext, useState } from "react";
@@ -33,6 +36,7 @@ export default function Login() {
   const [view, setView] = useState("login");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [acceptPolicy, setAcceptPolicy] = useState(false);
 
   const handleCallbackResponse = (response) => {
     var userObj = jwt_decode(response.credential);
@@ -222,6 +226,30 @@ export default function Login() {
                 onChange={changeFormData}
                 name="password"
               />
+
+              {view === "register" && (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={acceptPolicy}
+                      onChange={() => setAcceptPolicy((prev) => !prev)}
+                    />
+                  }
+                  label={
+                    <div>
+                      Accetto i{" "}
+                      <Button variant="text" color="secondary">
+                        termini d'uso
+                      </Button>{" "}
+                      e dichiaro di aver letto{" "}
+                      <Button variant="text" color="secondary">
+                        l'informativa sul trattamento dei dati personali
+                      </Button>
+                    </div>
+                  }
+                  sx={{ m: 2 }}
+                ></FormControlLabel>
+              )}
               <Button
                 variant="contained"
                 size="large"
@@ -229,6 +257,11 @@ export default function Login() {
                 margin="normal"
                 onChange={changeFormData}
                 onClick={submitForm}
+                disabled={
+                  (view === "register" ? !acceptPolicy : false) ||
+                  !formData.email ||
+                  !formData.password
+                }
               >
                 {view === "register" ? "Registrati" : "Loggati"}!
               </Button>
