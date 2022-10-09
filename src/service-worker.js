@@ -96,3 +96,22 @@ self.addEventListener("push", (e) => {
   };
   e.waitUntil(self.registration.showNotification(data.title, options));
 });
+
+self.addEventListener("pushsubscriptionchange", (e) => {
+  e.waitUntil(
+    fetch("https://www.celhoio.it/pushsubchange", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        old_endpoint: e.oldSubscription ? e.oldSubscription.endpoint : null,
+        new_endpoint: e.newSubscription ? e.newSubscription.endpoint : null,
+        new_p256dh: e.newSubscription
+          ? e.newSubscription.toJSON().keys.p256dh
+          : null,
+        new_auth: e.newSubscription
+          ? e.newSubscription.toJSON().keys.auth
+          : null,
+      }),
+    })
+  );
+});
