@@ -53,6 +53,7 @@ navigator.serviceWorker.ready.then((registration) => {
   }
 
   registration.pushManager.getSubscription().then((subscription) => {
+    console.log(subscription);
     if (!subscription) {
       console.log("Non sei iscritto");
       subscribe();
