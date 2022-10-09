@@ -77,25 +77,45 @@ self.addEventListener("push", (e) => {
   var options = {
     body: data.body,
     icon: "https://www.celhoio.it/logo.png",
+    //image: "https://www.celhoio.it/logo.png",
+    badge: "https://www.celhoio.it/logo64.png",
+    lang: "it",
+    vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
       primaryKey: 2,
     },
     actions: [
       {
-        action: "explore",
+        action: "open",
         title: data.action1,
         icon: "images/checkmark.png",
       },
       {
         action: "close",
-        title: "Close",
+        title: "Chiudi",
         icon: "images/xmark.png",
       },
     ],
   };
   e.waitUntil(self.registration.showNotification(data.title, options));
 });
+
+self.addEventListener(
+  "notificationclick",
+  function (event) {
+    //var messageId = event.notification.data;
+
+    event.notification.close();
+
+    if (event.action == "open") {
+      clients.openWindow("https://www.celhoio.it");
+    } else if (event.action == "close") {
+      event.notification.close();
+    }
+  },
+  false
+);
 
 self.addEventListener("pushsubscriptionchange", (e) => {
   e.waitUntil(
