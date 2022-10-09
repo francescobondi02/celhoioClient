@@ -93,7 +93,7 @@ self.addEventListener("push", (e) => {
       },*/
       {
         action: "close",
-        title: "Chiudi",
+        title: data.action1,
         icon: "images/xmark.png",
       },
     ],
