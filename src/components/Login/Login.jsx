@@ -7,6 +7,8 @@ import {
   TextField,
   Button,
   Box,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useContext, useState } from "react";
@@ -30,6 +32,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [view, setView] = useState("login");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleCallbackResponse = (response) => {
     var userObj = jwt_decode(response.credential);
@@ -125,16 +128,18 @@ export default function Login() {
   }
 
   const recuperaPassword = () => {
-    axios
-      .post("/recuperaPassword", { email: "francesco.bondi02@gmail.com" })
-      .then((res) => {
-        console.log(res);
-        /*if (res.status == 200) {
-        setErrorMessage("Email inviata!");
-      } else {
+    setSuccessMessage("");
+    setErrorMessage("");
+    axios.post("/recuperaPassword", { email: formData.email }).then((res) => {
+      console.log(res);
+      if (res.status == 200) {
+        setSuccessMessage("Email inviata! Controlla la tua casella!");
+      } else if (res.status == 500) {
         setErrorMessage("Qualcosa è andato storto...");
-      }*/
-      });
+      } else {
+        setErrorMessage("Email non trovata! Prima devi registrarti!");
+      }
+    });
   };
 
   return (
@@ -180,14 +185,14 @@ export default function Login() {
             <Typography variant="p" align="center">
               Compila il form sottostante per accedere
             </Typography>
-            <Typography
+            {/*<Typography
               variant="subtitle1"
               align="center"
               gutterBottom
               color="error"
             >
               {errorMessage}
-            </Typography>
+    </Typography>*/}
             <Box>
               {view === "register" && (
                 <TextField
@@ -240,10 +245,25 @@ export default function Login() {
 
             <Typography variant="p" align="center" gutterBottom>
               Hai bisogno di recuperare la password? Inserisci la mail e poi
-              <Button onClick={recuperaPassword}>clicca qui</Button>
+              <Button
+                onClick={recuperaPassword}
+                disabled={formData.email == ""}
+              >
+                clicca qui
+              </Button>
             </Typography>
           </Stack>
         </Paper>
+        <Snackbar open={errorMessage != ""} autoHideDuration={6000}>
+          <Alert severity="error" variant="filled" elevation={6}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={successMessage != ""} autoHideDuration={6000}>
+          <Alert severity="success" variant="filled" elevation={6}>
+            {successMessage}
+          </Alert>
+        </Snackbar>
       </Container>
     </>
   );

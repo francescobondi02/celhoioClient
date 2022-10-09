@@ -85,16 +85,6 @@ export default function CreateRequest(props) {
     });
   }
 
-  /*const options = [
-    {
-      label: "Il SIUM",
-      options: [{ label: "Il SIUM ma cambia", value: "Il SIUM" }],
-    },
-    { label: "Il SIUM", options: [{ label: "Il SIUM", value: "Il SIUM" }] },
-    { value: "2", label: "Categoria 2" },
-    { value: "3", label: "Categoria 3" },
-  ];*/
-
   const [options, setOptions] = useState([]);
 
   function convertOptions() {
@@ -131,39 +121,8 @@ export default function CreateRequest(props) {
           solo €1.50
         </DialogContentText>
         <Grid container spacing={3}>
-          {/*<Grid item sm={6}>
-              <TextField
-                autoFocus
-                label="Oggetto"
-                name="oggetto"
-                variant="standard"
-                onChange={props.handleForm}
-                fullWidth
-              />
-              </Grid>*/}
           <Grid item xs={12}>
             <FormControl fullWidth>
-              {/*<InputLabel id="select-category">Categoria</InputLabel>
-              <Select
-                defaultValue=""
-                id="select-category"
-                label="Categoria"
-                variant="outlined"
-                value={requestData.select}
-                onChange={onChangeRequest}
-                name="select"
-                autoWidth
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {Object.keys(categories).map((key) => {
-                  return categories[key].map((category) => {
-                    return <MenuItem value={category}>{category}</MenuItem>;
-                  });
-                })}
-              </Select>*/}
-
               <Select
                 isSearchable
                 placeholder="Categoria"
@@ -183,7 +142,7 @@ export default function CreateRequest(props) {
               onChange={onChangeRequest}
               variant="standard"
               fullWidth
-              inputProps={{ maxLength: 30 }}
+              inputProps={{ maxLength: 40 }}
             />
           </Grid>
           <Grid item sm={12}>

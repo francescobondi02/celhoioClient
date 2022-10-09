@@ -309,7 +309,9 @@ export default function FieraDetails() {
         </DialogContent>
         <DialogActions>
           <Button onClick={toggleForm}>Indietro</Button>
-          <Button onClick={setEspositore}>Conferma</Button>
+          <Button onClick={setEspositore} disabled={multipleSelect.length == 0}>
+            Conferma
+          </Button>
         </DialogActions>
       </Dialog>
     </>

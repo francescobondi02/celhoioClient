@@ -3,6 +3,7 @@ import {
   ChevronLeftOutlined,
   ChevronLeftSharp,
   ChevronRightSharp,
+  MarkChatRead,
 } from "@mui/icons-material";
 import {
   Stack,
@@ -13,6 +14,7 @@ import {
   ListItemButton,
   Box,
   Button,
+  ListItemIcon,
 } from "@mui/material";
 import React from "react";
 import { useState, useContext, useEffect } from "react";
@@ -21,6 +23,7 @@ import ApplicationRequest from "./ApplicationRequest";
 import { UserContext } from "../../user-context";
 import axios from "axios";
 import { color } from "@mui/system";
+import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 
 export default function ApplicationBody(props) {
   const [mode, setMode] = useState("richieste");
@@ -181,6 +184,8 @@ export default function ApplicationBody(props) {
         sx={{
           padding: "0 10px",
           textAlign: "left",
+          maxHeight: "calc(100vh - 120px)",
+          overflow: "auto",
         }}
       >
         {mode == "richieste" /*Visualizzazione richieste*/ &&
@@ -203,6 +208,13 @@ export default function ApplicationBody(props) {
                 value={request.descrizione.substring(0, 50) + "..."}
                 sx={{ backgroundColor: colors[request.id] }}
               >
+                <ListItemIcon>
+                  {colors[request.id] == "lightblue" ? (
+                    <MarkChatUnreadIcon />
+                  ) : (
+                    ""
+                  )}
+                </ListItemIcon>
                 <ListItemText
                   //primary={request.oggetto}
                   value={request.descrizione.substring(0, 50) + "..."}
@@ -233,6 +245,13 @@ export default function ApplicationBody(props) {
                 onClick={() => goToChat(risposta.stanza)}
                 sx={{ backgroundColor: colors[risposta.stanza] }}
               >
+                <ListItemIcon>
+                  {colors[risposta.stanza] == "lightblue" ? (
+                    <MarkChatUnreadIcon />
+                  ) : (
+                    ""
+                  )}
+                </ListItemIcon>
                 <ListItemText primary={risposta.nome} /*secondary="Prova"*/ />
                 <ArrowForwardIos />
               </ListItemButton>
