@@ -30,7 +30,8 @@ async function subscribe() {
     applicationServerKey:
       "BFXgBzEJsse_fqVUGAR30N3NNhHDk7_AfizB831ZnUe78NmFD7BE4AGxCwaVxqDmfTK3EWEc5cGHlZZP8oVzMKA", //public vapid key
   });
-  console.log(JSON.stringify(push));
+  //console.log(JSON.stringify(push));
+  console.log(sw.pushManager);
 
   //Per il momento non salviamo nulla sul db, appena si logga li mettiamo
   //ORDINE DELLE COSE IDEALMENTE:
@@ -45,7 +46,29 @@ async function subscribe() {
   sessionStorage.setItem("auth", jsonPush.keys.auth);
 }
 
-subscribe();
+navigator.serviceWorker.ready.then((registration) => {
+  if (!registration.pushManager) {
+    console.log("PushManager non supportato");
+    return;
+  }
+
+  registration.pushManager.getSubscription().then((subscription) => {
+    if (!subscription) {
+      console.log("Non sei iscritto");
+      subscribe();
+      return;
+    }
+
+    axios
+      .post("/pushsubchange", {
+        endpoint: subscription.endpoint,
+      })
+      .then((res) => {
+        console.log("push aggiornato");
+      });
+  });
+});
+//subscribe();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
