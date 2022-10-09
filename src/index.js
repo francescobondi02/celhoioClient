@@ -60,13 +60,16 @@ navigator.serviceWorker.ready.then((registration) => {
       return;
     }
 
-    axios
+    /*axios
       .post("/pushsubchange", {
         endpoint: subscription.endpoint,
       })
       .then((res) => {
         console.log("push aggiornato");
-      });
+      });*/
+    sessionStorage.setItem("endpoint", subscription.endpoint);
+    //sessionStorage.setItem("p256dh", jsonPush.keys.p256dh);
+    //sessionStorage.setItem("auth", jsonPush.keys.auth);
   });
 });
 //subscribe();
