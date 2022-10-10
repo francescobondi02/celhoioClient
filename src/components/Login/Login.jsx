@@ -21,6 +21,8 @@ import axios from "axios";
 import { UserContext } from "../../user-context";
 import { useNavigate } from "react-router-dom";
 import Conditions from "../../conditions";
+import Condizioni from "./Condizioni";
+import Privacy from "./Privacy";
 
 //const google = window.google;
 
@@ -37,6 +39,9 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [acceptPolicy, setAcceptPolicy] = useState(false);
+
+  const [showCondizioni, setShowCondizioni] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const handleCallbackResponse = (response) => {
     var userObj = jwt_decode(response.credential);
@@ -238,11 +243,19 @@ export default function Login() {
                   label={
                     <div>
                       Accetto i{" "}
-                      <Button variant="text" color="secondary">
+                      <Button
+                        variant="text"
+                        color="secondary"
+                        onClick={() => setShowCondizioni((prev) => !prev)}
+                      >
                         termini d'uso
                       </Button>{" "}
                       e dichiaro di aver letto{" "}
-                      <Button variant="text" color="secondary">
+                      <Button
+                        variant="text"
+                        color="secondary"
+                        onClick={() => setShowPrivacy((prev) => !prev)}
+                      >
                         l'informativa sul trattamento dei dati personali
                       </Button>
                     </div>
@@ -297,6 +310,13 @@ export default function Login() {
             {successMessage}
           </Alert>
         </Snackbar>
+
+        <Condizioni
+          showCondizioni={showCondizioni}
+          setShowCondizioni={setShowCondizioni}
+        />
+
+        <Privacy showPrivacy={showPrivacy} setShowPrivacy={setShowPrivacy} />
       </Container>
     </>
   );
