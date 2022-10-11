@@ -152,7 +152,10 @@ export default function ApplicationContent(props) {
     <>
       {props.page == 0 && (
         <>
-          <ApplicationBody requests={receivedRequests} view="Received" />
+          <ApplicationBody
+            requests={receivedRequests.reverse()}
+            view="Received"
+          />
         </>
       )}
 
@@ -171,7 +174,7 @@ export default function ApplicationContent(props) {
               Nuova Richiesta
             </Button>
           </Box>
-          <ApplicationBody requests={requests} view="Sent" />
+          <ApplicationBody requests={requests.reverse()} view="Sent" />
         </>
       )}
 

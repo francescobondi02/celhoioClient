@@ -74,7 +74,7 @@ export default function ApplicationBody(props) {
                 res.data[i].nome = result.data.nome;
                 res.data[i].email = result.data.email;
 
-                setResponsesList((prev) => [...prev, res.data[i]]);
+                setResponsesList((prev) => [res.data[i], ...prev]);
               });
           }
           //setResponsesList(res.data);

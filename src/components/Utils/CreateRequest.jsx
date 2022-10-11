@@ -6,7 +6,7 @@ import {
   DialogContentText,
   Grid,
   FormControl,
-  //Select,
+  Select as MuiSelect,
   InputLabel,
   MenuItem,
   TextField,
@@ -86,6 +86,7 @@ export default function CreateRequest(props) {
   }
 
   const [options, setOptions] = useState([]);
+  const [macrocategory, setMacrocategory] = useState("");
 
   function convertOptions() {
     //console.log(categories);
@@ -117,13 +118,14 @@ export default function CreateRequest(props) {
       <DialogTitle>Invia una nuova richiesta</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>
-          Puoi fare una nuova richiesta per qualcosa che ti serve, e ti costerà
-          solo €1.50
+          Puoi fare una nuova richiesta per qualcosa che ti serve
+          {/*, e ti costerà
+          solo €1.50*/}
         </DialogContentText>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <Select
+            <FormControl fullWidth margin="dense">
+              {/*<Select
                 isSearchable
                 placeholder="Categoria"
                 id="select-category"
@@ -131,8 +133,49 @@ export default function CreateRequest(props) {
                 value={{ label: requestData.select, value: requestData.select }}
                 onChange={onChangeSelect}
                 options={options}
-              ></Select>
+  ></Select>*/}
+              <InputLabel id="select-macrocategory-label">
+                Macrocategoria
+              </InputLabel>
+              <MuiSelect
+                label="Macrocategoria"
+                labelId="select-macrocategory-label"
+                id="select-macrocategory"
+                name="select-macrocategory"
+                value={macrocategory}
+                onChange={(ev) => {
+                  setMacrocategory(ev.target.value);
+                }}
+              >
+                {Object.keys(categories).map((key) => {
+                  return <MenuItem value={key}>{key}</MenuItem>;
+                })}
+              </MuiSelect>
             </FormControl>
+            {macrocategory !== "" && (
+              <FormControl fullWidth margin="dense">
+                <InputLabel id="select-category-label">Categoria</InputLabel>
+                <MuiSelect
+                  label="Categoria"
+                  labelId="select-category-label"
+                  id="select-category"
+                  name="select-category"
+                  value={requestData.select}
+                  onChange={(ev) =>
+                    setRequestData((prev) => {
+                      return {
+                        ...prev,
+                        select: ev.target.value,
+                      };
+                    })
+                  }
+                >
+                  {categories[macrocategory].map((category) => {
+                    return <MenuItem value={category}>{category}</MenuItem>;
+                  })}
+                </MuiSelect>
+              </FormControl>
+            )}
           </Grid>
           <Grid item sm={12}>
             <TextField

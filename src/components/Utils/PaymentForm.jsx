@@ -19,7 +19,7 @@ export default function PaymentForm(props) {
   const [error, setError] = useState("");
 
   async function finishRequest() {
-    if (!stripe || !elements) return;
+    /*if (!stripe || !elements) return;
     const result = await stripe.confirmPayment({
       elements,
       redirect: "if_required",
@@ -46,21 +46,21 @@ export default function PaymentForm(props) {
       switch (paymentIntent.status) {
         case "succeeded":
           console.log("Payment succeeded!");
-
-          axios
-            .post("/richieste/addRequest", {
-              descrizione: props.requestData.descrizione,
-              id_utente_fiera: user.id_utente_fiera,
-              select: props.requestData.select,
-              id_fiera: params.id,
-            })
-            .then((res) => {
-              if (res.status == 200) {
-                console.log("HO MANDATO SUL DB");
-                props.closeModal();
-              }
-            });
-
+*/
+    axios
+      .post("/richieste/addRequest", {
+        descrizione: props.requestData.descrizione,
+        id_utente_fiera: user.id_utente_fiera,
+        select: props.requestData.select,
+        id_fiera: params.id,
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log("HO MANDATO SUL DB");
+          props.closeModal();
+        }
+      });
+    /*
           break;
         case "processing":
           console.log("Your payment is processing.");
@@ -72,13 +72,13 @@ export default function PaymentForm(props) {
           console.log("Something went wrong.");
           break;
       }
-    }
+    }*/
   }
 
   return (
     <div>
       {error !== "" && <p style={{ color: "red", padding: "5px" }}>{error}</p>}
-      <PaymentElement />
+      {/*<PaymentElement />*/}
       <br></br>
       <Button
         variant="outlined"

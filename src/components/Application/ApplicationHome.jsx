@@ -66,7 +66,7 @@ export default function ApplicationHome() {
     //Controllo sul token
     axios.get("/utenti/fiera").then((res) => {
       //console.log(res);
-      if (res.status === 200) {
+      if (res.data.data) {
         //Tutto a posto
         //console.log(res.data);
         //handleUser(res.data.data);
@@ -91,6 +91,7 @@ export default function ApplicationHome() {
           finish.setDate(finish.getDate() + 1);
           if (new Date() >= finish) {
             navigate("/fiere");
+            return;
           }
 
           setFieraData(res.data);

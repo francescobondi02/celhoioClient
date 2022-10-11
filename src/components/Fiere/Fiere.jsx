@@ -15,36 +15,38 @@ export default function Fiere() {
   const { user, handleUser } = useContext(UserContext);
 
   useEffect(() => {
-
-  //Controllo sul token
-  console.log(localStorage.getItem("token"));
-  axios.get("/utenti", {headers:{Authorization: localStorage.getItem("token")}}).then((res) => {
-    console.log(res);
-    axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
-    if(res.status === 200){
-      //Tutto a posto
-      console.log(res.data);
-
-      axios.get("/utenti/isInFiera").then((res) => {
-        if(res.status === 200){
-            //Allora è in una fiera
-            console.log("Andiamo all'applicazione")
-            navigate("/fiere/" + res.data.id + "/applicazione");
-        }
+    //Controllo sul token
+    console.log(localStorage.getItem("token"));
+    axios
+      .get("/utenti", {
+        headers: { Authorization: localStorage.getItem("token") },
       })
-    
-        axios.get("/fiere").then((res) => {
-          //console.log(res.data);
-          setFiere(res.data.data);
-        });
-      handleUser(res.data.data);
-    } else {
-      navigate("/");
-    }
-  })
+      .then((res) => {
+        console.log(res);
+        axios.defaults.headers.common["Authorization"] =
+          localStorage.getItem("token");
+        if (res.status === 200) {
+          //Tutto a posto
+          console.log(res.data);
 
-  
-    
+          axios.get("/utenti/isInFiera").then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+              //Allora è in una fiera
+              console.log("Andiamo all'applicazione");
+              navigate("/fiere/" + res.data.id + "/applicazione");
+            }
+          });
+
+          axios.get("/fiere").then((res) => {
+            //console.log(res.data);
+            setFiere(res.data.data);
+          });
+          handleUser(res.data.data);
+        } else {
+          navigate("/");
+        }
+      });
   }, []);
 
   return (
