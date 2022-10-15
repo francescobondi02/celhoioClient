@@ -25,7 +25,8 @@ serviceWorkerRegistration.register();
 
 async function subscribe() {
   let sw = await navigator.serviceWorker.ready;
-  sw.waiting.postMessage({ type: "SKIP_WAITING" });
+  //sw.waiting.postMessage({ type: "SKIP_WAITING" });
+  //sw.waiting.postMessage
   let push = await sw.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey:
