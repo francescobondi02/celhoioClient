@@ -84,6 +84,7 @@ self.addEventListener("push", (e) => {
     data: {
       dateOfArrival: Date.now(),
       primaryKey: 2,
+      url: data.url,
     },
     actions: [
       /*{
