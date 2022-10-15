@@ -134,8 +134,10 @@ self.addEventListener(
   false
 );
 
-self.addEventListener("pushsubscriptionchange", (e) => {
-  e.waitUntil(
+/*self.addEventListener(
+  "pushsubscriptionchange",
+  (e) => {
+    /*e.waitUntil(
     fetch("https://www.celhoio.it/pushsubchange", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -151,4 +153,22 @@ self.addEventListener("pushsubscriptionchange", (e) => {
       }),
     })
   );
-});
+    const subscription = swRegistration.pushManager.subscribe(
+      e.oldSubscription.options
+    );
+    console.log(subscription);
+    /*.then((subscription) =>
+        fetch("https://www.celhoio.it/pushsubchange", {
+          method: "post",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            endpoint: subscription.endpoint,
+          }),
+        })
+      );
+    e.waitUntil(subscription);
+  },
+  false
+);*/
