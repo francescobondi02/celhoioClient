@@ -21,32 +21,11 @@ root.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register().then((registration) => {
-  registration.update();
-  console.log("ci stiamo aggiornando");
-
-  registration.addEventListener("pushsubscriptionchange", (e) => {
-    const subscription = registration.pushManager.subscribe(
-      e.oldSubscription.options
-    );
-    console.log(subscription);
-    /*.then((subscription) =>
-        fetch("https://www.celhoio.it/pushsubchange", {
-          method: "post",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            endpoint: subscription.endpoint,
-          }),
-        })
-      );*/
-    e.waitUntil(subscription);
-  });
-});
+serviceWorkerRegistration.register();
 
 async function subscribe() {
   let sw = await navigator.serviceWorker.ready;
+  sw.waiting.postMessage({ type: "SKIP_WAITING" });
   let push = await sw.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey:
