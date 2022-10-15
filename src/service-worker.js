@@ -153,7 +153,7 @@ self.addEventListener(
       }),
     })
   );*/
-    const subscription = swRegistration.pushManager.subscribe(
+    const subscription = self.registration.pushManager.subscribe(
       e.oldSubscription.options
     );
     console.log("SUBSCRIPTION CHANGE");
