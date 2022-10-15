@@ -16,32 +16,40 @@ export default function Fiere() {
 
   useEffect(() => {
     //Controllo sul token
-    console.log(localStorage.getItem("token"));
+    //console.log(localStorage.getItem("token"));
     axios
       .get("/utenti", {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res);
-        axios.defaults.headers.common["Authorization"] =
-          localStorage.getItem("token");
+        //console.log(res);
+        /*axios.defaults.headers.common["Authorization"] =
+          localStorage.getItem("token");*/
         if (res.status === 200) {
           //Tutto a posto
-          console.log(res.data);
+          //console.log(res.data);
 
-          axios.get("/utenti/isInFiera").then((res) => {
-            console.log(res);
-            if (res.status === 200) {
-              //Allora è in una fiera
-              console.log("Andiamo all'applicazione");
-              navigate("/fiere/" + res.data.id + "/applicazione");
-            }
-          });
+          axios
+            .get("/utenti/isInFiera", {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.status === 200) {
+                //Allora è in una fiera
+                //console.log("Andiamo all'applicazione");
+                navigate("/fiere/" + res.data.id + "/applicazione");
+              }
+            });
 
-          axios.get("/fiere").then((res) => {
-            //console.log(res.data);
-            setFiere(res.data.data);
-          });
+          axios
+            .get("/fiere", {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((res) => {
+              //console.log(res.data);
+              setFiere(res.data.data);
+            });
           handleUser(res.data.data);
         } else {
           navigate("/");
@@ -68,7 +76,10 @@ export default function Fiere() {
           divider={<Divider orientation="horizontal" flexItem />}
         >
           {fiere.map((fiera) => {
-            return <Fiera key={fiera.name} data={fiera} />;
+            let finish = new Date(fiera.data_fine);
+            finish.setDate(finish.getDate() + 2);
+            if (fiera.isVisible == 1 && finish > new Date())
+              return <Fiera key={fiera.name} data={fiera} />;
           })}
         </Stack>
       </Container>

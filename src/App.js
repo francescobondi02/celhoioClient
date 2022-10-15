@@ -30,9 +30,9 @@ function App() {
     id_fiera: "",
     espositore: 0,
   });
-  const params = useParams();
-  console.log("USER");
-  console.log(user);
+  //const params = useParams();
+  //console.log("USER");
+  //console.log(user);
   //console.log("User ID: " + user.id);
 
   const handleUser = (newUser) => {
@@ -43,8 +43,31 @@ function App() {
   /*axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("token");*/
 
-  console.log("Token:" + localStorage.getItem("token"));
-  useEffect(() => {}, []);
+  //console.log("Token:" + localStorage.getItem("token"));
+  useEffect(() => {
+    axios
+      .get("/utenti", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log("AXIOS CALL");
+        console.log(res.data);
+        if (res.status === 200) {
+          setUser((prev) => {
+            return {
+              ...prev,
+              id: res.data.data.id,
+              nome: res.data.data.nome,
+              email: res.data.data.email,
+              password: res.data.data.password,
+            };
+          });
+        } else if (res.status == 203) {
+          console.log("Token scaduto");
+          //window.location.href = "/";
+        }
+      });
+  }, []);
 
   return (
     <div className="App">

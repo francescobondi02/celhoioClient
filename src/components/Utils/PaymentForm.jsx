@@ -48,12 +48,18 @@ export default function PaymentForm(props) {
           console.log("Payment succeeded!");
 */
     axios
-      .post("/richieste/addRequest", {
-        descrizione: props.requestData.descrizione,
-        id_utente_fiera: user.id_utente_fiera,
-        select: props.requestData.select,
-        id_fiera: params.id,
-      })
+      .post(
+        "/richieste/addRequest",
+        {
+          descrizione: props.requestData.descrizione,
+          id_utente_fiera: user.id_utente_fiera,
+          select: props.requestData.select,
+          id_fiera: params.id,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           console.log("HO MANDATO SUL DB");

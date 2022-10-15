@@ -54,7 +54,10 @@ export default function ApplicationBody(props) {
           "/richieste/myResponses/" +
             (user.id_utente_fiera || myData.id_utente_fiera) +
             "/" +
-            currentRequest
+            currentRequest,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
         )
         .then((res) => {
           //console.log(res);
@@ -68,7 +71,9 @@ export default function ApplicationBody(props) {
             //console.log("Stanza: " + stanza);
 
             axios
-              .get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente)
+              .get("/utenti/getInfo/" + res.data[i].id_utente_fiera_mittente, {
+                headers: { Authorization: localStorage.getItem("token") },
+              })
               .then((result) => {
                 res.data[i].nome_utente = result.data.nome_utente;
                 res.data[i].nome = result.data.nome;
@@ -89,7 +94,10 @@ export default function ApplicationBody(props) {
           "/chat/getUnreadMsg/" +
             user.id_utente_fiera +
             "/" +
-            props.requests[i].id
+            props.requests[i].id,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
         )
         .then((res) => {
           //console.log(res);
@@ -126,7 +134,10 @@ export default function ApplicationBody(props) {
             "/chat/getStanze/" +
               props.requests[i].id +
               "/" +
-              user.id_utente_fiera
+              user.id_utente_fiera,
+            {
+              headers: { Authorization: localStorage.getItem("token") },
+            }
           )
           .then((res) => {
             //console.log(res);

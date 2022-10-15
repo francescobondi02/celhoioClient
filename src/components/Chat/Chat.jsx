@@ -45,7 +45,10 @@ export default function Chat() {
 
     //Prendiamo tutti i messaggi già salvati
     axios
-      .get("/chat/getMsgInStanza/" + params.idRoom + "/" + user.id_utente_fiera)
+      .get(
+        "/chat/getMsgInStanza/" + params.idRoom + "/" + user.id_utente_fiera,
+        { headers: { Authorization: localStorage.getItem("token") } }
+      )
       .then((res) => {
         console.log(res);
 
@@ -56,7 +59,10 @@ export default function Chat() {
             "/utenti/getInfo/" +
               (res.data[0].id_utente_fiera_mittente !== user.id_utente_fiera
                 ? res.data[0].id_utente_fiera_mittente
-                : res.data[0].id_utente_fiera_destinatario)
+                : res.data[0].id_utente_fiera_destinatario),
+            {
+              headers: { Authorization: localStorage.getItem("token") },
+            }
           )
           .then((result) => {
             //console.log(result.data);
@@ -112,13 +118,17 @@ export default function Chat() {
 
     //Oltre a mandarlo col socket, devo mandarlo sul db
     axios
-      .post("/chat/sendMessage", {
-        idRichiesta: idRichiesta,
-        stanza: params.idRoom,
-        msg: msg,
-        numClients: clientsConnected.length,
-        data: new Date().toUTCString(),
-      })
+      .post(
+        "/chat/sendMessage",
+        {
+          idRichiesta: idRichiesta,
+          stanza: params.idRoom,
+          msg: msg,
+          numClients: clientsConnected.length,
+          data: new Date().toUTCString(),
+        },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      )
       .then((res) => {
         //console.log(res);
         var elem = document.getElementById("chat");

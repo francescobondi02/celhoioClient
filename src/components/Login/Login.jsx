@@ -118,16 +118,18 @@ export default function Login() {
   useEffect(() => {
     //Facciamo un check se c'è un token (qui si deve controllare perchè è da qui che poi si può evitare di fare login ogni volta)
     if (localStorage.getItem("token") !== null) {
-      axios.get(
-        "/utenti",
-        { headers: { Authorization: localStorage.getItem("token") } },
-        async (req, res) => {
+      //console.log("mac hec caozz");
+      axios
+        .get("/utenti", {
+          headers: { Authorization: localStorage.getItem("token") },
+        })
+        .then((res) => {
+          console.log(res);
           if (res.status === 200) {
             //Allora è valido e vado alle fiere
             navigate("/fiere");
           }
-        }
-      );
+        });
     }
   }, []);
 

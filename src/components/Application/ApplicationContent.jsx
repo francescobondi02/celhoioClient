@@ -57,11 +57,15 @@ export default function ApplicationContent(props) {
   const [fieraData, setFieraData] = useState({});
 
   useEffect(() => {
-    axios.get("/richieste/myRequests/" + user.id_utente_fiera).then((res) => {
-      //console.log(res.data.data[0].Richiesta);
-      console.log(res);
-      if (res.status == 200) setRequests(res.data.data);
-    });
+    axios
+      .get("/richieste/myRequests/" + user.id_utente_fiera, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        //console.log(res.data.data[0].Richiesta);
+        console.log(res);
+        if (res.status == 200) setRequests(res.data.data.reverse());
+      });
 
     if (user.espositore == true) {
       axios
@@ -69,35 +73,48 @@ export default function ApplicationContent(props) {
           "/richieste/receivedRequests/" +
             params.id +
             "/" +
-            user.id_utente_fiera
+            user.id_utente_fiera,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
         )
         .then((res) => {
           console.log(res);
-          setReceivedRequests(res.data);
+          setReceivedRequests(res.data.reverse());
         });
 
       axios
-        .get("/categorie/myCategories/" + user.id_utente_fiera)
+        .get("/categorie/myCategories/" + user.id_utente_fiera, {
+          headers: { Authorization: localStorage.getItem("token") },
+        })
         .then((res) => {
           console.log(res.data);
           setMyCategories(res.data);
         });
     }
-    axios.get("/categorie/" + params.id).then((res) => {
-      console.log(res);
-      for (let i = 0; i < res.data.length; i++) {
-        if (!(res.data[i].Macrocategoria.nome in categories)) {
-          categories[res.data[i].Macrocategoria.nome] = [];
+    axios
+      .get("/categorie/" + params.id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res);
+        for (let i = 0; i < res.data.length; i++) {
+          if (!(res.data[i].Macrocategoria.nome in categories)) {
+            categories[res.data[i].Macrocategoria.nome] = [];
+          }
+
+          categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
         }
+        setCategories(categories);
+      });
 
-        categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
-      }
-      setCategories(categories);
-    });
-
-    axios.get("/fiere/" + params.id).then((res) => {
-      setFieraData(res.data.data);
-    });
+    axios
+      .get("/fiere/" + params.id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        setFieraData(res.data.data);
+      });
   }, []);
 
   useEffect(() => {
@@ -107,26 +124,37 @@ export default function ApplicationContent(props) {
           "/richieste/receivedRequests/" +
             params.id +
             "/" +
-            user.id_utente_fiera
+            user.id_utente_fiera,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
         )
         .then((res) => {
           //console.log(res);
-          setReceivedRequests(res.data);
+          if (res.status == 200) setReceivedRequests(res.data.reverse());
+          else if (res.status == 203) navigate("/login");
         });
 
       axios
-        .get("/categorie/myCategories/" + user.id_utente_fiera)
+        .get("/categorie/myCategories/" + user.id_utente_fiera, {
+          headers: { Authorization: localStorage.getItem("token") },
+        })
         .then((res) => {
           //console.log(res.data.data);
           setMyCategories(res.data);
         });
     }
 
-    axios.get("/richieste/myRequests/" + user.id_utente_fiera).then((res) => {
-      //console.log(res.data.data[0].Richiesta);
-      console.log(res);
-      if (res.status == 200) setRequests(res.data.data);
-    });
+    axios
+      .get("/richieste/myRequests/" + user.id_utente_fiera, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        //console.log(res.data.data[0].Richiesta);
+        console.log(res);
+        if (res.status == 200) setRequests(res.data.data.reverse());
+        else if (res.status == 203) navigate("/login");
+      });
   }, [props.page, user, requestVisibility]);
 
   function onLogout() {
@@ -152,10 +180,7 @@ export default function ApplicationContent(props) {
     <>
       {props.page == 0 && (
         <>
-          <ApplicationBody
-            requests={receivedRequests.reverse()}
-            view="Received"
-          />
+          <ApplicationBody requests={receivedRequests} view="Received" />
         </>
       )}
 
@@ -174,7 +199,7 @@ export default function ApplicationContent(props) {
               Nuova Richiesta
             </Button>
           </Box>
-          <ApplicationBody requests={requests.reverse()} view="Sent" />
+          <ApplicationBody requests={requests} view="Sent" />
         </>
       )}
 
@@ -203,6 +228,7 @@ export default function ApplicationContent(props) {
                   justifyContent: "center",
                 }}
               >
+                {console.log(user)}
                 <Avatar>{user.nome[0]}</Avatar>
 
                 <Typography variant="h4" sx={{ margin: "10px" }}>

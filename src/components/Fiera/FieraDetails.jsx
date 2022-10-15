@@ -50,58 +50,76 @@ export default function FieraDetails() {
 
   useEffect(() => {
     //Controllo sul token
-    axios.get("/utenti").then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        //Tutto a posto
-        console.log(res.data);
+    axios
+      .get("/utenti", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          //Tutto a posto
+          console.log(res.data);
 
-        axios.get("/utenti/isInFiera").then((res) => {
-          if (res.status === 200) {
-            //Allora è in una fiera
-            console.log("Andiamo all'applicazione");
-            navigate("/fiere/" + res.data.id + "/applicazione");
-          }
-        });
+          axios
+            .get("/utenti/isInFiera", {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((res) => {
+              if (res.status === 200) {
+                //Allora è in una fiera
+                console.log("Andiamo all'applicazione");
+                navigate("/fiere/" + res.data.id + "/applicazione");
+              }
+            });
 
-        axios.get("/fiere/" + params.id).then((res) => {
-          //console.log(res.data);
+          axios
+            .get("/fiere/" + params.id, {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((res) => {
+              //console.log(res.data);
 
-          //Controlliamo se si può joinare
-          let tomorrow = new Date();
-          let previousStart = new Date(res.data.data.data_inizio); //Giorno prima
-          let tomorrowEnd = new Date(res.data.data.data_fine); //Giorno dopo
+              //Controlliamo se si può joinare
+              let tomorrow = new Date();
+              let previousStart = new Date(res.data.data.data_inizio); //Giorno prima
+              let tomorrowEnd = new Date(res.data.data.data_fine); //Giorno dopo
 
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          previousStart.setDate(previousStart.getDate() - 1);
-          tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
-          if (
-            /*(new Date(res.data.data.data_inizio) <= tomorrow &&
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              previousStart.setDate(previousStart.getDate() - 1);
+              tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
+              if (
+                /*(new Date(res.data.data.data_inizio) <= tomorrow &&
               new Date(res.data.data.data_inizio) > new Date()) ||*/
-            new Date() >= previousStart &&
-            new Date() <= tomorrowEnd
-          ) {
-            setIsJoinable(true);
-          }
-          setData(res.data.data);
-        });
+                new Date() >= previousStart &&
+                new Date() <= tomorrowEnd
+              ) {
+                setIsJoinable(true);
+              }
+              setData(res.data.data);
+            });
 
-        axios.get("/categorie/" + params.id).then((res) => {
-          //console.log(res);
-          for (let i = 0; i < res.data.length; i++) {
-            if (!(res.data[i].Macrocategoria.nome in categories)) {
-              categories[res.data[i].Macrocategoria.nome] = [];
-            }
+          axios
+            .get("/categorie/" + params.id, {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((res) => {
+              //console.log(res);
+              for (let i = 0; i < res.data.length; i++) {
+                if (!(res.data[i].Macrocategoria.nome in categories)) {
+                  categories[res.data[i].Macrocategoria.nome] = [];
+                }
 
-            categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
-          }
-          setCategories(categories);
-        });
-        handleUser(res.data.data);
-      } else {
-        navigate("/");
-      }
-    });
+                categories[res.data[i].Macrocategoria.nome].push(
+                  res.data[i].nome
+                );
+              }
+              setCategories(categories);
+            });
+          handleUser(res.data.data);
+        } else {
+          navigate("/");
+        }
+      });
   }, []);
 
   function handleForm(e) {
@@ -113,7 +131,7 @@ export default function FieraDetails() {
       };
     });
   }
-  console.log(multipleSelect);
+  //console.log(multipleSelect);
   function setEspositore() {
     //Impostiamo espositore
     //Stampiamo le categorie inserite
@@ -121,11 +139,17 @@ export default function FieraDetails() {
     toggleForm();
     //Mandiamo al backend
     axios
-      .post("/espositori/addEspositore", {
-        id_fiera: params.id,
-        espositore: 1,
-        categories: multipleSelect,
-      })
+      .post(
+        "/espositori/addEspositore",
+        {
+          id_fiera: params.id,
+          espositore: 1,
+          categories: multipleSelect,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      )
       .then((res) => {
         console.log(res);
         if (res.status == 200) {
@@ -143,12 +167,18 @@ export default function FieraDetails() {
   function setVisitor() {
     toggleModal();
     axios
-      .post("/espositori/addEspositore", {
-        //info: formData.info,
-        id_fiera: params.id,
-        id_utente: user.id,
-        espositore: 0,
-      })
+      .post(
+        "/espositori/addEspositore",
+        {
+          //info: formData.info,
+          id_fiera: params.id,
+          id_utente: user.id,
+          espositore: 0,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      )
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

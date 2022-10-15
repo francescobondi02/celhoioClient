@@ -45,23 +45,31 @@ export default function CreateRequest(props) {
   const params = useParams();
 
   useEffect(() => {
-    axios.get("/categorie/" + params.id).then((res) => {
-      //console.log(res);
-      for (let i = 0; i < res.data.length; i++) {
-        if (!(res.data[i].Macrocategoria.nome in categories)) {
-          categories[res.data[i].Macrocategoria.nome] = [];
+    axios
+      .get("/categorie/" + params.id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        //console.log(res);
+        for (let i = 0; i < res.data.length; i++) {
+          if (!(res.data[i].Macrocategoria.nome in categories)) {
+            categories[res.data[i].Macrocategoria.nome] = [];
+          }
+
+          categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
         }
+        setCategories(categories);
+        convertOptions();
+      });
 
-        categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
-      }
-      setCategories(categories);
-      convertOptions();
-    });
-
-    axios.post("/create-payment-intent").then((res) => {
-      console.log(res);
-      setStripeSecret(res.data.client_secret);
-    });
+    axios
+      .post("/create-payment-intent", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res);
+        setStripeSecret(res.data.client_secret);
+      });
   }, []);
 
   function onChangeRequest(ev) {
