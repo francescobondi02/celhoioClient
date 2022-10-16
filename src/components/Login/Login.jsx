@@ -222,6 +222,7 @@ export default function Login() {
                 required
                 onChange={changeFormData}
                 name="email"
+                type="email"
               />
 
               <TextField
