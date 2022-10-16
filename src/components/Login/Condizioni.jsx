@@ -22,7 +22,7 @@ export default function Condizioni(props) {
           alignItems: "center",
         }}
       >
-        <h2>Condizioni generali del Servizio</h2>
+        <p>Condizioni generali del Servizio</p>
         <IconButton onClick={() => props.setShowCondizioni(false)}>
           <Close />
         </IconButton>

@@ -15,8 +15,14 @@ export default function Privacy(props) {
       onClose={() => props.setShowPrivacy(false)}
       scroll="paper"
     >
-      <DialogTitle>
-        <h2>Condizioni generali del Servizio</h2>
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <p>Condizioni generali del Servizio</p>
         <IconButton onClick={() => props.setShowPrivacy(false)}>
           <Close />
         </IconButton>
