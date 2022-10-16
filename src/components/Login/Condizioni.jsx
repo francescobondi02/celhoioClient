@@ -1,8 +1,10 @@
+import { Close } from "@mui/icons-material";
 import {
   Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
 } from "@mui/material";
 import React from "react";
 
@@ -13,7 +15,18 @@ export default function Condizioni(props) {
       onClose={() => props.setShowCondizioni(false)}
       scroll="paper"
     >
-      <DialogTitle>Condizioni generali del Servizio</DialogTitle>
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2>Condizioni generali del Servizio</h2>
+        <IconButton onClick={() => props.setShowCondizioni(false)}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
       <DialogContent dividers={true}>
         <DialogContentText>
           <h2>1. Contenuto del Servizio</h2>

@@ -1,8 +1,10 @@
+import { Close } from "@mui/icons-material";
 import {
   Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
 } from "@mui/material";
 import React from "react";
 
@@ -13,7 +15,12 @@ export default function Privacy(props) {
       onClose={() => props.setShowPrivacy(false)}
       scroll="paper"
     >
-      <DialogTitle>Condizioni generali del Servizio</DialogTitle>
+      <DialogTitle>
+        <h2>Condizioni generali del Servizio</h2>
+        <IconButton onClick={() => props.setShowPrivacy(false)}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
       <DialogContent dividers={true}>
         <DialogContentText>
           <h2>Politica sulla riservatezza</h2>
