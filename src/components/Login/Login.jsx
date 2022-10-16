@@ -153,6 +153,12 @@ export default function Login() {
     });
   };
 
+  const validateEmail = (email) => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+
   return (
     <>
       <Container
@@ -276,7 +282,8 @@ export default function Login() {
                 disabled={
                   (view === "register" ? !acceptPolicy : false) ||
                   !formData.email ||
-                  !formData.password
+                  !formData.password ||
+                  validateEmail(formData.email) === null
                 }
               >
                 {view === "register" ? "Registrati" : "Loggati"}!
