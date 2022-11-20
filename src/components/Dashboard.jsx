@@ -13,6 +13,8 @@ import {
   Box,
   ListSubheader,
   Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useContext, useEffect } from "react";
@@ -23,15 +25,27 @@ import GroupIcon from "@mui/icons-material/Group";
 import CategoryIcon from "@mui/icons-material/Category";
 import DashboardBody from "./DashboardBody";
 
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import axios from "axios";
+
 export default function Dashboard() {
   const { user } = useContext(UserContext);
   const [selectedView, setSelectedView] = React.useState("");
+  const [auth, setAuth] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  useEffect(() => {
-    if (user.email !== "admin@admin.it") {
-      console.log("NON DEVI STARE QUI");
-    }
-  }, []);
+  const [data, setData] = useState({});
 
   function toggleSelectedView(event) {
     setSelectedView(
@@ -40,9 +54,108 @@ export default function Dashboard() {
     );
   }
 
+  function onChangeData(e) {
+    setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    //console.log(data);
+    axios.post("/loginDashboard", data).then((res) => {
+      //console.log(res);
+      if (res.status == 200) {
+        setAuth(true);
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Invalid Credentials");
+        console.log("Daje");
+      }
+    });
+  }
+
   return (
     <>
-      <Container sx={{ display: "flex" }} maxWidth="lg">
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{ display: auth ? "none" : "" }}
+      >
+        <CssBaseline />
+        <Snackbar open={errorMessage != ""} autoHideDuration={6000}>
+          <Alert severity="error" variant="filled" elevation={6}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              onChange={onChangeData}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={onChangeData}
+            />
+            {/*<FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+        />*/}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            {/*<Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+        </Grid>*/}
+          </Box>
+        </Box>
+      </Container>
+      <Container sx={{ display: !auth ? "none" : "flex" }} maxWidth="lg">
         <Drawer
           sx={{
             width: 250,

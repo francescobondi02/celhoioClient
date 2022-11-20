@@ -38,6 +38,7 @@ export default function AddFiera() {
   });
   const [openAlert, setOpenAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [macrocategorie, setMacrocategorie] = useState([]);
   const [macrocategorieArray, setMacrocategorieArray] = useState([]);
@@ -109,30 +110,34 @@ export default function AddFiera() {
   function sendAddFiera() {
     addFieraData.macrocategorie = macrocategorieArray;
     console.log(addFieraData);
-    /*axios
-      .post("/fiere/", addFieraData, {
+    axios
+      .post("/addFiera", addFieraData, {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((res) => {
         console.log(res);
-        if (res.status === 201) {
-          setErrorMessage(res.data.message);
+        if (res.status === 200) {
+          //setErrorMessage(res.data.message);
 
+          setSuccessMessage("Fiera aggiunta con successo!");
           //Pulisco gli input
           setAddFieraData({
             nome: "",
             luogo: "",
             descrizione: "",
+            link: "",
           });
 
           //Pulisco l'array
           setMacrocategorieArray([]);
 
-          setOpenAlert(true);
+          //setOpenAlert(true);
+        } else {
+          setErrorMessage("Errore nell'aggiunta della fiera...");
         }
-      });*/
+      });
 
-    console.log(selectedFile);
+    //console.log(selectedFile);
   }
 
   return (
@@ -266,13 +271,40 @@ export default function AddFiera() {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <FileUpload
+          {/*<FileUpload
             isSelected={isSelected}
             changeHandler={changeHandler}
             selectedFile={selectedFile}
-          />
+            />*/}
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="my-input">Link Immagine</InputLabel>
+            <Input
+              id="my-input"
+              aria-describedby="my-helper-text"
+              multiline
+              fullWidth
+              onChange={onAddFiera}
+              name="link"
+              value={addFieraData.link}
+            />
+            <FormHelperText id="my-helper-text">
+              Link all'immagine della fiera
+            </FormHelperText>
+          </FormControl>
+          {addFieraData.link != "" && (
+            <>
+              <Typography component="span" align="left" textAlign="left">
+                Preview
+              </Typography>
+              <img src={addFieraData.link} style={{ maxWidth: "100%" }} />
+            </>
+          )}
         </Grid>
         <Grid container justifyContent="flex-end">
+          {/*<FormControlLabel
+            control={<Checkbox defaultChecked />}
+            label="Visibile?"
+          />*/}
           <Button
             startIcon={<Add />}
             variant="contained"
@@ -281,6 +313,16 @@ export default function AddFiera() {
             Aggiungi
           </Button>
         </Grid>
+        <Snackbar open={errorMessage != ""} autoHideDuration={6000}>
+          <Alert severity="error" variant="filled" elevation={6}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={successMessage != ""} autoHideDuration={6000}>
+          <Alert severity="success" variant="filled" elevation={6}>
+            {successMessage}
+          </Alert>
+        </Snackbar>
       </Grid>
     </>
   );

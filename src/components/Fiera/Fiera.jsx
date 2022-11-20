@@ -46,7 +46,7 @@ export default function Fiera(props) {
       >
         <CardActionArea onClick={() => redirect(props.data.id)}>
           <CardMedia
-            image={"/fiere/" + props.data.immagine}
+            image={props.data.immagine}
             title="image title"
             component="img"
             height="150px"
