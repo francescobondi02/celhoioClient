@@ -65,6 +65,7 @@ export default function Dashboard() {
       //console.log(res);
       if (res.status == 200) {
         setAuth(true);
+        localStorage.setItem("token", res.data.token);
         setErrorMessage("");
       } else {
         setErrorMessage("Invalid Credentials");
@@ -184,7 +185,7 @@ export default function Dashboard() {
               </ListItemButton>
             </ListItem>
           </List>
-          <Divider />
+          {/*<Divider />
           <List>
             <ListSubheader sx={{ textAlign: "left" }}>Utenti</ListSubheader>
             <ListItem disablePadding value="see-users">
@@ -195,7 +196,7 @@ export default function Dashboard() {
                 <ListItemText primary="Vedi utenti" value="see-users" />
               </ListItemButton>
             </ListItem>
-          </List>
+        </List>*/}
           <Divider />
           <List>
             <ListSubheader sx={{ textAlign: "left" }}>
