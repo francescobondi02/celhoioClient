@@ -65,7 +65,7 @@ export default function Dashboard() {
       //console.log(res);
       if (res.status == 200) {
         setAuth(true);
-        localStorage.setItem("token", res.data.token);
+        //localStorage.setItem("token", res.data.token);
         setErrorMessage("");
       } else {
         setErrorMessage("Invalid Credentials");
