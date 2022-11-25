@@ -74,69 +74,70 @@ export default function AddCategoria() {
           </Typography>
         </Grid>
 
-        {array.map((macrocategoria) => {
-          return (
-            <>
-              <Grid item xs={6} p={5}>
-                <Typography variant="subtitle1" component="h1" gutterBottom>
-                  <b>
-                    {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
-                  </b>
-                </Typography>
-              </Grid>
-              <Grid item xs={6} p={5}>
-                <Stack>
-                  {macrocategoria.Categoria.map((categoria) => {
-                    return (
-                      <Typography
-                        variant="subtitle2"
-                        component="h1"
-                        gutterBottom
-                      >
-                        {categoria.nome}
-                      </Typography>
-                    );
-                  })}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <TextField
-                      id={macrocategoria.id}
-                      label="Nome Categoria"
-                      variant="standard"
-                      value={categorie[macrocategoria.id]}
-                      onChange={(e) =>
-                        setCategorie((prev) => {
-                          return {
-                            ...prev,
-                            [macrocategoria.id]: e.target.value,
-                          };
-                        })
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          addCategoria(macrocategoria.id);
-                        }
+        {array != [] &&
+          array.map((macrocategoria) => {
+            return (
+              <>
+                <Grid item xs={6} p={5}>
+                  <Typography variant="subtitle1" component="h1" gutterBottom>
+                    <b>
+                      {"ID " + macrocategoria.id + ": " + macrocategoria.nome}
+                    </b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} p={5}>
+                  <Stack>
+                    {macrocategoria.Categoria.map((categoria) => {
+                      return (
+                        <Typography
+                          variant="subtitle2"
+                          component="h1"
+                          gutterBottom
+                        >
+                          {categoria.nome}
+                        </Typography>
+                      );
+                    })}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        flexDirection: "row",
                       }}
-                    />
-                    <Button
-                      variant="contained"
-                      startIcon={<Add />}
-                      onClick={() => addCategoria(macrocategoria.id)}
                     >
-                      Aggiungi
-                    </Button>
-                  </div>
-                </Stack>
-              </Grid>
-            </>
-          );
-        })}
+                      <TextField
+                        id={macrocategoria.id}
+                        label="Nome Categoria"
+                        variant="standard"
+                        value={categorie[macrocategoria.id]}
+                        onChange={(e) =>
+                          setCategorie((prev) => {
+                            return {
+                              ...prev,
+                              [macrocategoria.id]: e.target.value,
+                            };
+                          })
+                        }
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            addCategoria(macrocategoria.id);
+                          }
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        startIcon={<Add />}
+                        onClick={() => addCategoria(macrocategoria.id)}
+                      >
+                        Aggiungi
+                      </Button>
+                    </div>
+                  </Stack>
+                </Grid>
+              </>
+            );
+          })}
         {/*<Grid item xs={9}>
           <TextField
             id="nomeMacrocategoria"
