@@ -184,6 +184,14 @@ export default function Dashboard() {
                 <ListItemText primary="Aggiungi Fiera" value="add-fiera" />
               </ListItemButton>
             </ListItem>
+            <ListItem disablePadding value="show-fiere">
+              <ListItemButton onClick={toggleSelectedView} value="show-fiere">
+                <ListItemIcon value="show-fiere">
+                  <AddBusinessIcon value="show-fiere" />
+                </ListItemIcon>
+                <ListItemText primary="Mostra Fiere" value="show-fiere" />
+              </ListItemButton>
+            </ListItem>
           </List>
           {/*<Divider />
           <List>
@@ -224,6 +232,20 @@ export default function Dashboard() {
                 <ListItemText
                   primary="Aggiungi Categoria"
                   value="add-category"
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding value="show-category">
+              <ListItemButton
+                onClick={toggleSelectedView}
+                value="show-category"
+              >
+                <ListItemIcon value="show-category">
+                  <CategoryIcon value="show-category" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Mostra Categorie"
+                  value="show-category"
                 />
               </ListItemButton>
             </ListItem>

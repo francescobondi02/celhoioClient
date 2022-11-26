@@ -32,6 +32,8 @@ import AddMacrocategoria from "./Dashboard/AddMacrocategoria";
 import SeeUsers from "./Dashboard/SeeUsers";
 import AddFiera from "./Dashboard/AddFiera";
 import AddCategoria from "./Dashboard/AddCategoria";
+import ShowFiere from "./Dashboard/ShowFiere";
+import ShowCategories from "./Dashboard/ShowCategories";
 
 export default function DashboardBody(props) {
   const [categories, setCategories] = useState([]);
@@ -103,6 +105,9 @@ export default function DashboardBody(props) {
       {props.view === "add-macrocategory" && <AddMacrocategoria />}
 
       {props.view === "add-category" && <AddCategoria />}
+
+      {props.view === "show-fiere" && <ShowFiere />}
+      {props.view == "show-category" && <ShowCategories />}
     </>
   );
 }
