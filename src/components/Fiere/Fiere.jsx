@@ -47,7 +47,7 @@ export default function Fiere() {
               headers: { Authorization: localStorage.getItem("token") },
             })
             .then((res) => {
-              //console.log(res.data);
+              console.log(res.data.data);
               setFiere(res.data.data);
             });
           handleUser(res.data.data);
@@ -75,12 +75,13 @@ export default function Fiere() {
           spacing={3}
           divider={<Divider orientation="horizontal" flexItem />}
         >
-          {fiere.map((fiera) => {
-            let finish = new Date(fiera.data_fine);
-            finish.setDate(finish.getDate() + 2);
-            if (fiera.isVisible == 1 && finish > new Date())
-              return <Fiera key={fiera.name} data={fiera} />;
-          })}
+          {fiere.length > 0 &&
+            fiere.map((fiera) => {
+              let finish = new Date(fiera.data_fine);
+              finish.setDate(finish.getDate() + 2);
+              if (fiera.isVisible == 1 && finish > new Date())
+                return <Fiera key={fiera.name} data={fiera} />;
+            })}
         </Stack>
       </Container>
     </>

@@ -10,18 +10,21 @@ import {
   ListSubheader,
   Chip,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../user-context";
 
 export default function TreeViewCategories(props) {
   const [multipleSelect, setMultipleSelect] = useState([]);
   const [categories, setCategories] = useState({});
   const params = useParams();
+  var { user, handleUser } = useContext(UserContext);
 
   useEffect(() => {
     console.log(props.data);
     setCategories(props.data);
+    console.log(props.multipleSelect);
     /*axios
       .get("/categorie/", { params: { id_fiera: params.id } })
       .then((res) => {
@@ -48,6 +51,25 @@ export default function TreeViewCategories(props) {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+
+    //Dobbiamo aggiornarlo sul DB
+
+    axios
+      .post(
+        "/utenti/updateCategories",
+        {
+          value: typeof value === "string" ? value.split(",") : value,
+          id_utente_fiera: user.id_utente_fiera,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      )
+      .then((res) => {
+        if (res.status == 200) {
+          console.log("Aggiornato");
+        }
+      });
   };
 
   const clickSubheader = (event) => {
@@ -87,7 +109,7 @@ export default function TreeViewCategories(props) {
   };
 
   const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
+  const ITEM_PADDING_TOP = 0;
   const MenuProps = {
     PaperProps: {
       style: {
@@ -101,7 +123,7 @@ export default function TreeViewCategories(props) {
 
   return (
     <>
-      <FormControl sx={{ m: 1 }} fullWidth>
+      <FormControl sx={{ m: 0 }} fullWidth disabled={props.disabled}>
         <InputLabel htmlFor="grouped-select">Categorie</InputLabel>
         <Select
           id="grouped-select"

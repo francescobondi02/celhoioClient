@@ -37,6 +37,7 @@ import Conditions from "../../conditions";
 import CreateRequest from "../Utils/CreateRequest";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import TreeViewCategories from "../Fiera/TreeViewCategories";
 
 const stripePromise = loadStripe(
   "pk_test_51LMUA0Ek66qkKfoquLexRL3y5LUO0WdryHwPtwBXIzwbg8rfE7Ki76Ttosc1LWOHFapEeqzGUnEdPl39ZjEAChox00BFclCnBP"
@@ -55,6 +56,37 @@ export default function ApplicationContent(props) {
   const [requestVisibility, setRequestVisibility] = useState(false);
 
   const [fieraData, setFieraData] = useState({});
+  const [multipleSelect, setMultipleSelect] = useState([]);
+  const [role, setRole] = useState(
+    user.espositore ? "Espositore" : "Visitatore"
+  );
+
+  useEffect(() => {
+    setRole(user.espositore ? "Espositore" : "Visitatore");
+  }, [user]);
+
+  function changeRole(event) {
+    setRole(event.target.value);
+    setMultipleSelect([]);
+
+    //Lanciamo sul DB
+    axios
+      .put(
+        "/utenti/changeRole",
+        { espositore: event.target.value == "Espositore" ? 1 : 0 },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      )
+      .then((res) => {
+        if (res.status == 200) {
+          handleUser({
+            ...user,
+            espositore: event.target.value == "Espositore" ? 1 : 0,
+          });
+        }
+      });
+  }
 
   useEffect(() => {
     axios
@@ -90,6 +122,10 @@ export default function ApplicationContent(props) {
         .then((res) => {
           console.log(res.data);
           setMyCategories(res.data);
+
+          for (let i = 0; i < res.data.length; i++) {
+            setMultipleSelect([...multipleSelect, res.data[i].nome]);
+          }
         });
     }
     axios
@@ -142,6 +178,11 @@ export default function ApplicationContent(props) {
         .then((res) => {
           //console.log(res.data.data);
           setMyCategories(res.data);
+
+          for (let i = 0; i < res.data.length; i++) {
+            if (multipleSelect.indexOf(res.data[i].nome) == -1)
+              setMultipleSelect([...multipleSelect, res.data[i].nome]);
+          }
         });
     }
 
@@ -215,10 +256,6 @@ export default function ApplicationContent(props) {
           >
             Logout
           </Button>
-          {/*<Container>
-            <Typography>Nome: {user.nome}</Typography>
-            <Typography>Email: {user.email}</Typography>
-      </Container>*/}
           <Container maxWidth="xs">
             <Stack>
               <Box
@@ -240,37 +277,35 @@ export default function ApplicationContent(props) {
               </Typography>
 
               <br></br>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Storefront /> {fieraData.nome}
-              </Typography>
             </Stack>
           </Container>
-          {user.espositore == 1 && (
-            <>
-              <List
-                sx={{ textAlign: "center", width: "100%", marginTop: "50px" }}
-                subheader={<ListSubheader>Categorie che esponi:</ListSubheader>}
-              >
-                {myCategories.map((category) => {
-                  return (
-                    <ListItem>
-                      <ListItemText
-                        primary={category.nome}
-                        sx={{ textAlign: "center" }}
-                      />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </>
-          )}
+          <Container maxWidth="sm">
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="role">Ruolo</InputLabel>
+                  <Select
+                    labelId="role"
+                    id="role"
+                    value={role}
+                    label="Ruolo"
+                    onChange={changeRole}
+                  >
+                    <MenuItem value="Visitatore">Visitatore</MenuItem>
+                    <MenuItem value="Espositore">Espositore</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <TreeViewCategories
+                  data={categories}
+                  multipleSelect={multipleSelect}
+                  setMultipleSelect={setMultipleSelect}
+                  disabled={role == "Espositore" ? false : true}
+                />
+              </Grid>
+            </Grid>
+          </Container>
         </Box>
       )}
 

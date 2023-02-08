@@ -18,6 +18,7 @@ import Login from "./components/Login/Login";
 import Chat from "./components/Chat/Chat";
 import Conditions from "./conditions";
 import Dashboard from "./components/Dashboard";
+import Application from "./routes/Application";
 
 function App() {
   const [user, setUser] = useState({
@@ -83,6 +84,8 @@ function App() {
             />
             <Route path="/fiere/:id/applicazione/:idRoom" element={<Chat />} />
             <Route path="/dashboard" element={<Dashboard />} />
+
+            <Route path="/app" element={<Application />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>

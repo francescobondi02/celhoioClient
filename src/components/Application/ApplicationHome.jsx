@@ -101,12 +101,12 @@ export default function ApplicationHome() {
             })
             .then((res) => {
               //Controlliamo che non sia già finita
-              let finish = new Date(res.data.data.data_fine);
+              /*let finish = new Date(res.data.data.data_fine);
               finish.setDate(finish.getDate() + 2);
               if (new Date() >= finish) {
                 navigate("/fiere");
                 return;
-              }
+              }*/
 
               setFieraData(res.data);
             });
@@ -120,7 +120,7 @@ export default function ApplicationHome() {
   }, []);
 
   useEffect(() => {
-    console.log(user);
+    //console.log(user);
     if (user.espositore) setView("espositore");
     else setView("visitatore");
   }, [user]);
