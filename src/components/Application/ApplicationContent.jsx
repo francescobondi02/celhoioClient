@@ -99,35 +99,32 @@ export default function ApplicationContent(props) {
         if (res.status == 200) setRequests(res.data.data.reverse());
       });
 
-    if (user.espositore == true) {
-      axios
-        .get(
-          "/richieste/receivedRequests/" +
-            params.id +
-            "/" +
-            user.id_utente_fiera,
-          {
-            headers: { Authorization: localStorage.getItem("token") },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          setReceivedRequests(res.data.reverse());
-        });
-
-      axios
-        .get("/categorie/myCategories/" + user.id_utente_fiera, {
+    //if (user.espositore == true) {
+    axios
+      .get(
+        "/richieste/receivedRequests/" + params.id + "/" + user.id_utente_fiera,
+        {
           headers: { Authorization: localStorage.getItem("token") },
-        })
-        .then((res) => {
-          console.log(res.data);
-          setMyCategories(res.data);
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setReceivedRequests(res.data.reverse());
+      });
 
-          for (let i = 0; i < res.data.length; i++) {
-            setMultipleSelect([...multipleSelect, res.data[i].nome]);
-          }
-        });
-    }
+    axios
+      .get("/categorie/myCategories/" + user.id_utente_fiera, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setMyCategories(res.data);
+
+        for (let i = 0; i < res.data.length; i++) {
+          setMultipleSelect([...multipleSelect, res.data[i].nome]);
+        }
+      });
+    //}
     axios
       .get("/categorie/" + params.id, {
         headers: { Authorization: localStorage.getItem("token") },
@@ -154,37 +151,34 @@ export default function ApplicationContent(props) {
   }, []);
 
   useEffect(() => {
-    if (user.espositore == 1) {
-      axios
-        .get(
-          "/richieste/receivedRequests/" +
-            params.id +
-            "/" +
-            user.id_utente_fiera,
-          {
-            headers: { Authorization: localStorage.getItem("token") },
-          }
-        )
-        .then((res) => {
-          //console.log(res);
-          if (res.status == 200) setReceivedRequests(res.data.reverse());
-          else if (res.status == 203) navigate("/login");
-        });
-
-      axios
-        .get("/categorie/myCategories/" + user.id_utente_fiera, {
+    //if (user.espositore == 1) {
+    axios
+      .get(
+        "/richieste/receivedRequests/" + params.id + "/" + user.id_utente_fiera,
+        {
           headers: { Authorization: localStorage.getItem("token") },
-        })
-        .then((res) => {
-          //console.log(res.data.data);
-          setMyCategories(res.data);
+        }
+      )
+      .then((res) => {
+        //console.log(res);
+        if (res.status == 200) setReceivedRequests(res.data.reverse());
+        else if (res.status == 203) navigate("/login");
+      });
 
-          for (let i = 0; i < res.data.length; i++) {
-            if (multipleSelect.indexOf(res.data[i].nome) == -1)
-              setMultipleSelect([...multipleSelect, res.data[i].nome]);
-          }
-        });
-    }
+    axios
+      .get("/categorie/myCategories/" + user.id_utente_fiera, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        //console.log(res.data.data);
+        setMyCategories(res.data);
+
+        for (let i = 0; i < res.data.length; i++) {
+          if (multipleSelect.indexOf(res.data[i].nome) == -1)
+            setMultipleSelect([...multipleSelect, res.data[i].nome]);
+        }
+      });
+    //}
 
     axios
       .get("/richieste/myRequests/" + user.id_utente_fiera, {
