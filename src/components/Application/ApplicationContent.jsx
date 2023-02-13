@@ -121,7 +121,8 @@ export default function ApplicationContent(props) {
         setMyCategories(res.data);
 
         for (let i = 0; i < res.data.length; i++) {
-          setMultipleSelect([...multipleSelect, res.data[i].nome]);
+          if (multipleSelect.indexOf(res.data[i].nome) == -1)
+            setMultipleSelect([...multipleSelect, res.data[i].nome]);
         }
       });
     //}
