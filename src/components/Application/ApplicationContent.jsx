@@ -89,6 +89,7 @@ export default function ApplicationContent(props) {
   }
 
   useEffect(() => {
+    //setMultipleSelect([]);
     axios
       .get("/richieste/myRequests/" + user.id_utente_fiera, {
         headers: { Authorization: localStorage.getItem("token") },
@@ -112,7 +113,7 @@ export default function ApplicationContent(props) {
         setReceivedRequests(res.data.reverse());
       });
 
-    axios
+    /*axios
       .get("/categorie/myCategories/" + user.id_utente_fiera, {
         headers: { Authorization: localStorage.getItem("token") },
       })
@@ -125,7 +126,7 @@ export default function ApplicationContent(props) {
             setMultipleSelect([...multipleSelect, res.data[i].nome]);
         }
       });
-    //}
+    //}*/
     axios
       .get("/categorie/" + params.id, {
         headers: { Authorization: localStorage.getItem("token") },
@@ -166,19 +167,30 @@ export default function ApplicationContent(props) {
         else if (res.status == 203) navigate("/login");
       });
 
-    axios
-      .get("/categorie/myCategories/" + user.id_utente_fiera, {
-        headers: { Authorization: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        //console.log(res.data.data);
-        setMyCategories(res.data);
+    if (user.id_utente_fiera) {
+      axios
+        .get("/categorie/myCategories/" + user.id_utente_fiera, {
+          headers: { Authorization: localStorage.getItem("token") },
+        })
+        .then((res) => {
+          //console.log(res.data.data);
+          //console.log("SIUM");
+          // console.log(res.data);
+          setMyCategories(res.data);
 
-        for (let i = 0; i < res.data.length; i++) {
-          if (multipleSelect.indexOf(res.data[i].nome) == -1)
-            setMultipleSelect([...multipleSelect, res.data[i].nome]);
-        }
-      });
+          //setMultipleSelect([]);
+          let ziopera = [];
+          for (let i = 0; i < res.data.length; i++) {
+            /*if (multipleSelect.indexOf(res.data[i].nome) == -1) {
+              console.log(res.data[i].nome);
+              setMultipleSelect([...multipleSelect, res.data[i].nome]);
+            }*/
+            ziopera.push(res.data[i].nome);
+          }
+
+          setMultipleSelect(ziopera);
+        });
+    }
     //}
 
     axios
