@@ -61,6 +61,8 @@ export default function ApplicationContent(props) {
     user.espositore ? "Espositore" : "Visitatore"
   );
 
+  const [requestReload, setRequestReload] = useState(false);
+
   useEffect(() => {
     setRole(user.espositore ? "Espositore" : "Visitatore");
   }, [user]);
@@ -203,7 +205,7 @@ export default function ApplicationContent(props) {
         if (res.status == 200) setRequests(res.data.data.reverse());
         else if (res.status == 203) navigate("/login");
       });
-  }, [props.page, user, requestVisibility]);
+  }, [props.page, user, requestVisibility, requestReload]);
 
   function onLogout() {
     handleUser({
@@ -247,7 +249,11 @@ export default function ApplicationContent(props) {
               Nuova Richiesta
             </Button>
           </Box>
-          <ApplicationBody requests={requests} view="Sent" />
+          <ApplicationBody
+            requests={requests}
+            view="Sent"
+            updateRequests={() => setRequestReload((prev) => !prev)}
+          />
         </>
       )}
 
@@ -298,8 +304,8 @@ export default function ApplicationContent(props) {
                     label="Ruolo"
                     onChange={changeRole}
                   >
-                    <MenuItem value="Visitatore">Visitatore</MenuItem>
-                    <MenuItem value="Espositore">Espositore</MenuItem>
+                    <MenuItem value="Visitatore">Cerco ricambi</MenuItem>
+                    <MenuItem value="Espositore">Vendo ricambi per</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -310,6 +316,9 @@ export default function ApplicationContent(props) {
                   setMultipleSelect={setMultipleSelect}
                   disabled={role == "Espositore" ? false : true}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <img src="/logo.png" alt="logo" width="100px" />
               </Grid>
             </Grid>
           </Container>

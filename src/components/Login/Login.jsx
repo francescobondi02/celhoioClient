@@ -189,7 +189,8 @@ export default function Login() {
             <Box>
               <img src="/logo.png" alt="logo" width="100px" />
               <Typography variant="h5">
-                L'app per far incontrare espositori e visitatori!
+                L'app per far incontrare chi vende e/o cerca ricambi per auto e
+                moto!
               </Typography>
               <Typography variant="p">
                 E' più facile trovare quello che cerchi con CELHOIO.IT

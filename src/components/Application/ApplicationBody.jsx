@@ -3,6 +3,7 @@ import {
   ChevronLeftOutlined,
   ChevronLeftSharp,
   ChevronRightSharp,
+  Delete,
   MarkChatRead,
 } from "@mui/icons-material";
 import {
@@ -15,6 +16,16 @@ import {
   Box,
   Button,
   ListItemIcon,
+  ListItemSecondaryAction,
+  IconButton,
+  Modal,
+  Typography,
+  Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import React from "react";
 import { useState, useContext, useEffect } from "react";
@@ -24,6 +35,7 @@ import { UserContext } from "../../user-context";
 import axios from "axios";
 import { color } from "@mui/system";
 import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ApplicationBody(props) {
   const [mode, setMode] = useState("richieste");
@@ -35,6 +47,9 @@ export default function ApplicationBody(props) {
   const [rooms, setRooms] = useState({});
 
   const [myData, setMyData] = useState({});
+
+  const [openModal, setOpenModal] = useState(false);
+  const [deleteRequest, setDeleteRequest] = useState({});
 
   useEffect(() => {
     //Prendo il mio utente
@@ -168,9 +183,41 @@ export default function ApplicationBody(props) {
   function goToChat(codice) {
     navigate("./" + codice);
   }
+
+  function eliminaRichiesta() {
+    console.log("Elimino la richiesta " + deleteRequest.id);
+    console.log(deleteRequest);
+    axios
+      .delete("/richieste/deleteRequest/" + deleteRequest.id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          console.log("Richiesta eliminata");
+          console.log(props);
+          props.updateRequests();
+          setOpenModal(false);
+        }
+      });
+  }
   //console.log(props);
   return (
     <>
+      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+        <DialogTitle>Cancella richiesta</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Vuoi davvero cancellare questa richiesta?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="error" onClick={eliminaRichiesta}>
+            Cancella
+          </Button>
+          <Button onClick={() => setOpenModal(false)}>Annulla</Button>
+        </DialogActions>
+      </Dialog>
+
       {mode == "utenti" && (
         <Box
           sx={{ display: "flex", justifyContent: "left", alignItems: "center" }}
@@ -206,34 +253,55 @@ export default function ApplicationBody(props) {
             //console.log(request);
 
             return (
-              <ListItemButton
-                key={request.id}
-                divider
-                onClick={
-                  props.view === "Sent"
-                    ? switchMode
-                    : () => {
-                        goToChat(rooms[request.id]);
-                      }
+              <ListItem
+                secondaryAction={
+                  props.view == "Sent" && (
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => {
+                        //console.log(request);
+                        setDeleteRequest(request);
+                        setOpenModal(true);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )
                 }
-                value={request.descrizione.substring(0, 50) + "..."}
-                sx={{ backgroundColor: colors[request.id] }}
               >
-                <ListItemIcon>
-                  {colors[request.id] == "lightblue" ? (
-                    <MarkChatUnreadIcon />
-                  ) : (
-                    ""
-                  )}
-                </ListItemIcon>
-                <ListItemText
-                  //primary={request.oggetto}
+                <ListItemButton
+                  key={request.id}
+                  divider
+                  onClick={
+                    props.view === "Sent"
+                      ? switchMode
+                      : () => {
+                          goToChat(rooms[request.id]);
+                        }
+                  }
                   value={request.descrizione.substring(0, 50) + "..."}
-                  primary={request.descrizione.substring(0, 50) + "..."}
-                  secondary={request.Categorium.nome}
-                />
-                <ArrowForwardIos value={request.oggetto} />
-              </ListItemButton>
+                  sx={{ backgroundColor: colors[request.id] }}
+                >
+                  <ListItemIcon>
+                    {colors[request.id] == "lightblue" ? (
+                      <MarkChatUnreadIcon />
+                    ) : (
+                      ""
+                    )}
+                  </ListItemIcon>
+                  <ListItemText
+                    //primary={request.oggetto}
+                    value={request.descrizione.substring(0, 50) + "..."}
+                    primary={request.descrizione.substring(0, 50) + "..."}
+                    secondary={request.Categorium.nome}
+                  />
+                  {/*<ArrowForwardIos value={request.oggetto} />
+                  <ListItemSecondaryAction>
+                    <DeleteIcon />
+                  </ListItemSecondaryAction>*/}
+                </ListItemButton>
+              </ListItem>
             );
           })}
 
