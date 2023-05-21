@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Typography,
+} from "@mui/material";
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -9,6 +13,9 @@ export default function ApplicationBottom(props) {
   //const [page, setPage] = useState(0);
   return (
     <>
+      <Typography variant="p" align="center" gutterBottom>
+        BLUCCINO P.Iva 02307050399 REA RA 190151
+      </Typography>
       <BottomNavigation
         showLabels
         value={props.page}

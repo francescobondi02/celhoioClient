@@ -328,6 +328,10 @@ export default function Login() {
         />
 
         <Privacy showPrivacy={showPrivacy} setShowPrivacy={setShowPrivacy} />
+
+        <Typography variant="p" align="center" gutterBottom>
+          BLUCCINO P.Iva 02307050399 REA RA 190151
+        </Typography>
       </Container>
     </>
   );
