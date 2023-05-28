@@ -80,6 +80,14 @@ export default function Login() {
     //console.log(formData);
   }
 
+  function InviaNotificaPush()
+  {
+
+      console.log("INVIO NOTIFICA PUSH\n");
+      
+
+  }
+
   function submitForm() {
     //FUNZIONE CHE MANDA I DATI PER LOGIN/REGISTRATION
 
@@ -93,6 +101,10 @@ export default function Login() {
         //console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
+
+          // qui provo a inviare una notifica
+          InviaNotificaPush();
+
           navigate("/fiere"); //Andiamo alle fiere
         } else {
           setErrorMessage("Qualcosa è andato storto...");
@@ -104,6 +116,13 @@ export default function Login() {
         console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
+
+
+// qui provo a inviare una notifica
+          InviaNotificaPush();
+
+
+
 
           navigate("/fiere"); //Andiamo alle fiere
         } else {
@@ -127,6 +146,13 @@ export default function Login() {
           console.log(res);
           if (res.status === 200) {
             //Allora è valido e vado alle fiere
+
+
+
+
+// qui provo a inviare una notifica
+InviaNotificaPush();
+
             navigate("/fiere");
           }
         });

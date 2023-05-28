@@ -20,7 +20,17 @@ import Conditions from "./conditions";
 import Dashboard from "./components/Dashboard";
 import Application from "./routes/Application";
 
+import runOneSignal from './components/OneSignal/runOneSignal';
+
+
 function App() {
+
+  useEffect(() => {
+    runOneSignal();
+  })
+
+
+
   const [user, setUser] = useState({
     id: "",
     nome: "",
