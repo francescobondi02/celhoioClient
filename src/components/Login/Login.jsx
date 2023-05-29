@@ -24,6 +24,9 @@ import Conditions from "../../conditions";
 import Condizioni from "./Condizioni";
 import Privacy from "./Privacy";
 
+
+
+
 //const google = window.google;
 
 export default function Login() {
@@ -65,6 +68,14 @@ export default function Login() {
         console.log(res);
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
+
+
+          console.log("INIZIO EXTERNAL ID");
+          
+          
+console.log("FINE EXTERNAL ID");
+
+
           navigate("/fiere"); //Back to the homepage
         }
       });
@@ -80,17 +91,11 @@ export default function Login() {
     //console.log(formData);
   }
 
-  function InviaNotificaPush()
-  {
-
-      console.log("INVIO NOTIFICA PUSH\n");
-      
-
-  }
+  
 
   function submitForm() {
     //FUNZIONE CHE MANDA I DATI PER LOGIN/REGISTRATION
-
+    //runOneSignal();
     if (sessionStorage.getItem("auth") !== null) {
       formData["auth"] = sessionStorage.getItem("auth");
       formData["endpoint"] = sessionStorage.getItem("endpoint");
@@ -102,8 +107,11 @@ export default function Login() {
         if (res.status == 200) {
           localStorage.setItem("token", res.data.token);
 
-          // qui provo a inviare una notifica
-          InviaNotificaPush();
+          console.log("INIZIO EXTERNAL ID");
+          
+
+console.log("FINE EXTERNAL ID");
+
 
           navigate("/fiere"); //Andiamo alle fiere
         } else {
@@ -118,8 +126,9 @@ export default function Login() {
           localStorage.setItem("token", res.data.token);
 
 
-// qui provo a inviare una notifica
-          InviaNotificaPush();
+          console.log("INIZIO EXTERNAL ID");
+          
+console.log("FINE EXTERNAL ID");
 
 
 
@@ -148,10 +157,10 @@ export default function Login() {
             //Allora è valido e vado alle fiere
 
 
+            console.log("INIZIO EXTERNAL ID");
+            
 
-
-// qui provo a inviare una notifica
-InviaNotificaPush();
+console.log("FINE EXTERNAL ID");
 
             navigate("/fiere");
           }

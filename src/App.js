@@ -25,11 +25,12 @@ import runOneSignal from './components/OneSignal/runOneSignal';
 
 function App() {
 
+  
+
+
   useEffect(() => {
     runOneSignal();
   })
-
-
 
   const [user, setUser] = useState({
     id: "",
@@ -64,6 +65,11 @@ function App() {
         console.log("AXIOS CALL");
         console.log(res.data);
         if (res.status === 200) {
+
+                
+
+
+
           setUser((prev) => {
             return {
               ...prev,
