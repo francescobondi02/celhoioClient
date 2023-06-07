@@ -108,7 +108,7 @@ console.log("FINE EXTERNAL ID");
           localStorage.setItem("token", res.data.token);
 
           console.log("INIZIO EXTERNAL ID");
-          
+         
 
 console.log("FINE EXTERNAL ID");
 
