@@ -70,7 +70,9 @@ self.addEventListener("message", (event) => {
   }
 });
 
+
 // Any other custom service worker logic can go here.
+/*
 self.addEventListener("push", (e) => {
   console.log(e.data);
   let data = JSON.parse(e.data.text());
@@ -91,7 +93,7 @@ self.addEventListener("push", (e) => {
         action: "open",
         title: data.action1,
         icon: "images/checkmark.png",
-      },*/
+      },
       {
         action: "close",
         title: data.action1,
@@ -152,7 +154,7 @@ self.addEventListener(
           : null,
       }),
     })
-  );*/
+  );
     const subscription = self.registration.pushManager.subscribe(
       e.oldSubscription.options
     );
@@ -168,8 +170,9 @@ self.addEventListener(
             endpoint: subscription.endpoint,
           }),
         })
-      );*/
+      );
     e.waitUntil(subscription);
   },
   false
 );
+*/

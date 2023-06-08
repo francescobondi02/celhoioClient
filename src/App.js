@@ -20,17 +20,29 @@ import Conditions from "./conditions";
 import Dashboard from "./components/Dashboard";
 import Application from "./routes/Application";
 
-import runOneSignal from './components/OneSignal/runOneSignal';
+//import runOneSignal from './components/OneSignal/runOneSignal';
+//import OneSignal from 'react-onesignal'
+
 
 
 function App() {
 
-  
-
-
+  window.OneSignal = window.OneSignal || [];
+const OneSignal = window.OneSignal;
   useEffect(() => {
-    runOneSignal();
-  })
+    OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e', allowLocalhostAsSecureOrigin: true});
+    OneSignal.showSlidedownPrompt();
+  }, []);
+
+/*
+  useEffect(() => {
+    //runOneSignal();
+    OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e', allowLocalhostAsSecureOrigin: true});
+    OneSignal.showSlidedownPrompt();
+
+
+
+  }) */
 
   const [user, setUser] = useState({
     id: "",

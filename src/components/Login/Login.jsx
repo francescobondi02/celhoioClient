@@ -24,8 +24,10 @@ import Conditions from "../../conditions";
 import Condizioni from "./Condizioni";
 import Privacy from "./Privacy";
 
-
-
+//import OneSignal from 'react-onesignal';
+//OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e' , allowLocalhostAsSecureOrigin: true});
+window.OneSignal = window.OneSignal || [];
+const OneSignal = window.OneSignal;
 
 //const google = window.google;
 
@@ -71,8 +73,11 @@ export default function Login() {
 
 
           console.log("INIZIO EXTERNAL ID");
-          
-          
+          let externalUserId = userObj.email.toString(); // You will supply the external user id to the OneSignal SDK
+
+          OneSignal.push(function() {
+            OneSignal.setExternalUserId(externalUserId);
+          });
 console.log("FINE EXTERNAL ID");
 
 
@@ -108,7 +113,11 @@ console.log("FINE EXTERNAL ID");
           localStorage.setItem("token", res.data.token);
 
           console.log("INIZIO EXTERNAL ID");
-         
+          let externalUserId = formData.email.toString(); // You will supply the external user id to the OneSignal SDK
+
+          OneSignal.push(function() {
+            OneSignal.setExternalUserId(externalUserId);
+          });
 
 console.log("FINE EXTERNAL ID");
 
@@ -127,7 +136,11 @@ console.log("FINE EXTERNAL ID");
 
 
           console.log("INIZIO EXTERNAL ID");
-          
+          let externalUserId = formData.email.toString(); // You will supply the external user id to the OneSignal SDK
+
+          OneSignal.push(function() {
+            OneSignal.setExternalUserId(externalUserId);
+          });
 console.log("FINE EXTERNAL ID");
 
 
@@ -158,8 +171,11 @@ console.log("FINE EXTERNAL ID");
 
 
             console.log("INIZIO EXTERNAL ID");
-            
+            let externalUserId = formData.email.toString(); // You will supply the external user id to the OneSignal SDK
 
+            OneSignal.push(function() {
+              OneSignal.setExternalUserId(externalUserId);
+            });
 console.log("FINE EXTERNAL ID");
 
             navigate("/fiere");

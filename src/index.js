@@ -24,7 +24,7 @@ root.render(
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register();
 
-async function subscribe() {
+/*async function subscribe() {
   let sw = await navigator.serviceWorker.ready;
   //sw.waiting.postMessage({ type: "SKIP_WAITING" });
   //sw.waiting.postMessage
@@ -74,8 +74,8 @@ async function subscribe() {
     //sessionStorage.setItem("p256dh", jsonPush.keys.p256dh);
     //sessionStorage.setItem("auth", jsonPush.keys.auth);
   });
-});*/
-subscribe();
+});
+subscribe();*/
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
