@@ -30,19 +30,14 @@ function App() {
   window.OneSignal = window.OneSignal || [];
 const OneSignal = window.OneSignal;
   useEffect(() => {
-    OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e', allowLocalhostAsSecureOrigin: true});
+    // DEBUG
+    //OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e', allowLocalhostAsSecureOrigin: true});
+    // RELEASE
+    OneSignal.init({ appId: '8b034c96-7075-423c-8dcf-2e024115a698'});
     OneSignal.showSlidedownPrompt();
   }, []);
 
-/*
-  useEffect(() => {
-    //runOneSignal();
-    OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e', allowLocalhostAsSecureOrigin: true});
-    OneSignal.showSlidedownPrompt();
 
-
-
-  }) */
 
   const [user, setUser] = useState({
     id: "",

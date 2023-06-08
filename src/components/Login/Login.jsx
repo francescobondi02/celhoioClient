@@ -24,8 +24,7 @@ import Conditions from "../../conditions";
 import Condizioni from "./Condizioni";
 import Privacy from "./Privacy";
 
-//import OneSignal from 'react-onesignal';
-//OneSignal.init({ appId: '66815ff4-0ef9-4843-b0cb-9673bb0d323e' , allowLocalhostAsSecureOrigin: true});
+
 window.OneSignal = window.OneSignal || [];
 const OneSignal = window.OneSignal;
 
