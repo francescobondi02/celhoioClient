@@ -14,8 +14,9 @@ export default function ApplicationBottom(props) {
   return (
     <>
       <Typography variant="p" align="center" gutterBottom>
-        BLUCCINO P.Iva 02307050399 REA RA 190151
+        BLUCCINO P.Iva 02307050399 REA RA 190151<br/>
       </Typography>
+      <button id="installApp">Installa la web app</button>
       <BottomNavigation
         showLabels
         value={props.page}
