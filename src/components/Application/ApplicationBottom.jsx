@@ -9,6 +9,27 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { AddComment, ChatBubble, Settings } from "@mui/icons-material";
 
+
+
+import { pwaInstallHandler } from 'pwa-install-handler';
+
+function sayHello() {
+  pwaInstallHandler.install()
+}
+
+/*
+const $button = document.querySelector('#installButton')
+
+
+pwaInstallHandler.addListener((canInstall) => {
+	$button.style.display = canInstall ? 'inline-block' : 'none'
+}) 
+
+$button.addEventListener('click', () => {
+	pwaInstallHandler.install()
+})*/
+
+
 export default function ApplicationBottom(props) {
   //const [page, setPage] = useState(0);
   return (
@@ -16,7 +37,8 @@ export default function ApplicationBottom(props) {
       <Typography variant="p" align="center" gutterBottom>
         BLUCCINO P.Iva 02307050399 REA RA 190151<br/>
       </Typography>
-      <button id="installApp">Installa la web app</button>
+      
+      <button id="installApp" onClick={sayHello}>Installa la web app</button>
       <BottomNavigation
         showLabels
         value={props.page}
