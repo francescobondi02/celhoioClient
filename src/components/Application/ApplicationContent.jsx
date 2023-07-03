@@ -1,9 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import ReactDOM from 'react-dom'
 
-import DropdownTreeSelect from 'react-dropdown-tree-select'
-import 'react-dropdown-tree-select/dist/styles.css'
-
 
 import {
   Box,
@@ -45,7 +42,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import TreeViewCategories from "../Fiera/TreeViewCategories";
 
+import { pwaInstallHandler } from 'pwa-install-handler';
 
+function sayHello() {
+  pwaInstallHandler.install()
+}
 
 
 const stripePromise = loadStripe(
@@ -321,7 +322,10 @@ export default function ApplicationContent(props) {
                 <Typography variant="subtitle2" >
   Da questa schermata puoi scegliere il tipo di operazioni che puoi compiere: <br></br>
   il ruolo CERCO RICAMBI ti permette solo di inserire delle richieste (lo puoi fare premendo in basso a sinistra su "RICHIESTE")<br></br>
-  il ruolo "VENDO RICAMBI" ti permette sia di inserire richieste, sia di ricevere richieste (devi però indicare che cosa vendi nelle due tendine MACROCATEGORIA e CATEGORIA)
+  il ruolo "VENDO RICAMBI" ti permette sia di inserire richieste, sia di ricevere richieste. <br></br>
+  Devi però indicare che cosa vendi scegliendo varie categorie dall'elenco a tendina; per selezionare/deselezionare basta cliccarci sopra.<br></br>
+  Dal momento in cui sceglierai delle categorie di vendita, ti appariranno tutte le richieste indirizzate a quella categoria.
+  )
 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -360,6 +364,51 @@ export default function ApplicationContent(props) {
           </Container>
         </Box>
       )}
+
+{props.page == 3 && (
+        <Box component="div" maxWidth="md" margin="auto">
+          
+          
+          <Container maxWidth="sm">
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <img src="/logo.png" alt="logo" width="100px" />
+                <Typography variant="subtitle2" >
+  Da questa schermata, premendo il tasto qui sotto puoi installare la WEBAPP di CELHOIO<br></br>
+  La WEBAPP ti permette di avere CELHOIO come icona direttamente sullo schermo del tablet/smartphone, come se fosse una vera e propria APP.<br></br>
+</Typography>
+<button id="installApp" onClick={sayHello}>Installa la web app</button>
+              </Grid>
+              
+            </Grid>
+          </Container>
+        </Box>
+      )}
+
+{props.page == 4 && (
+        <Box component="div" maxWidth="md" margin="auto">
+          
+          
+          <Container maxWidth="sm">
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <img src="/logo.png" alt="logo" width="100px" />
+                <Typography variant="subtitle2" >
+  Da questa schermata, premendo il tasto qui sotto puoi installare la WEBAPP di CELHOIO<br></br>
+  La WEBAPP ti permette di avere CELHOIO come icona direttamente sullo schermo del tablet/smartphone, come se fosse una vera e propria APP.<br></br>
+</Typography>
+<button id="installApp" onClick={sayHello}>Installa la web app</button>
+              </Grid>
+              
+            </Grid>
+          </Container>
+        </Box>
+      )}
+
+
+
+
+
 
       {requestVisibility && (
         <CreateRequest

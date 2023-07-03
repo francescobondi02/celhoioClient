@@ -233,9 +233,9 @@ export default function ApplicationBody(props) {
       )}
       <List
         subheader={
-          <ListSubheader component="div">
+          <ListSubheader component="div" sx={{textAlign: "center"}}>
             Tutte le{" "}
-            {currentRequest ? " risposte su " + currentRequest : " richieste"}:
+            {props.view == 'Sent' ? " richieste EFFETTUATE (evidenziate con l'icona davanti vedrai le chat ancora non lette)" : " richieste RICEVUTE (evidenziate con l'icona davanti vedrai le chat ancora non lette)"}:
           </ListSubheader>
         }
         component="nav"

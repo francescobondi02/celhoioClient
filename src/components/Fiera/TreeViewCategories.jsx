@@ -133,7 +133,7 @@ export default function TreeViewCategories(props) {
           MenuProps={MenuProps}
           onChange={handleChange}
           renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5}}>
               {selected.map((value) => (
                 <Chip key={value} label={value} color="primary" />
               ))}
@@ -156,7 +156,7 @@ export default function TreeViewCategories(props) {
                     onClick={clickSubheader}
                     values={[categories[key]]}
                     aria-bool={false}
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer", fontStyle: "italic", backgroundColor: 'warning.main',fontWeight: 'bold'}}
                   >
                     {key}
                   </ListSubheader>,

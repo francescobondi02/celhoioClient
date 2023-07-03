@@ -12,11 +12,7 @@ import bluccino from "./bluccino.svg";
 
 
 
-import { pwaInstallHandler } from 'pwa-install-handler';
 
-function sayHello() {
-  pwaInstallHandler.install()
-}
 
 /*
 const $button = document.querySelector('#installButton')
@@ -37,7 +33,7 @@ export default function ApplicationBottom(props) {
     <>
       
       
-      <button id="installApp" onClick={sayHello}>Installa la web app</button>
+      
       <BottomNavigation
         showLabels
         value={props.page}
@@ -66,7 +62,7 @@ export default function ApplicationBottom(props) {
         <BottomNavigationAction label="Richieste" icon={<AddComment />} aria-multiline="true"/>
         <BottomNavigationAction label="Impostazioni" icon={<Settings />} />
         <BottomNavigationAction label="Installa WebAPP" icon={<Download />} />
-        <BottomNavigationAction label="BLUCCINO P.Iva 02307050399 REA RA 190151"/>
+        <BottomNavigationAction label="BLUCCINO P.Iva 02307050399 REA RA 190151" href="http://www.bluccino.com/" target="_blank" />
         
         
       </BottomNavigation>
