@@ -1,4 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
+import ReactDOM from 'react-dom'
+
+import DropdownTreeSelect from 'react-dropdown-tree-select'
+import 'react-dropdown-tree-select/dist/styles.css'
+
+
 import {
   Box,
   Button,
@@ -26,7 +32,7 @@ import {
   SendSharp,
   LogoutSharp,
   ContentPasteOffSharp,
-  Storefront,
+  Storefront
 } from "@mui/icons-material";
 import axios from "axios";
 import { UserContext } from "../../user-context";
@@ -39,9 +45,15 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import TreeViewCategories from "../Fiera/TreeViewCategories";
 
+
+
+
 const stripePromise = loadStripe(
   "pk_test_51LMUA0Ek66qkKfoquLexRL3y5LUO0WdryHwPtwBXIzwbg8rfE7Ki76Ttosc1LWOHFapEeqzGUnEdPl39ZjEAChox00BFclCnBP"
 );
+
+
+
 
 export default function ApplicationContent(props) {
   var { user, handleUser } = useContext(UserContext);
@@ -51,6 +63,7 @@ export default function ApplicationContent(props) {
   const [receivedRequests, setReceivedRequests] = useState([]);
 
   const [categories, setCategories] = useState({});
+  const [categoriesAND, setCategoriesAND] = useState({});
   const [myCategories, setMyCategories] = useState([]);
   const [stripeSecret, setStripeSecret] = useState("");
   const [requestVisibility, setRequestVisibility] = useState(false);
@@ -60,6 +73,13 @@ export default function ApplicationContent(props) {
   const [role, setRole] = useState(
     user.espositore ? "Espositore" : "Visitatore"
   );
+
+  
+
+
+  
+
+
 
   const [requestReload, setRequestReload] = useState(false);
 
@@ -143,6 +163,8 @@ export default function ApplicationContent(props) {
           categories[res.data[i].Macrocategoria.nome].push(res.data[i].nome);
         }
         setCategories(categories);
+
+       
       });
 
     axios
@@ -294,6 +316,14 @@ export default function ApplicationContent(props) {
           </Container>
           <Container maxWidth="sm">
             <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <img src="/logo.png" alt="logo" width="100px" />
+                <Typography variant="subtitle2" >
+  Da questa schermata puoi scegliere il tipo di operazioni che puoi compiere: <br></br>
+  il ruolo CERCO RICAMBI ti permette solo di inserire delle richieste (lo puoi fare premendo in basso a sinistra su "RICHIESTE")<br></br>
+  il ruolo "VENDO RICAMBI" ti permette sia di inserire richieste, sia di ricevere richieste (devi però indicare che cosa vendi nelle due tendine MACROCATEGORIA e CATEGORIA)
+</Typography>
+              </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
                   <InputLabel id="role">Ruolo</InputLabel>
@@ -309,17 +339,23 @@ export default function ApplicationContent(props) {
                   </Select>
                 </FormControl>
               </Grid>
+              
               <Grid item xs={6}>
-                <TreeViewCategories
+              <TreeViewCategories
                   data={categories}
                   multipleSelect={multipleSelect}
                   setMultipleSelect={setMultipleSelect}
                   disabled={role == "Espositore" ? false : true}
                 />
+                
+
+
+
+
+
+
               </Grid>
-              <Grid item xs={12}>
-                <img src="/logo.png" alt="logo" width="100px" />
-              </Grid>
+              
             </Grid>
           </Container>
         </Box>

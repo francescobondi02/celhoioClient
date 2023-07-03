@@ -4,7 +4,7 @@ import {
   ChevronLeftSharp,
   ChevronRightSharp,
   Delete,
-  MarkChatRead,
+  MarkChatRead,NewReleases
 } from "@mui/icons-material";
 import {
   Stack,
@@ -285,7 +285,7 @@ export default function ApplicationBody(props) {
                 >
                   <ListItemIcon>
                     {colors[request.id] == "lightblue" ? (
-                      <MarkChatUnreadIcon />
+                      <NewReleases />
                     ) : (
                       ""
                     )}
@@ -326,7 +326,7 @@ export default function ApplicationBody(props) {
               >
                 <ListItemIcon>
                   {colors[risposta.stanza] == "lightblue" ? (
-                    <MarkChatUnreadIcon />
+                    <NewReleases />
                   ) : (
                     ""
                   )}

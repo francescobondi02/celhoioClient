@@ -2,7 +2,7 @@ import {
   Calculate,
   ChevronLeftOutlined,
   PanoramaWideAngle,
-  SendOutlined,
+  SendOutlined
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -23,9 +23,9 @@ import { UserContext } from "../../user-context";
 
 //Da cambiare
 // DEBUG
-//const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:3001");
 // RELEASE
-const socket = io.connect("https://celhoio.herokuapp.com");
+//const socket = io.connect("https://celhoio.herokuapp.com");
 
 export default function Chat() {
   const { user, handleUser } = useContext(UserContext);
@@ -152,7 +152,7 @@ export default function Chat() {
           <Grid item xs={4}>*/}
           <Button
             variant="outlined"
-            startIcon={<ChevronLeftOutlined />}
+            startIcon={<ChevronLeftOutlined/>}
             onClick={() => {
               socket.emit("leaveRoom", params.idRoom);
               navigate(-1);

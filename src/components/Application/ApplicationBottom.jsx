@@ -7,7 +7,8 @@ import {
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { AddComment, ChatBubble, Settings } from "@mui/icons-material";
+import { AddComment, ChatBubble, Settings, Download } from "@mui/icons-material";
+import bluccino from "./bluccino.svg";
 
 
 
@@ -34,9 +35,7 @@ export default function ApplicationBottom(props) {
   //const [page, setPage] = useState(0);
   return (
     <>
-      <Typography variant="p" align="center" gutterBottom>
-        BLUCCINO P.Iva 02307050399 REA RA 190151<br/>
-      </Typography>
+      
       
       <button id="installApp" onClick={sayHello}>Installa la web app</button>
       <BottomNavigation
@@ -64,9 +63,14 @@ export default function ApplicationBottom(props) {
             icon={<ChatBubble />}
           />
         )}
-        <BottomNavigationAction label="Richieste" icon={<AddComment />} />
+        <BottomNavigationAction label="Richieste" icon={<AddComment />} aria-multiline="true"/>
         <BottomNavigationAction label="Impostazioni" icon={<Settings />} />
+        <BottomNavigationAction label="Installa WebAPP" icon={<Download />} />
+        <BottomNavigationAction label="BLUCCINO P.Iva 02307050399 REA RA 190151"/>
+        
+        
       </BottomNavigation>
+      
     </>
   );
 }
