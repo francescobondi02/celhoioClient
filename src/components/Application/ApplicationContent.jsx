@@ -22,7 +22,7 @@ import {
   List,
   Avatar,
   Stack,
-  ListItemText,
+  ListItemText,Link
 } from "@mui/material";
 import {
   Add,
@@ -253,12 +253,23 @@ export default function ApplicationContent(props) {
     <>
       {props.page == 0 && (
         <>
+         <Typography variant="subtitle2" color="grey.600">
+        <Link href="https://www.facebook.com/celhoio.it" underline="hover" target="_blank" rel="noopener">
+  {'BLUCCINO P.Iva 02307050399 REA RA 190151'}
+</Link>
+              </Typography>
           <ApplicationBody requests={receivedRequests} view="Received" />
         </>
       )}
 
       {props.page == 1 && (
         <>
+        
+        <Typography variant="subtitle2" color="grey.600">
+        <Link href="https://www.facebook.com/celhoio.it" underline="hover" target="_blank" rel="noopener">
+  {'BLUCCINO P.Iva 02307050399 REA RA 190151'}
+</Link>
+              </Typography>
           <Box component="div">
             <Button
               variant="outlined"
@@ -281,7 +292,13 @@ export default function ApplicationContent(props) {
       )}
 
       {props.page == 2 && (
+         
         <Box component="div" maxWidth="md" margin="auto">
+          <Typography variant="subtitle2" color="grey.600">
+         <Link href="https://www.facebook.com/celhoio.it" underline="hover" target="_blank" rel="noopener">
+   {'BLUCCINO P.Iva 02307050399 REA RA 190151'}
+ </Link>
+               </Typography>
           <Button
             variant="contained"
             color="error"
@@ -319,7 +336,7 @@ export default function ApplicationContent(props) {
             <Grid container spacing={2}>
             <Grid item xs={12}>
                 <img src="/logo.png" alt="logo" width="100px" />
-                <Typography variant="subtitle2" >
+                <Typography variant="subtitle2" align="left" >
   Da questa schermata puoi scegliere il tipo di operazioni che puoi compiere: <br></br>
   il ruolo CERCO RICAMBI ti permette solo di inserire delle richieste (lo puoi fare premendo in basso a sinistra su "RICHIESTE")<br></br>
   il ruolo "VENDO RICAMBI" ti permette sia di inserire richieste, sia di ricevere richieste. <br></br>
@@ -367,7 +384,13 @@ export default function ApplicationContent(props) {
 
 {props.page == 3 && (
         <Box component="div" maxWidth="md" margin="auto">
-          
+          <Typography variant="subtitle2" color="grey.600">
+         <Link href="https://www.facebook.com/celhoio.it" underline="hover" target="_blank" rel="noopener">
+   {'BLUCCINO P.Iva 02307050399 REA RA 190151'}
+ </Link>
+               </Typography>
+
+               
           
           <Container maxWidth="sm">
             <Grid container spacing={2}>
@@ -387,7 +410,11 @@ export default function ApplicationContent(props) {
 
 {props.page == 4 && (
         <Box component="div" maxWidth="md" margin="auto">
-          
+          <Typography variant="subtitle2" color="grey.600">
+         <Link href="https://www.facebook.com/celhoio.it" underline="hover" target="_blank" rel="noopener">
+   {'BLUCCINO P.Iva 02307050399 REA RA 190151'}
+ </Link>
+               </Typography>
           
           <Container maxWidth="sm">
             <Grid container spacing={2}>

@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
   Grid,
-  Toolbar,
+  Toolbar, Link
 } from "@mui/material";
 import { Container } from "@mui/system";
 import axios from "axios";
@@ -143,6 +143,7 @@ export default function Chat() {
       {/*<div>ID Room: {params.idRoom}</div>
       <div>ID User: {socket.id}</div>
       <Button onClick={createMsg}>Premi per inviare un messaggio</Button>*/}
+     
       <AppBar
         position="fixed"
         /*sx={{ height: "50px", display: "flex", alignItems: "center" }}*/
