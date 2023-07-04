@@ -8,7 +8,7 @@ import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { AddComment, ChatBubble, Settings, Download } from "@mui/icons-material";
-import bluccino from "./bluccino.svg";
+
 
 
 
