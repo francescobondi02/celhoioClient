@@ -62,7 +62,7 @@ export default function ApplicationBottom(props) {
         <BottomNavigationAction label="Richieste" icon={<AddComment />} aria-multiline="true"/>
         <BottomNavigationAction label="Impostazioni" icon={<Settings />} />
         <BottomNavigationAction label="Installa WebAPP" icon={<Download />} />
-        <BottomNavigationAction label="BLUCCINO P.Iva 02307050399 REA RA 190151" href="http://www.bluccino.com/" target="_blank" />
+        <BottomNavigationAction label="BLUCCINO P.Iva 02307050399 REA RA 190151" href="https://www.facebook.com/celhoio.it" target="_blank" />
         
         
       </BottomNavigation>
